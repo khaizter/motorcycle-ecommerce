@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import NavigationBar from './navigation-bar';
 import NavigationMenu from './navigation-menu';
 
-const Navigation: React.FC = () => {
+interface propType {
+  openCart: () => void;
+}
+
+const Navigation: React.FC<propType> = props => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const openMenuHandler = () => {
@@ -16,7 +20,7 @@ const Navigation: React.FC = () => {
 
   return (
     <>
-      <NavigationBar menuHandler={openMenuHandler} />
+      <NavigationBar menuHandler={openMenuHandler} openCart={props.openCart} />
       <NavigationMenu open={showMenu} onClose={closeMenuHandler} />
     </>
   );

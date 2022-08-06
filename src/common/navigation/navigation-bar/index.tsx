@@ -15,9 +15,14 @@ import { Link as RouterLink } from 'react-router-dom';
 
 interface propType {
   menuHandler: () => void;
+  openCart: () => void;
 }
 
 const NavigationBar: React.FC<propType> = props => {
+  const showCartHandler = () => {
+    props.openCart();
+  };
+
   return (
     <AppBar position='static'>
       <Toolbar disableGutters sx={{ flexGrow: 1, maxWidth: 'var(--horizontal-wrapper)', width: '100%', mx: 'auto' }}>
@@ -41,7 +46,7 @@ const NavigationBar: React.FC<propType> = props => {
           </Button>
         </Stack>
 
-        <IconButton size='large' aria-label='cart'>
+        <IconButton size='large' aria-label='cart' onClick={showCartHandler}>
           <ShoppingCartOutlinedIcon />
         </IconButton>
       </Toolbar>
