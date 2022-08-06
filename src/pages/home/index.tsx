@@ -1,8 +1,12 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+
+// Routing
+import { Link as RouterLink } from 'react-router-dom';
 
 const Home: React.FC = () => {
   return (
@@ -18,10 +22,12 @@ const Home: React.FC = () => {
           alignItems: 'center'
         }}
       >
-        <Box
+        <Stack
           sx={{
-            maxWidth: 'var(--horizontal-wrapper)'
+            maxWidth: 'var(--horizontal-wrapper)',
+            alignItems: 'flex-start'
           }}
+          spacing={2}
         >
           <Typography variant='h2' component='h1'>
             Lorem, ipsum dolor.
@@ -30,10 +36,10 @@ const Home: React.FC = () => {
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam iure voluptatum voluptatibus quae,
             nulla deleniti numquam consequuntur exercitationem est nostrum modi, libero temporibus debitis.
           </Typography>
-          <Button variant='contained' color='primary'>
+          <Button component={RouterLink} to='/products' variant='contained' color='primary'>
             Shop Now
           </Button>
-        </Box>
+        </Stack>
       </Box>
     </Box>
   );
