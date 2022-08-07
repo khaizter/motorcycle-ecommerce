@@ -1,25 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { List } from '@mui/material';
-import ListSubheader from '@mui/material/ListSubheader';
-
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 
 import CartItem from 'src/common/cart/cart-item';
-import { CartContext } from 'src/context/cart-context';
 
-const CartList: React.FC = () => {
-  const cartCtx = useContext(CartContext);
+import { Item } from 'src/common/cart/model';
 
+interface propType {
+  cartItems: Array<Item>;
+}
+
+const CartList: React.FC<propType> = props => {
   return (
-    <List sx={{ minWidth: { xs: '100vw', md: '450px' } }}>
-      <ListSubheader>
-        <IconButton onClick={cartCtx.hideCart}>
-          <CloseIcon />
-        </IconButton>
-      </ListSubheader>
-      <CartItem />
+    <List sx={{ flexGrow: 1, px: '2rem' }}>
+      {props.cartItems.map(item => {
+        return <CartItem key={item.id} item={item} />;
+      })}
     </List>
   );
 };

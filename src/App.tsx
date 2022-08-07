@@ -21,8 +21,8 @@ const App: React.FC = () => {
           <Route path='/' element={<Home />} />
           <Route path='/products' element={<Products />} />
         </Routes>
-        <Cart />
       </BrowserRouter>
+      <Cart />
     </CartProvider>
   );
 };
