@@ -36,7 +36,8 @@ const defaultProvider: CartValuesType = {
   hideCart: () => {},
   cartItems: [],
   addToCart: () => {},
-  removeFromCart: () => {}
+  removeFromCart: () => {},
+  editItemQuantity: () => {}
 };
 
 const CartContext = createContext(defaultProvider);
@@ -64,6 +65,16 @@ const CartProvider: React.FC<propType> = props => {
     });
   };
 
+  const editItemQuantityHandler = (id: string, newQuantity: number) => {
+    setCartItems(prevItems => {
+      const itemsCopy = [...prevItems];
+      const selectedItem = itemsCopy.find(item => item.id === id);
+      if (!selectedItem) return itemsCopy;
+      selectedItem.quantity = newQuantity;
+      return itemsCopy;
+    });
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -72,7 +83,8 @@ const CartProvider: React.FC<propType> = props => {
         hideCart: hideCartHandler,
         cartItems: cartItems,
         addToCart: addToCartHandler,
-        removeFromCart: removeFromCartHandler
+        removeFromCart: removeFromCartHandler,
+        editItemQuantity: editItemQuantityHandler
       }}
     >
       {props.children}

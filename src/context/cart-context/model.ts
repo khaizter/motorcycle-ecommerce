@@ -13,4 +13,5 @@ export interface CartValuesType {
   cartItems: Array<Item>;
   addToCart: (item: Item) => void;
   removeFromCart: (id: string) => void;
+  editItemQuantity: (id: string, newQuantity: number) => void;
 }
