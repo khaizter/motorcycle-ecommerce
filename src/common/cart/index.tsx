@@ -1,17 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Drawer } from '@mui/material';
 
 import CartList from 'src/common/cart/cart-list';
+import { CartContext } from 'src/context/cart-context';
 
-interface propType {
-  open: boolean;
-  onClose: () => void;
-}
+const Cart: React.FC = () => {
+  const cartCtx = useContext(CartContext);
 
-const Cart: React.FC<propType> = props => {
   return (
-    <Drawer anchor='right' open={props.open} onClose={props.onClose}>
+    <Drawer anchor='right' open={cartCtx.isOpen} onClose={cartCtx.hideCart}>
       <CartList />
     </Drawer>
   );

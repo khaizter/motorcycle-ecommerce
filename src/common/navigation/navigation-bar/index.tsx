@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Material UI
 import AppBar from '@mui/material/AppBar';
@@ -12,16 +12,14 @@ import Stack from '@mui/material/Stack';
 
 // Routing
 import { Link as RouterLink } from 'react-router-dom';
+import { CartContext } from 'src/context/cart-context';
 
 interface propType {
   menuHandler: () => void;
-  openCart: () => void;
 }
 
 const NavigationBar: React.FC<propType> = props => {
-  const showCartHandler = () => {
-    props.openCart();
-  };
+  const cartCtx = useContext(CartContext);
 
   return (
     <AppBar position='static'>
@@ -46,7 +44,7 @@ const NavigationBar: React.FC<propType> = props => {
           </Button>
         </Stack>
 
-        <IconButton size='large' aria-label='cart' onClick={showCartHandler}>
+        <IconButton size='large' aria-label='cart' onClick={cartCtx.showCart}>
           <ShoppingCartOutlinedIcon />
         </IconButton>
       </Toolbar>
