@@ -1,22 +1,17 @@
 import React from 'react';
 
-import { OutlinedInput, FormControl, InputLabel, FormHelperText, Card, Button } from '@mui/material';
+import { Card, Typography, Box } from '@mui/material';
 
 import LoginForm from './login-form';
 
 const Login = () => {
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(e);
-  };
-
   return (
-    <div>
+    <Box>
       <Card>
-        <h1>Login</h1>
+        <Typography variant='h3'>Login</Typography>
         <LoginForm />
       </Card>
-    </div>
+    </Box>
   );
 };
 

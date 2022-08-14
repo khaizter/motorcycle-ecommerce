@@ -1,17 +1,16 @@
-import { Card } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Box, Card, Typography } from '@mui/material';
 import React from 'react';
 
 import SignUpForm from './signup-form';
 
 const SignUp = () => {
   return (
-    <div>
+    <Box>
       <Card>
-        <h1>Sign Up</h1>
+        <Typography variant='h3'>Sign Up</Typography>
         <SignUpForm />
       </Card>
-    </div>
+    </Box>
   );
 };
 
