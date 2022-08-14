@@ -6,9 +6,13 @@ import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material
 // Routing
 import { Link as RouterLink } from 'react-router-dom';
 
+// Types
+import { NavigationItem } from 'src/common/navigation/model';
+
 interface propType {
   open: boolean;
   onClose: () => void;
+  navigations: Array<NavigationItem>;
 }
 
 const NavigationMenu: React.FC<propType> = props => {
@@ -16,16 +20,15 @@ const NavigationMenu: React.FC<propType> = props => {
     <Drawer anchor='left' open={props.open} onClose={props.onClose}>
       <Box sx={{ minWidth: '250px' }}>
         <List>
-          <ListItem>
-            <ListItemButton component={RouterLink} to='/' onClick={props.onClose}>
-              <ListItemText primary='Home' />
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton component={RouterLink} to='/products' onClick={props.onClose}>
-              <ListItemText primary='Products' />
-            </ListItemButton>
-          </ListItem>
+          {props.navigations.map((navigation, index) => {
+            return (
+              <ListItem key={index}>
+                <ListItemButton component={RouterLink} to={navigation.path} onClick={props.onClose}>
+                  <ListItemText primary={navigation.label} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
       </Box>
     </Drawer>

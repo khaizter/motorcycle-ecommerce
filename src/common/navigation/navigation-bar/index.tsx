@@ -14,8 +14,12 @@ import Stack from '@mui/material/Stack';
 import { Link as RouterLink } from 'react-router-dom';
 import { CartContext } from 'src/context/cart-context';
 
+// Types
+import { NavigationItem } from 'src/common/navigation/model';
+
 interface propType {
   menuHandler: () => void;
+  navigations: Array<NavigationItem>;
 }
 
 const NavigationBar: React.FC<propType> = props => {
@@ -36,12 +40,13 @@ const NavigationBar: React.FC<propType> = props => {
           Motorcycle
         </Typography>
         <Stack direction='row' spacing={2} sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Button component={RouterLink} color='inherit' to='/'>
-            Home
-          </Button>
-          <Button component={RouterLink} color='inherit' to='/products'>
-            Products
-          </Button>
+          {props.navigations.map((navigation, index) => {
+            return (
+              <Button key={index} component={RouterLink} color='inherit' to={navigation.path}>
+                {navigation.label}
+              </Button>
+            );
+          })}
         </Stack>
 
         <IconButton size='large' aria-label='cart' onClick={cartCtx.showCart}>
