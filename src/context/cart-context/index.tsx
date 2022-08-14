@@ -55,7 +55,11 @@ const CartProvider: React.FC<propType> = props => {
 
   const addToCartHandler = (item: Item) => {
     setCartItems(prevItems => {
-      return [...prevItems, item];
+      const newItems = [...prevItems];
+      const existingItem = newItems.find(i => i.id === item.id);
+      if (!existingItem) return [...newItems, item];
+      existingItem.quantity += 1;
+      return newItems;
     });
   };
 

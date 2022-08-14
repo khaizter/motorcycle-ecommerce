@@ -7,41 +7,16 @@ import CardActions from '@mui/material/CardActions';
 
 import ProductItem from 'src/pages/products/product-item';
 
-const DUMMY_PRODUCTS = [
-  {
-    id: '1213',
-    image: '/assets/images/product-placeholder_0.jpg',
-    name: 'Triangle',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse.',
-    price: 12.99
-  },
-  {
-    id: '1214',
-    image: '/assets/images/product-placeholder_2.jpg',
-    name: 'Triangle',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse.',
-    price: 12.99
-  },
-  {
-    id: '1215',
-    image: '/assets/images/product-placeholder_1.jpg',
-    name: 'Triangle',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse.',
-    price: 12.99
-  },
-  {
-    id: '1216',
-    image: '/assets/images/product-placeholder_0.jpg',
-    name: 'Triangle',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse.',
-    price: 12.99
-  }
-];
+import { Product } from 'src/pages/products/models';
 
-const ProductList: React.FC = () => {
+interface propType {
+  products: Array<Product>;
+}
+
+const ProductList: React.FC<propType> = props => {
   return (
-    <Grid container spacing={2}>
-      {DUMMY_PRODUCTS.map(product => {
+    <Grid container spacing={2} alignItems='stretch'>
+      {props.products.map(product => {
         return <ProductItem key={product.id} product={product} />;
       })}
     </Grid>

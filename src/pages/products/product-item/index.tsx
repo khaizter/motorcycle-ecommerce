@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Material UI
 import Grid from '@mui/material/Grid';
@@ -13,21 +13,45 @@ import AddIcon from '@mui/icons-material/Add';
 
 // Types
 import { Product } from '../models';
+import { CartContext } from 'src/context/cart-context';
+import Typography from '@mui/material/Typography';
 
 interface propType {
   product: Product;
 }
 
 const ProductItem: React.FC<propType> = props => {
+  const { addToCart } = useContext(CartContext);
+
+  const addToCartHandler = () => {
+    const item = {
+      id: props.product.id,
+      thumbnail: props.product.image,
+      name: props.product.name,
+      quantity: 1,
+      price: props.product.price
+    };
+    addToCart(item);
+  };
+
   return (
     <Grid item xs={3}>
-      <Card>
-        <CardActionArea>
-          <CardMedia component='img' width='100%' image={props.product.image} alt={props.product.name} />
-          <CardContent>{props.product.description}</CardContent>
+      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <CardActionArea sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+          <CardMedia
+            component='img'
+            width='100%'
+            image={props.product.image}
+            alt={props.product.name}
+            sx={{ flexGrow: '1', objectFit: 'initial' }}
+          />
+          <CardContent>
+            <Typography variant='subtitle1'>{props.product.name}</Typography>
+          </CardContent>
         </CardActionArea>
-        <CardActions disableSpacing>
-          <IconButton color='primary'>
+        <CardActions>
+          <Typography variant='caption'>{props.product.price}</Typography>
+          <IconButton color='primary' onClick={addToCartHandler} sx={{ marginLeft: 'auto' }}>
             <AddIcon />
           </IconButton>
         </CardActions>
