@@ -14,21 +14,24 @@ import Cart from 'src/common/cart';
 
 // Context Providers
 import { CartProvider } from 'src/context/cart-context';
+import { AuthProvider } from 'src/context/auth-context';
 
 const App: React.FC = () => {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Navigation />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/products' element={<Products />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
-        </Routes>
-      </BrowserRouter>
-      <Cart />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Navigation />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/products' element={<Products />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
+          </Routes>
+        </BrowserRouter>
+        <Cart />
+      </CartProvider>
+    </AuthProvider>
   );
 };
 
