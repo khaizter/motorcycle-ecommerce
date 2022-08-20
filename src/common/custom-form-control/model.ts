@@ -1,8 +1,5 @@
 export interface fieldsInterface {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
+  [key: string]: string;
 }
 
 export const fields = ['name', 'email', 'password', 'confirmPassword'] as const;

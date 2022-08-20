@@ -1,10 +1,13 @@
 import { Grid, Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, IconButton } from '@mui/material';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
+  const navigate = useNavigate();
+
   const addProductHandler = () => {
-    console.log('add product');
+    navigate('/add-product');
   };
 
   return (

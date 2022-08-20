@@ -8,6 +8,9 @@ import Home from 'src/pages/home';
 import Products from 'src/pages/products';
 import Login from 'src/pages/login';
 import SignUp from 'src/pages/signup';
+import AddProduct from 'src/pages/add-product';
+
+// Context
 import { AuthContext } from 'src/context/auth-context';
 
 const RoutesManager = () => {
@@ -20,6 +23,11 @@ const RoutesManager = () => {
         <>
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+        </>
+      )}
+      {true && (
+        <>
+          <Route path='/add-product' element={<AddProduct />} />
         </>
       )}
     </Routes>

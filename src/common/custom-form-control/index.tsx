@@ -5,8 +5,8 @@ import { FormikProps } from 'formik';
 import { fieldsInterface, fields } from './model';
 
 interface propType {
-  formikProps: FormikProps<fieldsInterface>;
-  name: typeof fields[number];
+  formikProps: any;
+  name: string;
   label: string;
   type: string;
 }

@@ -30,10 +30,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      name: '',
       email: '',
-      password: '',
-      confirmPassword: ''
+      password: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
