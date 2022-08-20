@@ -1,9 +1,10 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect, useContext } from 'react';
 
 import { Item, contextType } from './model';
 
 // Api calls
-import Api from 'src/common/api/cart';
+import CartApi from 'src/common/api/cart';
+import { AuthContext } from 'src/context/auth-context';
 
 const defaultProvider: contextType = {
   isOpen: false,
@@ -22,17 +23,30 @@ interface propType {
   children: React.ReactNode;
 }
 
+let initialRender = true;
+
 const CartProvider: React.FC<propType> = props => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<Array<Item>>([]);
+  const { currentToken } = useContext(AuthContext);
 
   const showCartHandler = () => setIsOpen(true);
   const hideCartHandler = () => setIsOpen(false);
 
   useEffect(() => {
-    console.log('cart items updated', cartItems);
-
-    // Api.updateCart
+    if (!currentToken) return;
+    if (initialRender) {
+      initialRender = false;
+      return;
+    }
+    CartApi.updateCart(currentToken, cartItems)
+      .then(response => {
+        console.log('cart items from db is updated');
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, [cartItems]);
 
   const addToCartHandler = (item: Item) => {

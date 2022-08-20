@@ -13,8 +13,8 @@ interface propType {
 const CartList: React.FC<propType> = props => {
   return (
     <List sx={{ flexGrow: 1, px: '2rem' }}>
-      {props.cartItems.map(item => {
-        return <CartItem key={item.id} item={item} />;
+      {props.cartItems.map((item, index) => {
+        return <CartItem key={index} item={item} />;
       })}
     </List>
   );
