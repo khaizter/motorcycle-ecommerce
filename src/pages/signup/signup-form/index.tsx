@@ -12,7 +12,7 @@ import CustomFormControl from 'src/common/custom-form-control';
 import { Stack } from '@mui/material';
 
 // Api calls
-import Api from 'src/common/api/auth';
+import AuthApi from 'src/common/api/auth';
 
 // Context
 import { AuthContext } from 'src/context/auth-context';
@@ -44,7 +44,7 @@ const SignUpForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      Api.signup(values.email, values.password, values.name)
+      AuthApi.signup(values.email, values.password, values.name)
         .then(response => {
           const { token, userId, userName } = response.data;
           setSubmitting(false);

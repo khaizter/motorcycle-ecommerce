@@ -1,15 +1,19 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 
-import { CartValuesType, Item } from './model';
+import { Item, contextType } from './model';
 
-const defaultProvider: CartValuesType = {
+// Api calls
+import Api from 'src/common/api/cart';
+
+const defaultProvider: contextType = {
   isOpen: false,
   showCart: () => {},
   hideCart: () => {},
   cartItems: [],
-  addToCart: () => {},
-  removeFromCart: () => {},
-  editItemQuantity: () => {}
+  addToCart: (item: Item) => {},
+  removeFromCart: (id: string) => {},
+  editItemQuantity: (id: string, newQuantity: number) => {},
+  setCart: (items: Array<Item>) => {}
 };
 
 const CartContext = createContext(defaultProvider);
@@ -24,6 +28,12 @@ const CartProvider: React.FC<propType> = props => {
 
   const showCartHandler = () => setIsOpen(true);
   const hideCartHandler = () => setIsOpen(false);
+
+  useEffect(() => {
+    console.log('cart items updated', cartItems);
+
+    // Api.updateCart
+  }, [cartItems]);
 
   const addToCartHandler = (item: Item) => {
     setCartItems(prevItems => {
@@ -51,6 +61,10 @@ const CartProvider: React.FC<propType> = props => {
     });
   };
 
+  const setCartHandler = (items: Array<Item>) => {
+    setCartItems(items);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -60,7 +74,8 @@ const CartProvider: React.FC<propType> = props => {
         cartItems: cartItems,
         addToCart: addToCartHandler,
         removeFromCart: removeFromCartHandler,
-        editItemQuantity: editItemQuantityHandler
+        editItemQuantity: editItemQuantityHandler,
+        setCart: setCartHandler
       }}
     >
       {props.children}

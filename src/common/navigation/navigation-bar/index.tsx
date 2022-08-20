@@ -12,7 +12,9 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 
 // Routing
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
+// Context
 import { CartContext } from 'src/context/cart-context';
 
 // Types
@@ -25,8 +27,17 @@ interface propType {
 }
 
 const NavigationBar: React.FC<propType> = props => {
+  const navigate = useNavigate();
   const { showCart } = useContext(CartContext);
   const { isLoggedIn, logout, currentUserName } = useContext(AuthContext);
+
+  const openCartHandler = () => {
+    if (isLoggedIn) {
+      showCart();
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <AppBar position='static'>
@@ -52,7 +63,7 @@ const NavigationBar: React.FC<propType> = props => {
           })}
         </Stack>
 
-        <IconButton size='large' aria-label='cart' onClick={showCart}>
+        <IconButton size='large' aria-label='cart' onClick={openCartHandler}>
           <ShoppingCartOutlinedIcon />
         </IconButton>
         {isLoggedIn && (

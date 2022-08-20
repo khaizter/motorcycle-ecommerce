@@ -6,7 +6,7 @@ export interface Item {
   price: number;
 }
 
-export interface CartValuesType {
+export interface contextType {
   isOpen: boolean;
   showCart: () => void;
   hideCart: () => void;
@@ -14,4 +14,5 @@ export interface CartValuesType {
   addToCart: (item: Item) => void;
   removeFromCart: (id: string) => void;
   editItemQuantity: (id: string, newQuantity: number) => void;
+  setCart: (items: Array<Item>) => void;
 }

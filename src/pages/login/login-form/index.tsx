@@ -12,7 +12,7 @@ import CustomFormControl from 'src/common/custom-form-control';
 import { Stack } from '@mui/material';
 
 // Api calls
-import Api from 'src/common/api/auth';
+import AuthApi from 'src/common/api/auth';
 
 // Context
 import { AuthContext } from 'src/context/auth-context';
@@ -37,11 +37,11 @@ const LoginForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      Api.login(values.email, values.password)
+      AuthApi.login(values.email, values.password)
         .then(response => {
-          const { token, userId, userName } = response.data;
+          const { userId, token, userName } = response.data;
           setSubmitting(false);
-          login(token, userId, userName);
+          login(userId, token, userName);
           navigate('/');
         })
         .catch(err => {

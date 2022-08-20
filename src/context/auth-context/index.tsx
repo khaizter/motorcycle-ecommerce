@@ -29,7 +29,6 @@ const AuthProvider: React.FC<propType> = props => {
     const token = localStorage.getItem('token');
     const name = localStorage.getItem('userName');
     if (id && token && name) {
-      console.log('retrieve locastorage');
       setCurrentUserId(id);
       setCurrentToken(token);
       setCurrentUserName(name);
