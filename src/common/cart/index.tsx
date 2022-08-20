@@ -17,7 +17,6 @@ const Cart: React.FC = () => {
     if (!currentToken) return;
     CartApi.getCart(currentToken)
       .then(response => {
-        console.log(response);
         setCart(response.data.cart.items);
       })
       .catch(err => {
