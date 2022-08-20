@@ -15,6 +15,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { Product } from '../models';
 import { CartContext } from 'src/context/cart-context';
 import Typography from '@mui/material/Typography';
+import { AuthContext } from 'src/context/auth-context';
+import { useNavigate } from 'react-router-dom';
 
 interface propType {
   product: Product;
@@ -22,8 +24,14 @@ interface propType {
 
 const ProductItem: React.FC<propType> = props => {
   const { addToCart } = useContext(CartContext);
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const addToCartHandler = () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
     const item = {
       id: props.product.id,
       thumbnail: props.product.image,

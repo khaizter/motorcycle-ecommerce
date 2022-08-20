@@ -32,11 +32,11 @@ const NavigationBar: React.FC<propType> = props => {
   const { isLoggedIn, logout, currentUserName } = useContext(AuthContext);
 
   const openCartHandler = () => {
-    if (isLoggedIn) {
-      showCart();
-    } else {
+    if (!isLoggedIn) {
       navigate('/login');
+      return;
     }
+    showCart();
   };
 
   return (
