@@ -19,10 +19,12 @@ const CartItem: React.FC<propType> = props => {
   };
 
   const incrementHandler = () => {
+    console.log('incre', props.item);
     cartCtx.editItemQuantity(props.item.id, props.item.quantity + 1);
   };
 
   const decrementHandler = () => {
+    console.log('decre', props.item);
     cartCtx.editItemQuantity(props.item.id, props.item.quantity - 1);
   };
 

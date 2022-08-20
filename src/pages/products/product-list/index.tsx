@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 
 import ProductItem from 'src/pages/products/product-item';
+import AddProduct from 'src/pages/products/add-product';
 
 import { Product } from 'src/pages/products/models';
 
@@ -19,6 +20,7 @@ const ProductList: React.FC<propType> = props => {
       {props.products.map(product => {
         return <ProductItem key={product.id} product={product} />;
       })}
+      {true && <AddProduct />}
     </Grid>
   );
 };

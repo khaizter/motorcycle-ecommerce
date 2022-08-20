@@ -15,7 +15,6 @@ const Products: React.FC = () => {
   useEffect(() => {
     ProductApi.getProducts()
       .then(response => {
-        console.log(response.data.products);
         const transformedProducts = response.data.products.map((product: any) => {
           return {
             id: product._id,

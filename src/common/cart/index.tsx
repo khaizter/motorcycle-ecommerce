@@ -17,7 +17,16 @@ const Cart: React.FC = () => {
     if (!currentToken) return;
     CartApi.getCart(currentToken)
       .then(response => {
-        setCart(response.data.cart.items);
+        const transformedItems = response.data.cart.items.map((item: any) => {
+          return {
+            id: item.productId,
+            thumbnail: item.thumbnail,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+          };
+        });
+        setCart(transformedItems);
       })
       .catch(err => {
         console.log(err);

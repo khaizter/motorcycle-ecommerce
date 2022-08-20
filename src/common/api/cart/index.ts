@@ -11,7 +11,6 @@ export const getCart = async (token: string) => {
 };
 
 export const updateCart = async (token: string, items: any) => {
-  console.log(items);
   const transformedItems = items.map((item: any) => {
     return {
       productId: item.id,

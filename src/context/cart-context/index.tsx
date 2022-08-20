@@ -41,8 +41,7 @@ const CartProvider: React.FC<propType> = props => {
     }
     CartApi.updateCart(currentToken, cartItems)
       .then(response => {
-        console.log('cart items from db is updated');
-        console.log(response);
+        console.log('cart synced.');
       })
       .catch(err => {
         console.log(err);
