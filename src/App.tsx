@@ -2,14 +2,10 @@ import React from 'react';
 import Navigation from 'src/common/navigation';
 
 // Routing
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-// Pages
-import Home from 'src/pages/home';
-import Products from 'src/pages/products';
-import Login from 'src/pages/login';
-import SignUp from 'src/pages/signup';
-
+// Components
+import RoutesManager from 'src/setup/routes-manager';
 import Cart from 'src/common/cart';
 
 // Context Providers
@@ -22,12 +18,7 @@ const App: React.FC = () => {
       <CartProvider>
         <BrowserRouter>
           <Navigation />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/products' element={<Products />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<SignUp />} />
-          </Routes>
+          <RoutesManager />
         </BrowserRouter>
         <Cart />
       </CartProvider>
