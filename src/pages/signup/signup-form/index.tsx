@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Material UI
 import { LoadingButton } from '@mui/lab';
@@ -14,6 +14,12 @@ import { Stack } from '@mui/material';
 // Api calls
 import Api from 'src/common/api/auth';
 
+// Context
+import { AuthContext } from 'src/context/auth-context';
+
+// Hooks
+import { useNavigate } from 'react-router-dom';
+
 const validationSchema = Yup.object({
   name: Yup.string()
     .required('Required')
@@ -27,6 +33,8 @@ const validationSchema = Yup.object({
 });
 
 const SignUpForm = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -38,8 +46,10 @@ const SignUpForm = () => {
     onSubmit: (values, { setSubmitting }) => {
       Api.signup(values.email, values.password, values.name)
         .then(response => {
+          const { token, userId, userName } = response.data;
           setSubmitting(false);
-          console.log(response);
+          login(token, userId, userName);
+          navigate('/');
         })
         .catch(err => {
           setSubmitting(false);
