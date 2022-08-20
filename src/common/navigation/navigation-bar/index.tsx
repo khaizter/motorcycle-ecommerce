@@ -26,7 +26,7 @@ interface propType {
 
 const NavigationBar: React.FC<propType> = props => {
   const { showCart } = useContext(CartContext);
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, currentUserName } = useContext(AuthContext);
 
   return (
     <AppBar position='static'>
@@ -57,7 +57,7 @@ const NavigationBar: React.FC<propType> = props => {
         </IconButton>
         {isLoggedIn && (
           <IconButton size='large' aria-label='cart' onClick={logout}>
-            <Avatar>M</Avatar>
+            <Avatar>{currentUserName?.charAt(0) || 'A'}</Avatar>
           </IconButton>
         )}
       </Toolbar>

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 
 import { contextType } from 'src/context/auth-context/model';
 
@@ -23,17 +23,37 @@ const AuthProvider: React.FC<propType> = props => {
   const [currentToken, setCurrentToken] = useState<string | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string | null>(null);
 
+  // Check if user is currently logged in
+  useEffect(() => {
+    const id = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    const name = localStorage.getItem('userName');
+    if (id && token && name) {
+      console.log('retrieve locastorage');
+      setCurrentUserId(id);
+      setCurrentToken(token);
+      setCurrentUserName(name);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const loginHandler = (id: string, token: string, name: string) => {
     setCurrentUserId(id);
+    localStorage.setItem('userId', id);
     setCurrentToken(token);
+    localStorage.setItem('token', token);
     setCurrentUserName(name);
+    localStorage.setItem('userName', name);
     setIsLoggedIn(true);
   };
 
   const logoutHandler = () => {
     setCurrentUserId(null);
+    localStorage.removeItem('userId');
     setCurrentToken(null);
+    localStorage.removeItem('token');
     setCurrentUserName(null);
+    localStorage.removeItem('userName');
     setIsLoggedIn(false);
   };
 
