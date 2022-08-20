@@ -1,34 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 
-import { createContext } from 'react';
-
-import { CartValuesType } from './model';
-
-import { Item } from './model';
-
-const DUMMY_CART_ITEMS: Array<Item> = [
-  {
-    id: '199971',
-    thumbnail: '/assets/images/product-placeholder_0.jpg',
-    name: 'Product 1',
-    quantity: 1,
-    price: 19.99
-  },
-  {
-    id: '199972',
-    thumbnail: '/assets/images/product-placeholder_1.jpg',
-    name: 'Product 2',
-    quantity: 2,
-    price: 15.99
-  },
-  {
-    id: '199973',
-    thumbnail: '/assets/images/product-placeholder_2.jpg',
-    name: 'Product 3',
-    quantity: 3,
-    price: 11.99
-  }
-];
+import { CartValuesType, Item } from './model';
 
 const defaultProvider: CartValuesType = {
   isOpen: false,
@@ -48,7 +20,7 @@ interface propType {
 
 const CartProvider: React.FC<propType> = props => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState<Array<Item>>(DUMMY_CART_ITEMS);
+  const [cartItems, setCartItems] = useState<Array<Item>>([]);
 
   const showCartHandler = () => setIsOpen(true);
   const hideCartHandler = () => setIsOpen(false);
