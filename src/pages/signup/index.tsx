@@ -5,9 +5,11 @@ import SignUpForm from './signup-form';
 
 const SignUp = () => {
   return (
-    <Box>
-      <Card>
-        <Typography variant='h3'>Sign Up</Typography>
+    <Box sx={{ maxWidth: '500px', marginInline: 'auto' }}>
+      <Card sx={{ padding: '1rem', marginTop: '2rem' }}>
+        <Typography variant='h3' sx={{ marginBottom: '2rem' }}>
+          Sign Up
+        </Typography>
         <SignUpForm />
       </Card>
     </Box>

@@ -56,7 +56,7 @@ const LoginForm = () => {
       <Stack spacing={2}>
         <CustomFormControl formikProps={formik} name='email' label='Email' type='text' />
         <CustomFormControl formikProps={formik} name='password' label='Password' type='password' />
-        <LoadingButton type='submit' loading={formik.isSubmitting}>
+        <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Login
         </LoadingButton>
       </Stack>

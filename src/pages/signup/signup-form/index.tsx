@@ -65,7 +65,7 @@ const SignUpForm = () => {
         <CustomFormControl formikProps={formik} name='email' label='Email' type='text' />
         <CustomFormControl formikProps={formik} name='password' label='Password' type='password' />
         <CustomFormControl formikProps={formik} name='confirmPassword' label='Confirm Password' type='password' />
-        <LoadingButton type='submit' loading={formik.isSubmitting}>
+        <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Sign Up
         </LoadingButton>
       </Stack>
