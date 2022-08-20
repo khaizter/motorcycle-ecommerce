@@ -34,7 +34,7 @@ const AuthProvider: React.FC<propType> = props => {
     setCurrentUserId(null);
     setCurrentToken(null);
     setCurrentUserName(null);
-    setIsLoggedIn(true);
+    setIsLoggedIn(false);
   };
 
   return (

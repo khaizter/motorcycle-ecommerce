@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
 
 // Routing
 import { Link as RouterLink } from 'react-router-dom';
@@ -16,6 +17,7 @@ import { CartContext } from 'src/context/cart-context';
 
 // Types
 import { NavigationItem } from 'src/common/navigation/model';
+import { AuthContext } from 'src/context/auth-context';
 
 interface propType {
   menuHandler: () => void;
@@ -23,7 +25,8 @@ interface propType {
 }
 
 const NavigationBar: React.FC<propType> = props => {
-  const cartCtx = useContext(CartContext);
+  const { showCart } = useContext(CartContext);
+  const { isLoggedIn, logout } = useContext(AuthContext);
 
   return (
     <AppBar position='static'>
@@ -49,9 +52,14 @@ const NavigationBar: React.FC<propType> = props => {
           })}
         </Stack>
 
-        <IconButton size='large' aria-label='cart' onClick={cartCtx.showCart}>
+        <IconButton size='large' aria-label='cart' onClick={showCart}>
           <ShoppingCartOutlinedIcon />
         </IconButton>
+        {isLoggedIn && (
+          <IconButton size='large' aria-label='cart' onClick={logout}>
+            <Avatar>M</Avatar>
+          </IconButton>
+        )}
       </Toolbar>
     </AppBar>
   );
