@@ -11,6 +11,9 @@ import * as Yup from 'yup';
 import CustomFormControl from 'src/common/custom-form-control';
 import { Stack } from '@mui/material';
 
+// Api calls
+import Api from 'src/common/api/auth';
+
 const validationSchema = Yup.object({
   name: Yup.string()
     .required('Required')
@@ -33,10 +36,15 @@ const SignUpForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        setSubmitting(false);
-        alert(JSON.stringify(values, null, 2));
-      }, 500);
+      Api.signup(values.email, values.password, values.name)
+        .then(response => {
+          setSubmitting(false);
+          console.log(response);
+        })
+        .catch(err => {
+          setSubmitting(false);
+          console.log(err);
+        });
     }
   });
 
