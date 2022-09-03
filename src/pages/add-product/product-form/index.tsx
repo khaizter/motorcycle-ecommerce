@@ -11,14 +11,21 @@ import * as Yup from 'yup';
 // Common
 import CustomFormControl from 'src/common/custom-form-control';
 
+// Api calls
+import ProductApi from 'src/common/api/product';
+
+// Hooks
+import { useNavigate } from 'react-router-dom';
+
 const validationSchema = Yup.object({
-  name: Yup.string().required('Reqired'),
-  description: Yup.string().required('Reqired'),
-  price: Yup.string().required('Reqired'),
-  image: Yup.string().required('Reqired')
+  name: Yup.string().required('Required'),
+  description: Yup.string().required('Required'),
+  price: Yup.string().required('Required'),
+  image: Yup.string().required('Required')
 });
 
 const ProductForm = () => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -29,7 +36,15 @@ const ProductForm = () => {
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       console.log(values);
-      setSubmitting(false);
+      ProductApi.addProduct(values.name, values.description, +values.price, values.image)
+        .then(response => {
+          navigate('/products');
+          setSubmitting(false);
+        })
+        .catch(err => {
+          setSubmitting(false);
+          console.log(err);
+        });
     }
   });
 
@@ -38,7 +53,7 @@ const ProductForm = () => {
       <Stack spacing={2}>
         <CustomFormControl formikProps={formik} name='name' label='Name' type='text' />
         <CustomFormControl formikProps={formik} name='description' label='Description' type='text' />
-        <CustomFormControl formikProps={formik} name='price' label='Price' type='text' />
+        <CustomFormControl formikProps={formik} name='price' label='Price' type='number' />
         <CustomFormControl formikProps={formik} name='image' label='Image' type='text' />
         <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Submit Product

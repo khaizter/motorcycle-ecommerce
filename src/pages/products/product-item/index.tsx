@@ -43,7 +43,7 @@ const ProductItem: React.FC<propType> = props => {
     addToCart(item);
   };
 
-  const errorImageHandler = () => setNoImage(false);
+  const errorImageHandler = () => setNoImage(true);
 
   return (
     <Grid item xs={3}>
