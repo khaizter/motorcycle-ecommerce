@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -13,6 +13,7 @@ interface propType {
 
 const CartItem: React.FC<propType> = props => {
   const cartCtx = useContext(CartContext);
+  const [noImage, setNoImage] = useState<boolean>(false);
 
   const removeItemHandler = () => {
     cartCtx.removeFromCart(props.item.id);
@@ -28,10 +29,17 @@ const CartItem: React.FC<propType> = props => {
     cartCtx.editItemQuantity(props.item.id, props.item.quantity - 1);
   };
 
+  const errorImageHandler = () => setNoImage(true);
+
   return (
     <ListItem sx={{ width: '100%', minHeight: '160px', px: 0, py: '1rem', alignItems: 'center' }}>
       <ListItemAvatar sx={{ width: '30%' }}>
-        <Avatar alt={props.item.name} src={props.item.thumbnail} sx={{ width: '100%', height: '100%' }} />
+        <Avatar
+          alt={props.item.name}
+          src={noImage ? 'assets/images/no-image-placeholder.png' : props.item.thumbnail}
+          onError={errorImageHandler}
+          sx={{ width: '100%', height: '100%' }}
+        />
       </ListItemAvatar>
       <Box flexGrow={1}>
         <Stack direction='row' justifyContent='center'>
