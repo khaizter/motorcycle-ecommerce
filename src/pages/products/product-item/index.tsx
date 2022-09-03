@@ -58,7 +58,9 @@ const ProductItem: React.FC<propType> = props => {
             sx={{ flexGrow: '1', objectFit: 'initial' }}
           />
           <CardContent>
-            <Typography variant='subtitle1'>{props.product.name}</Typography>
+            <Typography variant='subtitle1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {props.product.name}
+            </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>

@@ -11,7 +11,7 @@ const AddProduct = () => {
   };
 
   return (
-    <Grid item xs={3}>
+    <Grid item xs={3} sx={{ minHeight: '258px' }}>
       <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <CardActionArea
           sx={{
