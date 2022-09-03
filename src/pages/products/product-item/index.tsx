@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 // Material UI
 import Grid from '@mui/material/Grid';
@@ -25,6 +25,7 @@ interface propType {
 const ProductItem: React.FC<propType> = props => {
   const { addToCart } = useContext(CartContext);
   const { isLoggedIn } = useContext(AuthContext);
+  const [noImage, setNoImage] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const addToCartHandler = () => {
@@ -42,6 +43,8 @@ const ProductItem: React.FC<propType> = props => {
     addToCart(item);
   };
 
+  const errorImageHandler = () => setNoImage(false);
+
   return (
     <Grid item xs={3}>
       <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -49,7 +52,8 @@ const ProductItem: React.FC<propType> = props => {
           <CardMedia
             component='img'
             width='100%'
-            image={props.product.image}
+            image={noImage ? 'assets/images/no-image-placeholder.png' : props.product.image}
+            onError={errorImageHandler}
             alt={props.product.name}
             sx={{ flexGrow: '1', objectFit: 'initial' }}
           />
