@@ -21,6 +21,16 @@ const signup = async (email: string, password: string, name: string) => {
   return response;
 };
 
-const module = { login, signup };
+const checkToken = async (token: string) => {
+  const endpoint = '/auth/check-token';
+  const response = await axios.get(process.env.REACT_APP_BACKEND_URI + endpoint, {
+    headers: {
+      Authorization: `token ${token}`
+    }
+  });
+  return response;
+};
+
+const module = { login, signup, checkToken };
 
 export default module;

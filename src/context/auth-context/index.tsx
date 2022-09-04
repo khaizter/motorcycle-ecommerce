@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 
+import AuthApi from 'src/common/api/auth';
 import { contextType } from 'src/context/auth-context/model';
 
 const defaultProvider: contextType = {
@@ -29,10 +30,26 @@ const AuthProvider: React.FC<propType> = props => {
     const token = localStorage.getItem('token');
     const name = localStorage.getItem('userName');
     if (id && token && name) {
-      setCurrentUserId(id);
-      setCurrentToken(token);
-      setCurrentUserName(name);
-      setIsLoggedIn(true);
+      // check if token doesn't expire yet
+      AuthApi.checkToken(token)
+        .then(response => {
+          setCurrentUserId(id);
+          setCurrentToken(token);
+          setCurrentUserName(name);
+          setIsLoggedIn(true);
+        })
+        .catch(err => {
+          console.log(err);
+          if (err?.response?.data?.message === 'jwt expired') {
+            setCurrentUserId(null);
+            localStorage.removeItem('userId');
+            setCurrentToken(null);
+            localStorage.removeItem('token');
+            setCurrentUserName(null);
+            localStorage.removeItem('userName');
+            setIsLoggedIn(false);
+          }
+        });
     }
   }, []);
 

@@ -3,6 +3,7 @@ import React from 'react';
 // Material UI
 import Stack from '@mui/material/Stack';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
 
 // Formik, Yup
 import { useFormik } from 'formik';
@@ -55,6 +56,10 @@ const ProductForm = () => {
         <CustomFormControl formikProps={formik} name='description' label='Description' type='text' />
         <CustomFormControl formikProps={formik} name='price' label='Price' type='number' />
         <CustomFormControl formikProps={formik} name='image' label='Image' type='text' />
+        <Button variant='contained' component='label'>
+          Upload File
+          <input type='file' hidden />
+        </Button>
         <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Submit Product
         </LoadingButton>
