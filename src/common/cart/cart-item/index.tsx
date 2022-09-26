@@ -36,9 +36,10 @@ const CartItem: React.FC<propType> = props => {
       <ListItemAvatar sx={{ width: '30%' }}>
         <Avatar
           alt={props.item.name}
-          src={noImage ? 'assets/images/no-image-placeholder.png' : props.item.thumbnail}
+          src={noImage ? 'assets/images/no-image-placeholder.png' : props.item.imageUrl}
           onError={errorImageHandler}
           sx={{ width: '100%', height: '100%' }}
+          variant='square'
         />
       </ListItemAvatar>
       <Box flexGrow={1}>

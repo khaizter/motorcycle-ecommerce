@@ -1,6 +1,7 @@
 export interface Item {
   id: string;
-  thumbnail: string;
+  imageKey: string;
+  imageUrl: string;
   name: string;
   quantity: number;
   price: number;

@@ -34,7 +34,8 @@ const ProductItem: React.FC<propType> = props => {
     }
     const item = {
       id: props.product.id,
-      thumbnail: props.product.image,
+      imageKey: props.product.imageKey,
+      imageUrl: props.product.imageUrl,
       name: props.product.name,
       quantity: 1,
       price: props.product.price
@@ -44,9 +45,6 @@ const ProductItem: React.FC<propType> = props => {
 
   const errorImageHandler = () => setNoImage(true);
 
-  console.log(props.product.name);
-  console.log(`${process.env.REACT_APP_BACKEND_URI}/${props.product.image}`);
-
   return (
     <Grid item xs={3}>
       <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -54,14 +52,10 @@ const ProductItem: React.FC<propType> = props => {
           <CardMedia
             component='img'
             width='100%'
-            src={
-              noImage
-                ? 'assets/images/no-image-placeholder.png'
-                : `${process.env.REACT_APP_BACKEND_URI}/${props.product.image}`
-            }
+            src={noImage ? 'assets/images/no-image-placeholder.png' : `${props.product.imageUrl}`}
             onError={errorImageHandler}
             alt={props.product.name}
-            sx={{ flexGrow: '1', objectFit: 'initial' }}
+            sx={{ flexGrow: '1', objectFit: 'contain', aspectRatio: '107/70' }}
           />
           <CardContent>
             <Typography variant='subtitle1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

@@ -12,7 +12,7 @@ import CartApi from 'src/common/api/cart';
 const Cart: React.FC = () => {
   const { isOpen, hideCart, cartItems, setCart } = useContext(CartContext);
   const { currentToken } = useContext(AuthContext);
-
+  const totalPrice = cartItems.reduce((previousValue, item) => previousValue + item.price * item.quantity, 0);
   useEffect(() => {
     if (!currentToken) return;
     CartApi.getCart(currentToken)
@@ -20,7 +20,8 @@ const Cart: React.FC = () => {
         const transformedItems = response.data.cart.items.map((item: any) => {
           return {
             id: item.productId,
-            thumbnail: item.thumbnail,
+            imageKey: item.imageKey,
+            imageUrl: item.imageUrl,
             name: item.name,
             quantity: item.quantity,
             price: item.price
@@ -46,7 +47,7 @@ const Cart: React.FC = () => {
         <Stack direction='column' spacing={2} sx={{ px: '2rem', py: '1rem' }}>
           <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
             <Typography>Total</Typography>
-            <Typography>14.00</Typography>
+            <Typography>{totalPrice}</Typography>
           </Stack>
           <Button variant='contained'>Order</Button>
         </Stack>

@@ -18,7 +18,8 @@ const Products: React.FC = () => {
         const transformedProducts = response.data.products.map((product: any) => {
           return {
             id: product._id,
-            image: product.image,
+            imageKey: product.imageKey,
+            imageUrl: product.imageUrl,
             name: product.name,
             description: product.description,
             price: product.price

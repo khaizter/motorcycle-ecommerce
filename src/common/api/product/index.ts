@@ -10,7 +10,7 @@ export const addProduct = async (name: string, description: string, price: numbe
   const formData = new FormData();
   formData.append('name', name);
   formData.append('description', description);
-  formData.append('price', description);
+  formData.append('price', price.toString());
   formData.append('image', image);
 
   const endpoint = '/product';

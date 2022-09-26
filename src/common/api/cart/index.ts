@@ -14,7 +14,8 @@ export const updateCart = async (token: string, items: any) => {
   const transformedItems = items.map((item: any) => {
     return {
       productId: item.id,
-      thumbnail: item.thumbnail,
+      imageKey: item.imageKey,
+      imageUrl: item.imageUrl,
       name: item.name,
       quantity: item.quantity,
       price: item.price
