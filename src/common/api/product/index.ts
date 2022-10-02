@@ -6,7 +6,7 @@ export const getProducts = async () => {
   return response;
 };
 
-export const addProduct = async (name: string, description: string, price: number, image: File) => {
+export const addProduct = async (token: string, name: string, description: string, price: number, image: File) => {
   const formData = new FormData();
   formData.append('name', name);
   formData.append('description', description);
@@ -14,7 +14,11 @@ export const addProduct = async (name: string, description: string, price: numbe
   formData.append('image', image);
 
   const endpoint = '/product';
-  const response = await axios.post(process.env.REACT_APP_BACKEND_URI + endpoint, formData);
+  const response = await axios.post(process.env.REACT_APP_BACKEND_URI + endpoint, formData, {
+    headers: {
+      Authorization: `token ${token}`
+    }
+  });
   return response;
 };
 

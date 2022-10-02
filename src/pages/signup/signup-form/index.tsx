@@ -46,9 +46,9 @@ const SignUpForm = () => {
     onSubmit: (values, { setSubmitting }) => {
       AuthApi.signup(values.email, values.password, values.name)
         .then(response => {
-          const { userId, token, userName } = response.data;
+          const { userId, token, userName, type } = response.data;
           setSubmitting(false);
-          login(userId, token, userName);
+          login(userId, token, userName, type);
           navigate('/');
         })
         .catch(err => {

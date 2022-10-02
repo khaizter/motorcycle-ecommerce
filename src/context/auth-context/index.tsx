@@ -8,7 +8,8 @@ const defaultProvider: contextType = {
   currentUserId: null,
   currentToken: null,
   currentUserName: null,
-  login: (id: string, token: string, name: string) => {},
+  currentUserType: null,
+  login: (id: string, token: string, name: string, type: string) => {},
   logout: () => {}
 };
 
@@ -23,6 +24,7 @@ const AuthProvider: React.FC<propType> = props => {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [currentToken, setCurrentToken] = useState<string | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string | null>(null);
+  const [currentUserType, setCurrentUserType] = useState<string | null>(null);
 
   // Check if user is currently logged in
   useEffect(() => {
@@ -53,13 +55,15 @@ const AuthProvider: React.FC<propType> = props => {
     }
   }, []);
 
-  const loginHandler = (id: string, token: string, name: string) => {
+  const loginHandler = (id: string, token: string, name: string, type: string) => {
     setCurrentUserId(id);
     localStorage.setItem('userId', id);
     setCurrentToken(token);
     localStorage.setItem('token', token);
     setCurrentUserName(name);
     localStorage.setItem('userName', name);
+    setCurrentUserType(type);
+    localStorage.setItem('userType', type);
     setIsLoggedIn(true);
   };
 
@@ -70,6 +74,8 @@ const AuthProvider: React.FC<propType> = props => {
     localStorage.removeItem('token');
     setCurrentUserName(null);
     localStorage.removeItem('userName');
+    setCurrentUserType(null);
+    localStorage.removeItem('userType');
     setIsLoggedIn(false);
   };
 
@@ -80,6 +86,7 @@ const AuthProvider: React.FC<propType> = props => {
         currentUserId: currentUserId,
         currentToken: currentToken,
         currentUserName: currentUserName,
+        currentUserType: currentUserType,
         login: loginHandler,
         logout: logoutHandler
       }}

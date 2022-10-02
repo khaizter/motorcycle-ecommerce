@@ -37,9 +37,9 @@ const LoginForm = () => {
     onSubmit: (values, { setSubmitting }) => {
       AuthApi.login(values.email, values.password)
         .then(response => {
-          const { userId, token, userName } = response.data;
+          const { userId, token, userName, type } = response.data;
           setSubmitting(false);
-          login(userId, token, userName);
+          login(userId, token, userName, type);
           navigate('/');
         })
         .catch(err => {

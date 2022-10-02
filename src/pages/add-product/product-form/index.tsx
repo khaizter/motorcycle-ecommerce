@@ -1,4 +1,4 @@
-import React, { ReactHTML } from 'react';
+import React, { useContext, ReactHTML } from 'react';
 
 // Material UI
 import Stack from '@mui/material/Stack';
@@ -18,6 +18,7 @@ import ProductApi from 'src/common/api/product';
 // Hooks
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
+import { AuthContext } from 'src/context/auth-context';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
@@ -28,6 +29,7 @@ const validationSchema = Yup.object({
 
 const ProductForm = () => {
   const navigate = useNavigate();
+  const { currentToken } = useContext(AuthContext);
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -38,7 +40,11 @@ const ProductForm = () => {
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       console.log('values', values);
-      ProductApi.addProduct(values.name, values.description, +values.price, values.image)
+      if (!currentToken) {
+        console.log('not auth');
+        return;
+      }
+      ProductApi.addProduct(currentToken, values.name, values.description, +values.price, values.image)
         .then(response => {
           navigate('/products');
           setSubmitting(false);
