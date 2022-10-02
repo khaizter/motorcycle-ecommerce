@@ -14,7 +14,7 @@ import AddProduct from 'src/pages/add-product';
 import { AuthContext } from 'src/context/auth-context';
 
 const RoutesManager = () => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, currentUserType } = useContext(AuthContext);
   return (
     <Routes>
       <Route path='/' element={<Home />} />
@@ -25,7 +25,7 @@ const RoutesManager = () => {
           <Route path='/signup' element={<SignUp />} />
         </>
       )}
-      {true && (
+      {currentUserType === 'admin' && (
         <>
           <Route path='/add-product' element={<AddProduct />} />
         </>

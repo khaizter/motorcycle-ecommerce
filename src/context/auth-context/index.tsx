@@ -31,13 +31,15 @@ const AuthProvider: React.FC<propType> = props => {
     const id = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
     const name = localStorage.getItem('userName');
-    if (id && token && name) {
+    const type = localStorage.getItem('userType');
+    if (id && token && name && type) {
       // check if token doesn't expire yet
       AuthApi.checkToken(token)
         .then(response => {
           setCurrentUserId(id);
           setCurrentToken(token);
           setCurrentUserName(name);
+          setCurrentUserType(type);
           setIsLoggedIn(true);
         })
         .catch(err => {
@@ -49,6 +51,8 @@ const AuthProvider: React.FC<propType> = props => {
             localStorage.removeItem('token');
             setCurrentUserName(null);
             localStorage.removeItem('userName');
+            setCurrentUserType(null);
+            localStorage.removeItem('userType');
             setIsLoggedIn(false);
           }
         });
