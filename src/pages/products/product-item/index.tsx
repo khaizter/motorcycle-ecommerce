@@ -45,10 +45,17 @@ const ProductItem: React.FC<propType> = props => {
 
   const errorImageHandler = () => setNoImage(true);
 
+  const viewProductHandler = () => {
+    navigate(`/products/${props.product.id}`);
+  };
+
   return (
     <Grid item xs={3}>
       <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <CardActionArea sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+        <CardActionArea
+          sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
+          onClick={viewProductHandler}
+        >
           <CardMedia
             component='img'
             width='100%'

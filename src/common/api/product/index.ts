@@ -6,6 +6,12 @@ export const getProducts = async () => {
   return response;
 };
 
+export const getProduct = async (productId: string) => {
+  const endpoint = `/product/${productId}`;
+  const response = await axios.get(process.env.REACT_APP_BACKEND_URI + endpoint);
+  return response;
+};
+
 export const addProduct = async (token: string, name: string, description: string, price: number, image: File) => {
   const formData = new FormData();
   formData.append('name', name);
@@ -22,6 +28,6 @@ export const addProduct = async (token: string, name: string, description: strin
   return response;
 };
 
-const module = { getProducts, addProduct };
+const module = { getProducts, getProduct, addProduct };
 
 export default module;
