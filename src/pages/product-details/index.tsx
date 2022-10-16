@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, Box, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Avatar, Box, Button, Typography } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductApi from 'src/common/api/product';
 import { Product } from './models';
+import { AuthContext } from 'src/context/auth-context';
+import { CartContext } from 'src/context/cart-context';
 
 const ProductDetail = () => {
   const { productId } = useParams();
+  const { isLoggedIn } = useContext(AuthContext);
+  const { addToCart } = useContext(CartContext);
   const [product, setProduct] = useState<Product>();
   const [noImage, setNoImage] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!productId) return;
     ProductApi.getProduct(productId)
@@ -21,7 +27,22 @@ const ProductDetail = () => {
 
   const errorImageHandler = () => setNoImage(true);
 
-  console.log(product);
+  const addToCartHandler = () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    if (!product) return;
+    const item = {
+      id: product.id,
+      imageKey: product.imageKey,
+      imageUrl: product.imageUrl,
+      name: product.name,
+      quantity: 1,
+      price: product.price
+    };
+    addToCart(item);
+  };
 
   return (
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
@@ -37,6 +58,7 @@ const ProductDetail = () => {
           <Typography variant='body1'>{product?.name}</Typography>
           <Typography variant='body1'>{product?.description}</Typography>
           <Typography variant='body1'>{product?.price}</Typography>
+          <Button onClick={addToCartHandler}>Add to card</Button>
         </>
       )}
     </Box>
