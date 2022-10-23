@@ -10,29 +10,39 @@ const navigations: Array<NavigationItem> = [
   {
     label: 'Home',
     path: '/',
-    authentication: false
+    case: 'always'
   },
   {
     label: 'Products',
     path: '/products',
-    authentication: false
+    case: 'always'
   },
   {
     label: 'Login',
     path: '/login',
-    authentication: true
+    case: 'non-authenticated'
   },
   {
     label: 'Sign Up',
     path: '/signup',
-    authentication: true
+    case: 'non-authenticated'
+  },
+  {
+    label: 'Cart',
+    path: '/cart',
+    case: 'authenticated'
   }
 ];
 
 const Navigation: React.FC = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const { isLoggedIn } = useContext(AuthContext);
-  const authenticatedNavigations = navigations.filter(navigation => !navigation.authentication);
+  const alwaysShownNavigations = navigations.filter(navigation => navigation.case === 'always');
+  const authCasedNavigations = navigations.filter(navigation => {
+    if (isLoggedIn) return navigation.case === 'authenticated';
+    else return navigation.case === 'non-authenticated';
+  });
+  const availableNavigations = [...alwaysShownNavigations, ...authCasedNavigations];
 
   const openMenuHandler = () => {
     setShowMenu(true);
@@ -44,12 +54,8 @@ const Navigation: React.FC = () => {
 
   return (
     <>
-      <NavigationBar menuHandler={openMenuHandler} navigations={isLoggedIn ? authenticatedNavigations : navigations} />
-      <NavigationMenu
-        open={showMenu}
-        onClose={closeMenuHandler}
-        navigations={isLoggedIn ? authenticatedNavigations : navigations}
-      />
+      <NavigationBar menuHandler={openMenuHandler} navigations={availableNavigations} />
+      <NavigationMenu open={showMenu} onClose={closeMenuHandler} navigations={availableNavigations} />
     </>
   );
 };
