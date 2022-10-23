@@ -2,9 +2,9 @@ import React from 'react';
 
 import { List } from '@mui/material';
 
-import CartItem from 'src/common/cart/cart-item';
+import CartItem from 'src/common/cart-drawer/cart-item';
 
-import { Item } from 'src/common/cart/model';
+import { Item } from 'src/common/cart-drawer/model';
 
 interface propType {
   cartItems: Array<Item>;

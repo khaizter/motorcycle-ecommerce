@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 // Components
 import RoutesManager from 'src/setup/routes-manager';
-import Cart from 'src/common/cart';
+import CartDrawer from 'src/common/cart-drawer';
 
 // Context Providers
 import { CartProvider } from 'src/context/cart-context';
@@ -20,7 +20,7 @@ const App: React.FC = () => {
           <Navigation />
           <RoutesManager />
         </BrowserRouter>
-        <Cart />
+        <CartDrawer />
       </CartProvider>
     </AuthProvider>
   );

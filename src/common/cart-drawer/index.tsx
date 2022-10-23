@@ -2,17 +2,18 @@ import React, { useContext, useEffect } from 'react';
 
 import { Button, Drawer, IconButton, Stack, Typography } from '@mui/material';
 
-import CartList from 'src/common/cart/cart-list';
+import CartList from 'src/common/cart-drawer/cart-list';
 import { CartContext } from 'src/context/cart-context';
 import CloseIcon from '@mui/icons-material/Close';
 import { AuthContext } from 'src/context/auth-context';
 
 import CartApi from 'src/common/api/cart';
 
-const Cart: React.FC = () => {
+const CartDrawer: React.FC = () => {
   const { isOpen, hideCart, cartItems, setCart } = useContext(CartContext);
   const { currentToken } = useContext(AuthContext);
   const totalPrice = cartItems.reduce((previousValue, item) => previousValue + item.price * item.quantity, 0);
+
   useEffect(() => {
     if (!currentToken) return;
     CartApi.getCart(currentToken)
@@ -49,11 +50,11 @@ const Cart: React.FC = () => {
             <Typography>Total</Typography>
             <Typography>{totalPrice}</Typography>
           </Stack>
-          <Button variant='contained'>Order</Button>
+          <Button variant='contained'>Checkout</Button>
         </Stack>
       </Stack>
     </Drawer>
   );
 };
 
-export default Cart;
+export default CartDrawer;

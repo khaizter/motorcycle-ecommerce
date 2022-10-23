@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { Item } from 'src/common/cart/model';
+import { Item } from 'src/common/cart-drawer/model';
 import { CartContext } from 'src/context/cart-context';
 
 interface propType {
