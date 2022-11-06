@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { AuthContext } from 'src/context/auth-context';
 import { CartContext } from 'src/context/cart-context';
@@ -10,14 +10,20 @@ import CartList from 'src/pages/cart/cart-list';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import CheckoutModal from 'src/pages/cart/checkout-modal';
 import OrderApi from 'src/common/api/order';
+import useModal from 'src/hooks/useModal';
+import AddressModal from 'src/pages/cart/address-modal';
 
 const Cart = () => {
   const { cartItems, emptyCart } = useContext(CartContext);
   const { currentToken } = useContext(AuthContext);
-  const deliveryAddress = '18 castaneda St';
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [deliveryAddress, setDeliveryAddress] = useState<string>('');
+  const [openAddress, handleOpenAddress, handleCloseAddress] = useModal(false);
+  const [openCheckout, handleOpenCheckout, handleCloseCheckout] = useModal(false);
+
+  const updateAddressHandler = (address: string) => {
+    setDeliveryAddress(address);
+    handleCloseAddress();
+  };
 
   const placeOrderHandler = () => {
     console.log('place holder');
@@ -39,11 +45,11 @@ const Cart = () => {
       .then(response => {
         console.log(response);
         emptyCart();
-        handleClose();
+        handleCloseCheckout();
       })
       .catch(err => {
         console.log(err);
-        handleClose();
+        handleCloseCheckout();
       });
   };
 
@@ -54,14 +60,17 @@ const Cart = () => {
       <Stack direction='row' alignItems='center'>
         <PlaceOutlinedIcon />
         <Typography flexGrow={1} variant='body1'>
-          Ship to {deliveryAddress}
+          Ship to {deliveryAddress || 'No delivery address added yet.'}
         </Typography>
-        <Button variant='text'>Change</Button>
+        <Button variant='text' onClick={handleOpenAddress}>
+          Change
+        </Button>
       </Stack>
-      <Button variant='contained' onClick={handleOpen}>
+      <Button variant='contained' onClick={handleOpenCheckout}>
         Checkout
       </Button>
-      <CheckoutModal open={open} handleClose={handleClose} confirmHandler={placeOrderHandler} />
+      <AddressModal open={openAddress} handleClose={handleCloseAddress} confirmHandler={updateAddressHandler} />
+      <CheckoutModal open={openCheckout} handleClose={handleCloseCheckout} confirmHandler={placeOrderHandler} />
     </Box>
   );
 };
