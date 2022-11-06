@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-export const getProducts = async () => {
+const getProducts = async () => {
   const endpoint = '/product';
   const response = await axios.get(process.env.REACT_APP_BACKEND_URI + endpoint);
   return response;
 };
 
-export const getProduct = async (productId: string) => {
+const getProduct = async (productId: string) => {
   const endpoint = `/product/${productId}`;
   const response = await axios.get(process.env.REACT_APP_BACKEND_URI + endpoint);
   return response;
 };
 
-export const addProduct = async (token: string, name: string, description: string, price: number, image: File) => {
+const addProduct = async (token: string, name: string, description: string, price: number, image: File) => {
   const formData = new FormData();
   formData.append('name', name);
   formData.append('description', description);

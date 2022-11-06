@@ -16,4 +16,5 @@ export interface contextType {
   removeFromCart: (id: string) => void;
   editItemQuantity: (id: string, newQuantity: number) => void;
   setCart: (items: Array<Item>) => void;
+  emptyCart: () => void;
 }

@@ -14,7 +14,8 @@ const defaultProvider: contextType = {
   addToCart: (item: Item) => {},
   removeFromCart: (id: string) => {},
   editItemQuantity: (id: string, newQuantity: number) => {},
-  setCart: (items: Array<Item>) => {}
+  setCart: (items: Array<Item>) => {},
+  emptyCart: () => {}
 };
 
 const CartContext = createContext(defaultProvider);
@@ -78,6 +79,10 @@ const CartProvider: React.FC<propType> = props => {
     setCartItems(items);
   };
 
+  const emptyCartHandler = () => {
+    setCartItems([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -88,7 +93,8 @@ const CartProvider: React.FC<propType> = props => {
         addToCart: addToCartHandler,
         removeFromCart: removeFromCartHandler,
         editItemQuantity: editItemQuantityHandler,
-        setCart: setCartHandler
+        setCart: setCartHandler,
+        emptyCart: emptyCartHandler
       }}
     >
       {props.children}

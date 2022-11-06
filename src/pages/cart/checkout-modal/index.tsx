@@ -9,13 +9,10 @@ import Button from '@mui/material/Button';
 interface propType {
   open: boolean;
   handleClose: () => void;
+  confirmHandler: () => void;
 }
 
 const CheckoutModal: React.FC<propType> = props => {
-  const confirmHandler = () => {
-    console.log('place order');
-  };
-
   return (
     <Modal
       open={props.open}
@@ -46,7 +43,7 @@ const CheckoutModal: React.FC<propType> = props => {
           <Button variant='outlined' onClick={props.handleClose}>
             Cancel
           </Button>
-          <Button variant='contained' onClick={confirmHandler}>
+          <Button variant='contained' onClick={props.confirmHandler}>
             Place Order
           </Button>
         </Box>
