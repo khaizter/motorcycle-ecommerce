@@ -18,6 +18,16 @@ const postOrder = async (token: string, items: any, deliveryAddress: string) => 
   return response;
 };
 
-const module = { postOrder };
+const getOrders = async (token: string, userType: string) => {
+  const endpoint = userType === 'admin' ? '/order/list' : '/order';
+  const response = await axios.get(process.env.REACT_APP_BACKEND_URI + endpoint, {
+    headers: {
+      Authorization: `token ${token}`
+    }
+  });
+  return response;
+};
+
+const module = { postOrder, getOrders };
 
 export default module;

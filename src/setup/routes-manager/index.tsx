@@ -14,6 +14,7 @@ import AddProduct from 'src/pages/add-product';
 import { AuthContext } from 'src/context/auth-context';
 import ProductDetail from 'src/pages/product-details';
 import Cart from 'src/pages/cart';
+import Order from 'src/pages/order';
 
 const RoutesManager = () => {
   const { isLoggedIn, currentUserType } = useContext(AuthContext);
@@ -31,6 +32,7 @@ const RoutesManager = () => {
       {isLoggedIn && (
         <>
           <Route path='/cart' element={<Cart />} />
+          <Route path='/order' element={<Order />} />
         </>
       )}
       {currentUserType === 'admin' && (
