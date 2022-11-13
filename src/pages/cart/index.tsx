@@ -32,6 +32,10 @@ const Cart = () => {
       return;
     }
 
+    if (!deliveryAddress) {
+      console.log('invalid address');
+    }
+
     const transformedItems = cartItems.map(item => {
       return {
         productId: item.id,
