@@ -6,14 +6,13 @@ const About = () => {
     <Box sx={{ background: '#FFFFFF', py: '6rem' }}>
       <Stack
         sx={{
-          alignItems: 'flex-start',
           width: { xs: '95%', sm: '90%', md: '100%', lg: '100%', xl: '100%' },
           maxWidth: 'var(--horizontal-wrapper)',
           mx: 'auto'
         }}
         spacing={2}
       >
-        <Typography variant='h2' component='h1'>
+        <Typography variant='h2' component='h1' sx={{ textAlign: 'center' }}>
           About Us
         </Typography>
         <Typography>
