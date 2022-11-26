@@ -21,7 +21,7 @@ const CONTENT = [
 
 const Services = () => {
   return (
-    <Box sx={{ background: 'var(--primary-color)', py: '6rem' }}>
+    <Box id='services' sx={{ background: 'var(--primary-color)', py: '6rem' }}>
       <Typography variant='h2' component='h1' sx={{ color: '#FFFFFF', textAlign: 'center' }}>
         Services
       </Typography>

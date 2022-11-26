@@ -7,6 +7,7 @@ import { Link as RouterLink } from 'react-router-dom';
 const Hero = () => {
   return (
     <Box
+      id='hero'
       sx={{
         background: "url('/assets/images/hero-bg.jpg')",
         minHeight: '650px',

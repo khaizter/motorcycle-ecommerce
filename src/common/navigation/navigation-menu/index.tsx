@@ -4,11 +4,10 @@ import Drawer from '@mui/material/Drawer';
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 
 // Routing
-import { Link as RouterLink } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 // Types
 import { NavigationItem } from 'src/common/navigation/model';
-
 interface propType {
   open: boolean;
   onClose: () => void;
@@ -23,7 +22,7 @@ const NavigationMenu: React.FC<propType> = props => {
           {props.navigations.map((navigation, index) => {
             return (
               <ListItem key={index}>
-                <ListItemButton component={RouterLink} to={navigation.path} onClick={props.onClose}>
+                <ListItemButton component={HashLink} to={navigation.path} onClick={props.onClose}>
                   <ListItemText primary={navigation.label} />
                 </ListItemButton>
               </ListItem>

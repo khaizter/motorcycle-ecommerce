@@ -9,9 +9,12 @@ import { AuthContext } from 'src/context/auth-context';
 const navigations: Array<NavigationItem> = [
   {
     label: 'Home',
-    path: '/',
+    path: '/#hero',
     case: 'always'
   },
+  { label: 'About', path: '/#about', case: 'always' },
+  { label: 'Services', path: '/#services', case: 'always' },
+  { label: 'FAQ', path: '/#faq', case: 'always' },
   {
     label: 'Products',
     path: '/products',

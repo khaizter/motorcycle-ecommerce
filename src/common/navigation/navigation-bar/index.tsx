@@ -12,7 +12,8 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 
 // Routing
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 // Context
 import { CartContext } from 'src/context/cart-context';
@@ -40,7 +41,7 @@ const NavigationBar: React.FC<propType> = props => {
   };
 
   return (
-    <AppBar position='static'>
+    <AppBar position='sticky'>
       <Toolbar disableGutters sx={{ flexGrow: 1, maxWidth: 'var(--horizontal-wrapper)', width: '100%', mx: 'auto' }}>
         <IconButton
           size='large'
@@ -56,7 +57,7 @@ const NavigationBar: React.FC<propType> = props => {
         <Stack direction='row' spacing={2} sx={{ display: { xs: 'none', md: 'flex' } }}>
           {props.navigations.map((navigation, index) => {
             return (
-              <Button key={index} component={RouterLink} color='inherit' to={navigation.path}>
+              <Button key={index} component={HashLink} color='inherit' to={navigation.path}>
                 {navigation.label}
               </Button>
             );

@@ -3,7 +3,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <Box sx={{ background: '#FFFFFF', py: '6rem' }}>
+    <Box id='about' sx={{ background: '#FFFFFF', py: '6rem' }}>
       <Stack
         sx={{
           width: { xs: '95%', sm: '90%', md: '100%', lg: '100%', xl: '100%' },

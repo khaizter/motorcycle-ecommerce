@@ -5,7 +5,7 @@ import { Stack } from '@mui/system';
 
 const Faq = () => {
   return (
-    <Box sx={{ background: '#FFFFFF', py: '6rem' }}>
+    <Box id='faq' sx={{ background: '#FFFFFF', py: '6rem' }}>
       <Typography variant='h2' component='h1' sx={{ textAlign: 'center' }}>
         Frequently Asked Questions (FAQ)
       </Typography>
