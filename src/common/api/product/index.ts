@@ -28,6 +28,17 @@ const addProduct = async (token: string, name: string, description: string, pric
   return response;
 };
 
-const module = { getProducts, getProduct, addProduct };
+const deleteProduct = async (token: string, productId: string) => {
+  console.log('delete ', productId);
+  const endpoint = `/product/${productId}`;
+  const response = await axios.delete(process.env.REACT_APP_BACKEND_URI + endpoint, {
+    headers: {
+      Authorization: `token ${token}`
+    }
+  });
+  return response;
+};
+
+const module = { getProducts, getProduct, addProduct, deleteProduct };
 
 export default module;

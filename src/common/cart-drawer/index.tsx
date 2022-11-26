@@ -33,7 +33,7 @@ const CartDrawer: React.FC = () => {
       .catch(err => {
         console.log(err);
       });
-  }, [currentToken]);
+  }, [currentToken, isOpen]);
 
   return (
     <Drawer anchor='right' open={isOpen} onClose={hideCart}>

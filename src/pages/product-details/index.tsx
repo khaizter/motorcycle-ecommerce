@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProductApi from 'src/common/api/product';
 import { Product } from './models';
@@ -8,7 +8,7 @@ import { CartContext } from 'src/context/cart-context';
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, currentToken, currentUserType } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
   const [product, setProduct] = useState<Product>();
   const [noImage, setNoImage] = useState<boolean>(false);
@@ -44,21 +44,58 @@ const ProductDetail = () => {
     addToCart(item);
   };
 
+  const deleteProductHandler = () => {
+    if (!productId || !currentToken) return;
+    ProductApi.deleteProduct(currentToken, productId)
+      .then(response => {
+        console.log(response);
+        navigate('/products');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
-      <Typography variant='h3'>Product Detail</Typography>
       {product && (
         <>
-          <Avatar
-            src={noImage ? 'assets/images/no-image-placeholder.png' : `${product?.imageUrl}`}
-            onError={errorImageHandler}
-            alt={product?.name}
-            variant='square'
-          />
-          <Typography variant='body1'>{product?.name}</Typography>
-          <Typography variant='body1'>{product?.description}</Typography>
-          <Typography variant='body1'>{product?.price}</Typography>
-          <Button onClick={addToCartHandler}>Add to card</Button>
+          <Grid container spacing={2} sx={{ mt: '4rem' }}>
+            <Grid item xs={6} sx={{ px: '1rem' }}>
+              <Avatar
+                src={noImage ? 'assets/images/no-image-placeholder.png' : `${product?.imageUrl}`}
+                onError={errorImageHandler}
+                alt={product?.name}
+                variant='square'
+                sx={{ width: '100%', height: 'auto' }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant='h2'
+                sx={{ fontWeight: '400', mt: '1rem', color: 'var(--primary-color)' }}
+                gutterBottom
+              >
+                {product?.name}
+              </Typography>
+              <Typography variant='subtitle1' gutterBottom>
+                {product?.description}
+              </Typography>
+              <Typography variant='subtitle2' gutterBottom>
+                {product?.price}
+              </Typography>
+              <Stack direction='row' spacing={2}>
+                <Button variant='contained' onClick={addToCartHandler}>
+                  Add to cart
+                </Button>
+                {currentUserType === 'admin' && (
+                  <Button variant='contained' onClick={deleteProductHandler}>
+                    Delete Product
+                  </Button>
+                )}
+              </Stack>
+            </Grid>
+          </Grid>
         </>
       )}
     </Box>
