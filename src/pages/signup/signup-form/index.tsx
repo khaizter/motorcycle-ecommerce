@@ -29,7 +29,9 @@ const validationSchema = Yup.object({
   password: Yup.string().required('Required').min(4, 'Must be (4-15) characters').max(15, 'Must be (4-15) characters'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Required')
+    .required('Required'),
+  homeAddress: Yup.string().required('Required').min(4, 'Minimum of 4 characters'),
+  contactNumber: Yup.string().required('Required').min(10, 'Invalid contact number')
 });
 
 const SignUpForm = () => {
@@ -40,11 +42,13 @@ const SignUpForm = () => {
       name: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      homeAddress: '',
+      contactNumber: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      AuthApi.signup(values.email, values.password, values.name)
+      AuthApi.signup(values.email, values.password, values.name, values.homeAddress, values.contactNumber)
         .then(response => {
           const { userId, token, userName, type } = response.data;
           setSubmitting(false);
@@ -65,6 +69,8 @@ const SignUpForm = () => {
         <CustomFormControl formikProps={formik} name='email' label='Email' type='text' />
         <CustomFormControl formikProps={formik} name='password' label='Password' type='password' />
         <CustomFormControl formikProps={formik} name='confirmPassword' label='Confirm Password' type='password' />
+        <CustomFormControl formikProps={formik} name='homeAddress' label='Home Address' type='text' />
+        <CustomFormControl formikProps={formik} name='contactNumber' label='Contact Number' type='number' />
         <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Sign Up
         </LoadingButton>
