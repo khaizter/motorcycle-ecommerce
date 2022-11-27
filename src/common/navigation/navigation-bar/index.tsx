@@ -10,6 +10,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 // Routing
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +26,7 @@ import { CartContext } from 'src/context/cart-context';
 // Types
 import { NavigationItem } from 'src/common/navigation/model';
 import { AuthContext } from 'src/context/auth-context';
+import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
 
 interface propType {
   menuHandler: () => void;
@@ -52,7 +58,7 @@ const NavigationBar: React.FC<propType> = props => {
           <MenuIcon />
         </IconButton>
         <Typography variant='h6' sx={{ flexGrow: 1 }}>
-          Motorcycle
+          GNE Motorcycle
         </Typography>
         <Stack direction='row' spacing={2} sx={{ display: { xs: 'none', md: 'flex' } }}>
           {props.navigations.map((navigation, index) => {
@@ -68,9 +74,22 @@ const NavigationBar: React.FC<propType> = props => {
           <ShoppingCartOutlinedIcon />
         </IconButton>
         {isLoggedIn && (
-          <IconButton size='large' aria-label='cart' onClick={logout}>
-            <Avatar>{currentUserName?.charAt(0) || 'A'}</Avatar>
-          </IconButton>
+          <Box sx={{ width: '40px', height: '40px' }}>
+            <SpeedDial ariaLabel='account menu' icon={<PersonIcon />} direction='down'>
+              <SpeedDialAction icon={<ShoppingCartIcon />} tooltipTitle='View Cart' onClick={() => navigate('/cart')} />
+              <SpeedDialAction
+                icon={<ShoppingBagIcon />}
+                tooltipTitle='View Orders'
+                onClick={() => navigate('/order')}
+              />
+              <SpeedDialAction
+                icon={<ManageAccountsIcon />}
+                tooltipTitle='Manage Account'
+                onClick={() => navigate('/account')}
+              />
+              <SpeedDialAction icon={<LogoutIcon />} tooltipTitle='Log Out' onClick={logout} />
+            </SpeedDial>
+          </Box>
         )}
       </Toolbar>
     </AppBar>

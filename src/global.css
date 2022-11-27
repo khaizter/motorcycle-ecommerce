@@ -22,3 +22,11 @@ body {
 body {
   margin: 0;
 }
+
+.MuiSpeedDial-fab {
+  width: 40px !important;
+  height: 40px !important;
+  background-color: #ffffff !important;
+  color: #1976d2 !important;
+  box-shadow: none !important;
+}
