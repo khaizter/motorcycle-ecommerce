@@ -33,6 +33,16 @@ const checkToken = async (token: string) => {
   return response;
 };
 
-const module = { login, signup, checkToken };
+const getUserInfo = async (token: string) => {
+  const endpoint = '/auth/user';
+  const response = await axios.get(process.env.REACT_APP_BACKEND_URI + endpoint, {
+    headers: {
+      Authorization: `token ${token}`
+    }
+  });
+  return response;
+};
+
+const module = { login, signup, checkToken, getUserInfo };
 
 export default module;

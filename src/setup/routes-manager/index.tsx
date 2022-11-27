@@ -9,6 +9,7 @@ import Products from 'src/pages/products';
 import Login from 'src/pages/login';
 import SignUp from 'src/pages/signup';
 import AddProduct from 'src/pages/add-product';
+import Account from 'src/pages/account';
 
 // Context
 import { AuthContext } from 'src/context/auth-context';
@@ -33,6 +34,7 @@ const RoutesManager = () => {
         <>
           <Route path='/cart' element={<Cart />} />
           <Route path='/order' element={<Order />} />
+          <Route path='/account' element={<Account />} />
         </>
       )}
       {currentUserType === 'admin' && (
