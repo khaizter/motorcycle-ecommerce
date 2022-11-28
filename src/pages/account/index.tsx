@@ -13,12 +13,19 @@ import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { UserInfoType } from './model';
+import useModal from 'src/hooks/useModal';
+import PasswordForm from 'src/pages/account/password-form';
+import ContactForm from 'src/pages/account/contact-form';
+import HomeAddressForm from 'src/pages/account/home-address-form';
+import DeliveryAddressForm from 'src/pages/account/delivery-address-form';
 
 const Account = () => {
   const { currentToken } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState<UserInfoType>();
-
-  console.log(userInfo);
+  const [openPasswordModal, handleOpenPasswordModal, handleClosePasswordModal] = useModal();
+  const [openContactModal, handleOpenContactModal, handleCloseContactModal] = useModal();
+  const [openHomeAddressModal, handleOpenHomeAddressModal, handleCloseHomeAddressModal] = useModal();
+  const [openDeliveryAddressModal, handleOpenDeliveryAddressModal, handleCloseDeliveryAddressModal] = useModal();
 
   useEffect(() => {
     if (!currentToken) return;
@@ -48,7 +55,7 @@ const Account = () => {
         <ListItem
           disablePadding
           secondaryAction={
-            <IconButton edge='end' aria-label='edit'>
+            <IconButton edge='end' aria-label='edit' onClick={handleOpenPasswordModal}>
               <EditIcon />
             </IconButton>
           }
@@ -69,7 +76,7 @@ const Account = () => {
         <ListItem
           disablePadding
           secondaryAction={
-            <IconButton edge='end' aria-label='edit'>
+            <IconButton edge='end' aria-label='edit' onClick={handleOpenContactModal}>
               <EditIcon />
             </IconButton>
           }
@@ -83,7 +90,7 @@ const Account = () => {
         <ListItem
           disablePadding
           secondaryAction={
-            <IconButton edge='end' aria-label='edit'>
+            <IconButton edge='end' aria-label='edit' onClick={handleOpenHomeAddressModal}>
               <EditIcon />
             </IconButton>
           }
@@ -97,7 +104,7 @@ const Account = () => {
         <ListItem
           disablePadding
           secondaryAction={
-            <IconButton edge='end' aria-label='edit'>
+            <IconButton edge='end' aria-label='edit' onClick={handleOpenDeliveryAddressModal}>
               <EditIcon />
             </IconButton>
           }
@@ -115,6 +122,10 @@ const Account = () => {
           <ListItemText primary='Account Type' secondary={userInfo?.type} />
         </ListItem>
       </List>
+      <PasswordForm open={openPasswordModal} handleClose={handleClosePasswordModal} />
+      <ContactForm open={openContactModal} handleClose={handleCloseContactModal} />
+      <HomeAddressForm open={openHomeAddressModal} handleClose={handleCloseHomeAddressModal} />
+      <DeliveryAddressForm open={openDeliveryAddressModal} handleClose={handleCloseDeliveryAddressModal} />
     </Box>
   );
 };
