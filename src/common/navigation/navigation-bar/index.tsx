@@ -38,6 +38,10 @@ const NavigationBar: React.FC<propType> = props => {
   const { showCart } = useContext(CartContext);
   const { isLoggedIn, logout, currentUserName } = useContext(AuthContext);
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const openCartHandler = () => {
     if (!isLoggedIn) {
       navigate('/login');
@@ -75,19 +79,46 @@ const NavigationBar: React.FC<propType> = props => {
         </IconButton>
         {isLoggedIn && (
           <Box sx={{ width: '40px', height: '40px' }}>
-            <SpeedDial ariaLabel='account menu' icon={<PersonIcon />} direction='down'>
-              <SpeedDialAction icon={<ShoppingCartIcon />} tooltipTitle='View Cart' onClick={() => navigate('/cart')} />
+            <SpeedDial
+              ariaLabel='account menu'
+              icon={<PersonIcon />}
+              direction='down'
+              onClose={handleClose}
+              onOpen={handleOpen}
+              open={open}
+            >
+              <SpeedDialAction
+                icon={<ShoppingCartIcon />}
+                tooltipTitle='View Cart'
+                onClick={() => {
+                  handleClose();
+                  navigate('/cart');
+                }}
+              />
               <SpeedDialAction
                 icon={<ShoppingBagIcon />}
                 tooltipTitle='View Orders'
-                onClick={() => navigate('/order')}
+                onClick={() => {
+                  handleClose();
+                  navigate('/order');
+                }}
               />
               <SpeedDialAction
                 icon={<ManageAccountsIcon />}
                 tooltipTitle='Manage Account'
-                onClick={() => navigate('/account')}
+                onClick={() => {
+                  handleClose();
+                  navigate('/account');
+                }}
               />
-              <SpeedDialAction icon={<LogoutIcon />} tooltipTitle='Log Out' onClick={logout} />
+              <SpeedDialAction
+                icon={<LogoutIcon />}
+                tooltipTitle='Log Out'
+                onClick={() => {
+                  handleClose();
+                  logout();
+                }}
+              />
             </SpeedDial>
           </Box>
         )}
