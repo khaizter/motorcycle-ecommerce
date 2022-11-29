@@ -9,15 +9,19 @@ import {
   TextField
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomFormControl from 'src/common/custom-form-control';
+import AuthApi from 'src/common/api/auth';
+import { AuthContext } from 'src/context/auth-context';
+import { useNavigate } from 'react-router-dom';
 
 interface PropType {
   open: boolean;
   handleClose: () => void;
+  refreshInfo: () => void;
 }
 
 const validationSchema = Yup.object({
@@ -35,6 +39,9 @@ const validationSchema = Yup.object({
 });
 
 const PasswordForm: React.FC<PropType> = props => {
+  const { currentToken, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       oldPassword: '',
@@ -43,8 +50,23 @@ const PasswordForm: React.FC<PropType> = props => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      setSubmitting(false);
-      console.log(values);
+      if (!currentToken) {
+        console.log('No token');
+        setSubmitting(false);
+        return;
+      }
+      AuthApi.updatePassword(currentToken, values.oldPassword, values.newPassword)
+        .then(response => {
+          setSubmitting(false);
+          console.log(response);
+          logout();
+          props.refreshInfo();
+          props.handleClose();
+        })
+        .catch(err => {
+          setSubmitting(false);
+          console.log(err);
+        });
     }
   });
 

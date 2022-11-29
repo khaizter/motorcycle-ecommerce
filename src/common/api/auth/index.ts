@@ -43,6 +43,80 @@ const getUserInfo = async (token: string) => {
   return response;
 };
 
-const module = { login, signup, checkToken, getUserInfo };
+const updatePassword = async (token: string, oldPassword: string, newPassword: string) => {
+  const endpoint = '/auth/user/password';
+  const response = await axios.put(
+    process.env.REACT_APP_BACKEND_URI + endpoint,
+    {
+      oldPassword,
+      newPassword
+    },
+    {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    }
+  );
+  return response;
+};
+
+const updateContactNumber = async (token: string, newContactNumber: string) => {
+  const endpoint = '/auth/user/contact-number';
+  const response = await axios.put(
+    process.env.REACT_APP_BACKEND_URI + endpoint,
+    {
+      newContactNumber
+    },
+    {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    }
+  );
+  return response;
+};
+
+const updateHomeAddress = async (token: string, newHomeAddress: string) => {
+  const endpoint = '/auth/user/home-address';
+  const response = await axios.put(
+    process.env.REACT_APP_BACKEND_URI + endpoint,
+    {
+      newHomeAddress
+    },
+    {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    }
+  );
+  return response;
+};
+
+const updateDeliveryAddress = async (token: string, newDeliveryAddress: string) => {
+  const endpoint = '/auth/user/delivery-address';
+  const response = await axios.put(
+    process.env.REACT_APP_BACKEND_URI + endpoint,
+    {
+      newDeliveryAddress
+    },
+    {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    }
+  );
+  return response;
+};
+
+const module = {
+  login,
+  signup,
+  checkToken,
+  getUserInfo,
+  updatePassword,
+  updateContactNumber,
+  updateHomeAddress,
+  updateDeliveryAddress
+};
 
 export default module;

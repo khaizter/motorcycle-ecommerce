@@ -27,7 +27,7 @@ const Account = () => {
   const [openHomeAddressModal, handleOpenHomeAddressModal, handleCloseHomeAddressModal] = useModal();
   const [openDeliveryAddressModal, handleOpenDeliveryAddressModal, handleCloseDeliveryAddressModal] = useModal();
 
-  useEffect(() => {
+  const getUserInfo = () => {
     if (!currentToken) return;
     AuthApi.getUserInfo(currentToken)
       .then(response => {
@@ -38,7 +38,11 @@ const Account = () => {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, [currentToken]);
 
   return (
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
@@ -122,10 +126,18 @@ const Account = () => {
           <ListItemText primary='Account Type' secondary={userInfo?.type} />
         </ListItem>
       </List>
-      <PasswordForm open={openPasswordModal} handleClose={handleClosePasswordModal} />
-      <ContactForm open={openContactModal} handleClose={handleCloseContactModal} />
-      <HomeAddressForm open={openHomeAddressModal} handleClose={handleCloseHomeAddressModal} />
-      <DeliveryAddressForm open={openDeliveryAddressModal} handleClose={handleCloseDeliveryAddressModal} />
+      <PasswordForm open={openPasswordModal} handleClose={handleClosePasswordModal} refreshInfo={getUserInfo} />
+      <ContactForm open={openContactModal} handleClose={handleCloseContactModal} refreshInfo={getUserInfo} />
+      <HomeAddressForm
+        open={openHomeAddressModal}
+        handleClose={handleCloseHomeAddressModal}
+        refreshInfo={getUserInfo}
+      />
+      <DeliveryAddressForm
+        open={openDeliveryAddressModal}
+        handleClose={handleCloseDeliveryAddressModal}
+        refreshInfo={getUserInfo}
+      />
     </Box>
   );
 };

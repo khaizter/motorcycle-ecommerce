@@ -9,15 +9,18 @@ import {
   TextField
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomFormControl from 'src/common/custom-form-control';
+import AuthApi from 'src/common/api/auth';
+import { AuthContext } from 'src/context/auth-context';
 
 interface PropType {
   open: boolean;
   handleClose: () => void;
+  refreshInfo: () => void;
 }
 
 const validationSchema = Yup.object({
@@ -25,14 +28,30 @@ const validationSchema = Yup.object({
 });
 
 const ContactForm: React.FC<PropType> = props => {
+  const { currentToken } = useContext(AuthContext);
+
   const formik = useFormik({
     initialValues: {
       contactNumber: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      setSubmitting(false);
-      console.log(values);
+      if (!currentToken) {
+        console.log('No token');
+        setSubmitting(false);
+        return;
+      }
+      AuthApi.updateContactNumber(currentToken, values.contactNumber)
+        .then(response => {
+          setSubmitting(false);
+          console.log(response);
+          props.refreshInfo();
+          props.handleClose();
+        })
+        .catch(err => {
+          setSubmitting(false);
+          console.log(err);
+        });
     }
   });
   return (

@@ -9,6 +9,7 @@ interface propType {
   name: string;
   label: string;
   type: string;
+  multiline?: boolean;
 }
 
 const CustomFormControl: React.FC<propType> = props => {
@@ -24,6 +25,7 @@ const CustomFormControl: React.FC<propType> = props => {
         onChange={props.formikProps.handleChange}
         onBlur={props.formikProps.handleBlur}
         error={props.formikProps.touched[props.name] && Boolean(props.formikProps.errors[props.name])}
+        multiline={props.multiline}
       />
       {props.formikProps.touched[props.name] && Boolean(props.formikProps.errors[props.name]) && (
         <FormHelperText id={props.name + '-helper-text'} error>
