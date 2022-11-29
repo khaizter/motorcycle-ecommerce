@@ -1,12 +1,14 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, List, ListItem, Stack, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from 'src/context/auth-context';
 import OrderApi from 'src/common/api/order';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import { OrderType } from 'src/pages/order/model';
+import OrderAccordion from 'src/pages/order/order-accordion';
 
 const Order = () => {
   const { currentToken, currentUserType } = useContext(AuthContext);
-  const [orders, setOrders] = useState<Array<any>>([]);
+  const [orders, setOrders] = useState<Array<OrderType>>([]);
   console.log(orders);
   useEffect(() => {
     if (!currentToken || !currentUserType) return;
@@ -32,30 +34,11 @@ const Order = () => {
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
       <Typography variant='h3'>My Order</Typography>
 
-      {orders.map(order => {
-        return (
-          <Accordion key={order.id}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Stack direction='row' justifyContent='space-between' sx={{ width: '100%', px: '8px' }}>
-                <Typography>ID: {order.id}</Typography>
-                <Typography>Status: {order.status}</Typography>
-              </Stack>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack spacing={2} sx={{ px: '8px' }}>
-                <Typography>Owner : {order.owner}</Typography>
-                <Typography>Delivery Address : {order.deliveryAddress}</Typography>
-                <Typography>Purchased Date : {order.purchasedDate}</Typography>
-              </Stack>
-              <List>
-                {order.items.map((item: any) => {
-                  return <ListItem divider>{item.name}</ListItem>;
-                })}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        );
-      })}
+      <Box component='section'>
+        {orders.map((order, index) => {
+          return <OrderAccordion key={index} order={order} />;
+        })}
+      </Box>
     </Box>
   );
 };
