@@ -1,54 +1,70 @@
-import Box from '@mui/material/Box';
-import Fade from '@mui/material/Fade';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import React from 'react';
-import Backdrop from '@mui/material/Backdrop';
+import React, { useState, useContext } from 'react';
 import Button from '@mui/material/Button';
+import { LoadingButton } from '@mui/lab';
+import { Dialog, DialogTitle, DialogContent, Stack, DialogActions } from '@mui/material';
+import OrderApi from 'src/common/api/order';
+import { AuthContext } from 'src/context/auth-context';
+import { CartContext } from 'src/context/cart-context';
 
 interface propType {
   open: boolean;
   handleClose: () => void;
-  confirmHandler: () => void;
+  deliveryAddress: string;
 }
 
 const CheckoutModal: React.FC<propType> = props => {
+  const { currentToken } = useContext(AuthContext);
+  const { cartItems, emptyCart } = useContext(CartContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const confirmHandler = async () => {
+    console.log('place holder');
+    setIsSubmitting(true);
+
+    if (!currentToken) {
+      console.log('not auth');
+      return;
+    }
+
+    if (!props.deliveryAddress) {
+      console.log('invalid address');
+    }
+
+    const transformedItems = cartItems.map(item => {
+      return {
+        productId: item.id,
+        imageKey: item.imageKey,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      };
+    });
+
+    OrderApi.postOrder(currentToken, transformedItems, props.deliveryAddress)
+      .then(response => {
+        console.log(response);
+        emptyCart();
+        setIsSubmitting(false);
+        props.handleClose();
+      })
+      .catch(err => {
+        console.log(err);
+        setIsSubmitting(false);
+      });
+  };
+
   return (
-    <Modal
-      open={props.open}
-      onClose={props.handleClose}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500
-      }}
-    >
-      <Fade in={props.open}>
-        <Box
-          sx={{
-            position: 'absolute' as 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4
-          }}
-        >
-          <Typography id='transition-modal-title' variant='h6' component='h2'>
-            Are you sure you want to checkout?
-          </Typography>
-          <Button variant='outlined' onClick={props.handleClose}>
-            Cancel
-          </Button>
-          <Button variant='contained' onClick={props.confirmHandler}>
-            Place Order
-          </Button>
-        </Box>
-      </Fade>
-    </Modal>
+    <Dialog open={props.open} onClose={props.handleClose}>
+      <DialogTitle>Are you sure you want to checkout?</DialogTitle>
+      <DialogActions>
+        <Button variant='outlined' onClick={props.handleClose}>
+          Cancel
+        </Button>
+        <LoadingButton variant='contained' type='submit' loading={isSubmitting} onClick={confirmHandler}>
+          Update
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
   );
 };
 

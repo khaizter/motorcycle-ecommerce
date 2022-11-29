@@ -2,60 +2,40 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import { AuthContext } from 'src/context/auth-context';
 import { CartContext } from 'src/context/cart-context';
 import CartList from 'src/pages/cart/cart-list';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import CheckoutModal from 'src/pages/cart/checkout-modal';
-import OrderApi from 'src/common/api/order';
 import useModal from 'src/hooks/useModal';
-import AddressModal from 'src/pages/cart/address-modal';
+import DeliveryAddressForm from 'src/pages/account/delivery-address-form';
+import AuthApi from 'src/common/api/auth';
 
 const Cart = () => {
-  const { cartItems, emptyCart } = useContext(CartContext);
+  const { cartItems } = useContext(CartContext);
   const { currentToken } = useContext(AuthContext);
   const [deliveryAddress, setDeliveryAddress] = useState<string>('');
   const [openAddress, handleOpenAddress, handleCloseAddress] = useModal(false);
   const [openCheckout, handleOpenCheckout, handleCloseCheckout] = useModal(false);
 
-  const updateAddressHandler = (address: string) => {
-    setDeliveryAddress(address);
-    handleCloseAddress();
-  };
-
-  const placeOrderHandler = () => {
-    console.log('place holder');
-    if (!currentToken) {
-      console.log('not auth');
-      return;
-    }
-
-    if (!deliveryAddress) {
-      console.log('invalid address');
-    }
-
-    const transformedItems = cartItems.map(item => {
-      return {
-        productId: item.id,
-        imageKey: item.imageKey,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price
-      };
-    });
-    OrderApi.postOrder(currentToken, transformedItems, deliveryAddress)
+  const getUserInfo = () => {
+    if (!currentToken) return;
+    AuthApi.getUserInfo(currentToken)
       .then(response => {
-        console.log(response);
-        emptyCart();
-        handleCloseCheckout();
+        if (response?.data?.user) {
+          setDeliveryAddress(response.data.user.deliveryAddress);
+        }
       })
       .catch(err => {
         console.log(err);
-        handleCloseCheckout();
       });
   };
+
+  useEffect(() => {
+    getUserInfo();
+  }, [currentToken]);
 
   return (
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
@@ -73,8 +53,8 @@ const Cart = () => {
       <Button variant='contained' onClick={handleOpenCheckout}>
         Checkout
       </Button>
-      <AddressModal open={openAddress} handleClose={handleCloseAddress} confirmHandler={updateAddressHandler} />
-      <CheckoutModal open={openCheckout} handleClose={handleCloseCheckout} confirmHandler={placeOrderHandler} />
+      <DeliveryAddressForm open={openAddress} handleClose={handleCloseAddress} refreshInfo={getUserInfo} />
+      <CheckoutModal open={openCheckout} handleClose={handleCloseCheckout} deliveryAddress={deliveryAddress} />
     </Box>
   );
 };
