@@ -38,8 +38,8 @@ const Services = () => {
       >
         {CONTENT.map((item, index) => {
           return (
-            <Grid item xs={4}>
-              <Card key={index} sx={{ p: '1.5rem', height: '100%' }}>
+            <Grid item xs={4} key={index}>
+              <Card sx={{ p: '1.5rem', height: '100%' }}>
                 <CardMedia
                   component='img'
                   src={item.icon}
