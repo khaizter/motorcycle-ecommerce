@@ -29,16 +29,6 @@ const navigations: Array<NavigationItem> = [
     label: 'Sign Up',
     path: '/signup',
     case: 'non-authenticated'
-  },
-  {
-    label: 'Cart',
-    path: '/cart',
-    case: 'authenticated'
-  },
-  {
-    label: 'Order',
-    path: '/order',
-    case: 'authenticated'
   }
 ];
 
