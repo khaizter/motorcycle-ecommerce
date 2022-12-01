@@ -9,7 +9,13 @@ import OrderAccordion from 'src/pages/order/order-accordion';
 const Order = () => {
   const { currentToken, currentUserType } = useContext(AuthContext);
   const [orders, setOrders] = useState<Array<OrderType>>([]);
-  console.log(orders);
+
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+
+  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
   useEffect(() => {
     if (!currentToken || !currentUserType) return;
     OrderApi.getOrders(currentToken, currentUserType)
@@ -36,7 +42,9 @@ const Order = () => {
 
       <Box component='section'>
         {orders.map((order, index) => {
-          return <OrderAccordion key={index} order={order} />;
+          return (
+            <OrderAccordion key={index} order={order} expanded={expanded === order.id} handleChange={handleChange} />
+          );
         })}
       </Box>
     </Box>
