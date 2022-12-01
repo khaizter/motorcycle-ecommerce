@@ -16,7 +16,7 @@ const Order = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  useEffect(() => {
+  const loadOrders = async () => {
     if (!currentToken || !currentUserType) return;
     OrderApi.getOrders(currentToken, currentUserType)
       .then(res => {
@@ -35,7 +35,12 @@ const Order = () => {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    loadOrders();
   }, [currentToken, currentUserType]);
+
   return (
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
       <Typography variant='h3'>My Order</Typography>
@@ -43,7 +48,13 @@ const Order = () => {
       <Box component='section'>
         {orders.map((order, index) => {
           return (
-            <OrderAccordion key={index} order={order} expanded={expanded === order.id} handleChange={handleChange} />
+            <OrderAccordion
+              key={index}
+              order={order}
+              expanded={expanded === order.id}
+              handleChange={handleChange}
+              refreshOrders={loadOrders}
+            />
           );
         })}
       </Box>

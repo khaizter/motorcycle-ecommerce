@@ -7,9 +7,10 @@ import {
   List,
   ListItem,
   Button,
-  Box
+  Box,
+  CircularProgress
 } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { OrderType, ItemType } from 'src/pages/order/model';
@@ -20,31 +21,77 @@ import { AuthContext } from 'src/context/auth-context';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import OrderApi from 'src/common/api/order';
 
 interface PropType {
   order: OrderType;
   expanded: boolean;
   handleChange: (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
+  refreshOrders: () => void;
 }
 
 const OrderAccordion: React.FC<PropType> = props => {
-  const { currentUserType } = useContext(AuthContext);
+  const { currentUserType, currentToken } = useContext(AuthContext);
   const { order } = props;
   const [openCancelConfirmation, handleOpenCancelConfirmation, handleCloseCancelConfirmation] = useModal(false);
   const [openDeleteConfirmation, handleOpenDeleteConfirmation, handleCloseDeleteConfirmation] = useModal(false);
   const [openCompleteConfirmation, handleOpenCompleteConfirmation, handleCloseCompleteConfirmation] = useModal(false);
+  const [loadingStatus, setLoadingStatus] = useState(false);
   const subTotal = order?.items?.reduce((value, item) => value + item.quantity * item.price, 0) || 0;
 
   const cancelOrderHandler = () => {
-    console.log('cancel order');
+    if (!currentToken) {
+      console.log('no token');
+      return;
+    }
+    setLoadingStatus(true);
+    OrderApi.cancelOrder(currentToken, order.id)
+      .then(response => {
+        console.log(response);
+        props.refreshOrders();
+        setLoadingStatus(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingStatus(false);
+      });
   };
 
   const deleteOrderHandler = () => {
-    console.log('delete order');
+    if (!currentToken) {
+      console.log('no token');
+      return;
+    }
+    setLoadingStatus(true);
+    OrderApi.deleteOrder(currentToken, order.id)
+      .then(response => {
+        console.log(response);
+        props.refreshOrders();
+        setLoadingStatus(false);
+      })
+      .catch(err => {
+        console.log(err);
+        props.refreshOrders();
+        setLoadingStatus(false);
+      });
   };
 
   const completeOrderHandler = () => {
-    console.log('complete order');
+    if (!currentToken) {
+      console.log('no token');
+      return;
+    }
+    setLoadingStatus(true);
+    OrderApi.completeOrder(currentToken, order.id)
+      .then(response => {
+        console.log(response);
+        props.refreshOrders();
+        setLoadingStatus(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingStatus(false);
+      });
   };
 
   return (
@@ -52,7 +99,7 @@ const OrderAccordion: React.FC<PropType> = props => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Stack direction='row' justifyContent='space-between' sx={{ width: '100%', px: '8px' }}>
           <Typography>ID: {order.id}</Typography>
-          <Typography>Status: {order.status}</Typography>
+          {loadingStatus ? <CircularProgress /> : <Typography>Status: {order.status}</Typography>}
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
@@ -74,6 +121,7 @@ const OrderAccordion: React.FC<PropType> = props => {
               color='error'
               onClick={handleOpenCancelConfirmation}
               startIcon={<CancelOutlinedIcon />}
+              disabled={loadingStatus}
             >
               Cancel
             </Button>
@@ -92,6 +140,7 @@ const OrderAccordion: React.FC<PropType> = props => {
               color='error'
               onClick={handleOpenDeleteConfirmation}
               startIcon={<DeleteOutlineOutlinedIcon />}
+              disabled={loadingStatus}
             >
               Delete
             </Button>
@@ -108,6 +157,7 @@ const OrderAccordion: React.FC<PropType> = props => {
                   color='success'
                   onClick={handleOpenCompleteConfirmation}
                   startIcon={<CheckCircleOutlineOutlinedIcon />}
+                  disabled={loadingStatus}
                   sx={{ ml: '0.5rem' }}
                 >
                   Complete
