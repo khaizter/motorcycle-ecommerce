@@ -26,7 +26,7 @@ import { CartContext } from 'src/context/cart-context';
 // Types
 import { NavigationItem } from 'src/common/navigation/model';
 import { AuthContext } from 'src/context/auth-context';
-import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
+import { Badge, Box, SpeedDial, SpeedDialAction } from '@mui/material';
 
 interface propType {
   menuHandler: () => void;
@@ -35,7 +35,7 @@ interface propType {
 
 const NavigationBar: React.FC<propType> = props => {
   const navigate = useNavigate();
-  const { showCart } = useContext(CartContext);
+  const { showCart, cartItems } = useContext(CartContext);
   const { isLoggedIn, logout, currentUserName } = useContext(AuthContext);
 
   const [open, setOpen] = React.useState(false);
@@ -75,7 +75,9 @@ const NavigationBar: React.FC<propType> = props => {
         </Stack>
 
         <IconButton size='large' aria-label='cart' onClick={openCartHandler}>
-          <ShoppingCartOutlinedIcon />
+          <Badge badgeContent={cartItems?.length || 0} color='secondary'>
+            <ShoppingCartOutlinedIcon sx={{ color: '#FFFFFF' }} />
+          </Badge>
         </IconButton>
         {isLoggedIn && (
           <Box sx={{ width: '40px', height: '40px' }}>
