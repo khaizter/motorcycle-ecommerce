@@ -83,7 +83,7 @@ const NavigationBar: React.FC<propType> = props => {
         )}
 
         {isLoggedIn && (
-          <Box sx={{ width: '40px', height: '40px', ml: '0.5rem' }}>
+          <Box sx={{ width: '40px', height: '40px', mx: '0.5rem' }}>
             <SpeedDial
               ariaLabel='account menu'
               icon={<PersonIcon />}
