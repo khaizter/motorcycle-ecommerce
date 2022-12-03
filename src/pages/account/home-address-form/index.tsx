@@ -61,7 +61,7 @@ const HomeAddressForm: React.FC<PropType> = props => {
       <DialogTitle>Update Home Address</DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
-          <Stack spacing={2} sx={{ minWidth: '260px' }}>
+          <Stack spacing={2} sx={{ minWidth: { xs: '0', sm: '260px' } }}>
             <CustomFormControl formikProps={formik} name='homeAddress' label='Home Address' type='text' multiline />
           </Stack>
         </DialogContent>

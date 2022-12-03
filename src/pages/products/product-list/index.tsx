@@ -18,7 +18,7 @@ interface propType {
 const ProductList: React.FC<propType> = props => {
   const { currentUserType } = useContext(AuthContext);
   return (
-    <Grid container spacing={2} alignItems='stretch'>
+    <Grid container columnSpacing={2} rowSpacing={{ xs: 4, md: 2 }} alignItems='stretch'>
       {props.products.map(product => {
         return <ProductItem key={product.id} product={product} />;
       })}

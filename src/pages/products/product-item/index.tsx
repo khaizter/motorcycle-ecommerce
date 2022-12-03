@@ -52,8 +52,8 @@ const ProductItem: React.FC<propType> = props => {
   };
 
   return (
-    <Grid item xs={3}>
-      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Grid item xs={12} sm={3}>
+      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', maxWidth: '270px', mx: 'auto' }}>
         <CardActionArea
           sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
           onClick={viewProductHandler}

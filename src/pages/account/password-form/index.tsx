@@ -79,7 +79,7 @@ const PasswordForm: React.FC<PropType> = props => {
       <DialogTitle>Change Password</DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
-          <Stack spacing={2} sx={{ minWidth: '260px' }}>
+          <Stack spacing={2} sx={{ minWidth: { xs: '0', sm: '260px' } }}>
             <CustomFormControl formikProps={formik} name='oldPassword' label='Old Password' type='password' />
             <CustomFormControl formikProps={formik} name='newPassword' label='New Password' type='password' />
             <CustomFormControl formikProps={formik} name='confirmPassword' label='Confirm Password' type='password' />

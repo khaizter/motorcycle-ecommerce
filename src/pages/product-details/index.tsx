@@ -61,11 +61,11 @@ const ProductDetail = () => {
   };
 
   return (
-    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '4rem' }}>
+    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '4rem', px: { xs: '2rem' } }}>
       {product && (
         <>
           <Grid container spacing={2}>
-            <Grid item xs={6} sx={{ px: '1rem' }}>
+            <Grid item xs={12} sm={6} sx={{ px: '1rem' }}>
               <Avatar
                 src={noImage ? 'assets/images/no-image-placeholder.png' : `${product?.imageUrl}`}
                 onError={errorImageHandler}
@@ -74,7 +74,7 @@ const ProductDetail = () => {
                 sx={{ width: '100%', height: 'auto' }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Typography
                 variant='h2'
                 sx={{ fontWeight: '400', mt: '1rem', color: 'var(--primary-color)' }}

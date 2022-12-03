@@ -103,18 +103,28 @@ const OrderAccordion: React.FC<PropType> = props => {
         <Stack direction='row' justifyContent='space-between' sx={{ width: '100%', px: '8px' }}>
           <Typography sx={{ fontWeight: '700' }}>Order ID: {order.id}</Typography>
           {loadingStatus ? (
-            <CircularProgress />
+            <CircularProgress sx={{ display: { xs: 'none', sm: 'block' } }} />
           ) : (
-            <Typography sx={{ fontWeight: '700' }}>Status: {order.status}</Typography>
+            <Typography sx={{ fontWeight: '700', display: { xs: 'none', sm: 'block' } }}>
+              Status: {order.status}
+            </Typography>
           )}
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
         <Stack spacing={2} sx={{ px: '8px' }}>
-          <Stack direction='row' justifyContent='space-between'>
+          {loadingStatus ? (
+            <CircularProgress sx={{ display: { xs: 'block', sm: 'none' } }} />
+          ) : (
+            <Typography sx={{ fontWeight: '700', display: { xs: 'block', sm: 'none' } }}>
+              Status: {order.status}
+            </Typography>
+          )}
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between'>
             <Typography>Recipient : {order.owner?.name}</Typography>
             <Typography>Contact Number : {order.owner?.contactNumber}</Typography>
           </Stack>
+
           <Typography>Delivery Address : {order.deliveryAddress}</Typography>
           <Typography>Purchased Date : {order.purchasedDate}</Typography>
         </Stack>

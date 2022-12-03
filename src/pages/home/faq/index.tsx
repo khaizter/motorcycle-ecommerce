@@ -11,7 +11,7 @@ const Faq = () => {
       </Typography>
       <Stack
         sx={{
-          width: { xs: '95%', sm: '90%', md: '100%', lg: '100%', xl: '100%' },
+          width: { xs: '90%', sm: '90%', md: '100%', lg: '100%', xl: '100%' },
           maxWidth: 'var(--horizontal-wrapper)',
           mx: 'auto',
           mt: '3.75rem'

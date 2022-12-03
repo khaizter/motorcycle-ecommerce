@@ -44,7 +44,10 @@ const Order = () => {
   }, [currentToken, currentUserType]);
 
   return (
-    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '2rem' }}>
+    <Box
+      component='main'
+      sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '2rem', px: { xs: '1rem', md: '0' } }}
+    >
       <Typography variant='h3'>Orders</Typography>
       <Divider sx={{ my: '2rem' }} />
       <Box component='section'>

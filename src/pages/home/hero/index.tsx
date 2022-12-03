@@ -12,6 +12,7 @@ const Hero = () => {
         background: "linear-gradient(-45deg, #0000009b, transparent), url('/assets/images/hero-bg.jpg')",
         minHeight: '650px',
         backgroundSize: 'cover',
+        backgroundPosition: { xs: '65% 75%', sm: '50% 75%', md: 'initial' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

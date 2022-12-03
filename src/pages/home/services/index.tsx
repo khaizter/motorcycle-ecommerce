@@ -27,19 +27,22 @@ const Services = () => {
       </Typography>
       <Grid
         container
-        spacing={4}
+        // columnSpacing={{ sm: 2 }}
+        rowSpacing={4}
+        justifyContent={{ xs: 'center', md: 'space-between' }}
+        alignItems='stretch'
         sx={{
-          width: { xs: '95%', sm: '90%', md: '100%', lg: '100%', xl: '100%' },
           maxWidth: 'var(--horizontal-wrapper)',
-          mx: 'auto',
           mt: '.75rem',
-          alignItems: 'stretch'
+          // width: { xs: '90%', sm: '90%', md: '100%', lg: '100%', xl: '100%' },
+          mx: 'auto',
+          width: '90%'
         }}
       >
         {CONTENT.map((item, index) => {
           return (
-            <Grid item xs={4} key={index}>
-              <Card sx={{ p: '1.5rem', height: '100%' }}>
+            <Grid item xs={10} md={3.5} key={index}>
+              <Card sx={{ p: '1.5rem', height: '100%', maxWidth: '320px', mx: 'auto' }}>
                 <CardMedia
                   component='img'
                   src={item.icon}
