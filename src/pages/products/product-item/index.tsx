@@ -23,7 +23,7 @@ interface propType {
 
 const ProductItem: React.FC<propType> = props => {
   const { addToCart } = useContext(CartContext);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, currentUserType } = useContext(AuthContext);
   const [noImage, setNoImage] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -72,9 +72,11 @@ const ProductItem: React.FC<propType> = props => {
         </CardActionArea>
         <CardActions>
           <Typography variant='caption'>{props.product.price}</Typography>
-          <IconButton color='primary' onClick={addToCartHandler} sx={{ marginLeft: 'auto' }}>
-            <AddIcon />
-          </IconButton>
+          {currentUserType !== 'admin' && (
+            <IconButton color='primary' onClick={addToCartHandler} sx={{ marginLeft: 'auto' }}>
+              <AddIcon />
+            </IconButton>
+          )}
         </CardActions>
       </Card>
     </Grid>

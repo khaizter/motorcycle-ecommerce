@@ -20,7 +20,7 @@ import HomeAddressForm from 'src/pages/account/home-address-form';
 import DeliveryAddressForm from 'src/pages/account/delivery-address-form';
 
 const Account = () => {
-  const { currentToken } = useContext(AuthContext);
+  const { currentToken, currentUserType } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState<UserInfoType>();
   const [openPasswordModal, handleOpenPasswordModal, handleClosePasswordModal] = useModal();
   const [openContactModal, handleOpenContactModal, handleCloseContactModal] = useModal();
@@ -105,19 +105,21 @@ const Account = () => {
           <ListItemText primary='Home Address' secondary={userInfo?.homeAddress} />
         </ListItem>
 
-        <ListItem
-          disablePadding
-          secondaryAction={
-            <IconButton edge='end' aria-label='edit' onClick={handleOpenDeliveryAddressModal}>
-              <EditIcon />
-            </IconButton>
-          }
-        >
-          <ListItemIcon>
-            <LocationOnIcon color='action' />
-          </ListItemIcon>
-          <ListItemText primary='Delivery Address' secondary={userInfo?.deliveryAddress} />
-        </ListItem>
+        {currentUserType !== 'admin' && (
+          <ListItem
+            disablePadding
+            secondaryAction={
+              <IconButton edge='end' aria-label='edit' onClick={handleOpenDeliveryAddressModal}>
+                <EditIcon />
+              </IconButton>
+            }
+          >
+            <ListItemIcon>
+              <LocationOnIcon color='action' />
+            </ListItemIcon>
+            <ListItemText primary='Delivery Address' secondary={userInfo?.deliveryAddress} />
+          </ListItem>
+        )}
 
         <ListItem disablePadding>
           <ListItemIcon>

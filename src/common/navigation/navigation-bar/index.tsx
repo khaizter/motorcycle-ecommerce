@@ -36,7 +36,7 @@ interface propType {
 const NavigationBar: React.FC<propType> = props => {
   const navigate = useNavigate();
   const { showCart, cartItems } = useContext(CartContext);
-  const { isLoggedIn, logout, currentUserName } = useContext(AuthContext);
+  const { isLoggedIn, logout, currentUserType } = useContext(AuthContext);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -74,13 +74,16 @@ const NavigationBar: React.FC<propType> = props => {
           })}
         </Stack>
 
-        <IconButton size='large' aria-label='cart' onClick={openCartHandler}>
-          <Badge badgeContent={cartItems?.length || 0} color='secondary'>
-            <ShoppingCartOutlinedIcon sx={{ color: '#FFFFFF' }} />
-          </Badge>
-        </IconButton>
+        {currentUserType !== 'admin' && (
+          <IconButton size='large' aria-label='cart' onClick={openCartHandler}>
+            <Badge badgeContent={cartItems?.length || 0} color='secondary'>
+              <ShoppingCartOutlinedIcon sx={{ color: '#FFFFFF' }} />
+            </Badge>
+          </IconButton>
+        )}
+
         {isLoggedIn && (
-          <Box sx={{ width: '40px', height: '40px' }}>
+          <Box sx={{ width: '40px', height: '40px', ml: '0.5rem' }}>
             <SpeedDial
               ariaLabel='account menu'
               icon={<PersonIcon />}
@@ -89,14 +92,17 @@ const NavigationBar: React.FC<propType> = props => {
               onOpen={handleOpen}
               open={open}
             >
-              <SpeedDialAction
-                icon={<ShoppingCartIcon />}
-                tooltipTitle='View Cart'
-                onClick={() => {
-                  handleClose();
-                  navigate('/cart');
-                }}
-              />
+              {currentUserType !== 'admin' && (
+                <SpeedDialAction
+                  icon={<ShoppingCartIcon />}
+                  tooltipTitle='View Cart'
+                  onClick={() => {
+                    handleClose();
+                    navigate('/cart');
+                  }}
+                />
+              )}
+
               <SpeedDialAction
                 icon={<ShoppingBagIcon />}
                 tooltipTitle='View Orders'

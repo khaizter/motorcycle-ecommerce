@@ -39,7 +39,7 @@ const Cart = () => {
 
   return (
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
-      <Typography variant='h3'>My Cart</Typography>
+      <Typography variant='h3'>Cart</Typography>
       <CartList cartItems={cartItems} />
       <Stack direction='row' alignItems='center'>
         <PlaceOutlinedIcon />

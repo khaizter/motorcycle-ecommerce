@@ -43,7 +43,7 @@ const Order = () => {
 
   return (
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
-      <Typography variant='h3'>My Order</Typography>
+      <Typography variant='h3'>Orders</Typography>
 
       <Box component='section'>
         {orders.map((order, index) => {

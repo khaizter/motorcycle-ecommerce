@@ -85,9 +85,12 @@ const ProductDetail = () => {
                 {product?.price}
               </Typography>
               <Stack direction='row' spacing={2}>
-                <Button variant='contained' onClick={addToCartHandler}>
-                  Add to cart
-                </Button>
+                {currentUserType !== 'admin' && (
+                  <Button variant='contained' onClick={addToCartHandler}>
+                    Add to cart
+                  </Button>
+                )}
+
                 {currentUserType === 'admin' && (
                   <Button variant='contained' onClick={deleteProductHandler}>
                     Delete Product
