@@ -10,9 +10,12 @@ import { toCurrency } from 'src/utils/util';
 
 import CartApi from 'src/common/api/cart';
 
+import { useSnackbar } from 'notistack';
+
 const CartDrawer: React.FC = () => {
   const { isOpen, hideCart, cartItems, setCart } = useContext(CartContext);
   const { currentToken } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
   const totalPrice = cartItems.reduce((previousValue, item) => previousValue + item.price * item.quantity, 0);
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const CartDrawer: React.FC = () => {
         setCart(transformedItems);
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   }, [currentToken, isOpen]);
 

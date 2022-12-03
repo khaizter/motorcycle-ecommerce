@@ -9,8 +9,11 @@ import { Product } from 'src/pages/products/models';
 
 import ProductApi from 'src/common/api/product';
 
+import { useSnackbar } from 'notistack';
+
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     ProductApi.getProducts()
@@ -28,7 +31,7 @@ const Products: React.FC = () => {
         setProducts(transformedProducts);
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   }, []);
 

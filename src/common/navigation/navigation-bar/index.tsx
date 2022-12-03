@@ -124,6 +124,7 @@ const NavigationBar: React.FC<propType> = props => {
                 tooltipTitle='Log Out'
                 onClick={() => {
                   handleClose();
+                  navigate('/login');
                   logout();
                 }}
               />

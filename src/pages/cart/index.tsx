@@ -14,12 +14,15 @@ import DeliveryAddressForm from 'src/pages/account/delivery-address-form';
 import AuthApi from 'src/common/api/auth';
 import { toCurrency } from 'src/utils/util';
 
+import { useSnackbar } from 'notistack';
+
 const Cart = () => {
   const { cartItems } = useContext(CartContext);
   const { currentToken } = useContext(AuthContext);
   const [deliveryAddress, setDeliveryAddress] = useState<string>('');
   const [openAddress, handleOpenAddress, handleCloseAddress] = useModal(false);
   const [openCheckout, handleOpenCheckout, handleCloseCheckout] = useModal(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const subTotal = cartItems?.reduce((value, item) => value + item.quantity * item.price, 0) || 0;
 
@@ -32,7 +35,7 @@ const Cart = () => {
         }
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 

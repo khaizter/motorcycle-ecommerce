@@ -3,6 +3,8 @@ import React, { useState, createContext, useEffect } from 'react';
 import AuthApi from 'src/common/api/auth';
 import { contextType } from 'src/context/auth-context/model';
 
+import { useSnackbar } from 'notistack';
+
 const defaultProvider: contextType = {
   isLoggedIn: false,
   currentUserId: null,
@@ -25,6 +27,7 @@ const AuthProvider: React.FC<propType> = props => {
   const [currentToken, setCurrentToken] = useState<string | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string | null>(null);
   const [currentUserType, setCurrentUserType] = useState<string | null>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   // Check if user is currently logged in
   useEffect(() => {
@@ -43,7 +46,7 @@ const AuthProvider: React.FC<propType> = props => {
           setIsLoggedIn(true);
         })
         .catch(err => {
-          console.log(err);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
           if (err?.response?.data?.message === 'jwt expired') {
             setCurrentUserId(null);
             localStorage.removeItem('userId');

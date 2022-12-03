@@ -18,6 +18,8 @@ import AuthApi from 'src/common/api/auth';
 import { AuthContext } from 'src/context/auth-context';
 import { useNavigate } from 'react-router-dom';
 
+import { useSnackbar } from 'notistack';
+
 interface PropType {
   open: boolean;
   handleClose: () => void;
@@ -41,6 +43,7 @@ const validationSchema = Yup.object({
 const PasswordForm: React.FC<PropType> = props => {
   const { currentToken, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: {
@@ -51,21 +54,22 @@ const PasswordForm: React.FC<PropType> = props => {
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       if (!currentToken) {
-        console.log('No token');
+        enqueueSnackbar('No token found', { variant: 'error' });
         setSubmitting(false);
         return;
       }
       AuthApi.updatePassword(currentToken, values.oldPassword, values.newPassword)
         .then(response => {
           setSubmitting(false);
-          console.log(response);
+          enqueueSnackbar(response.data.message || 'Password updated', { variant: 'success' });
           logout();
+          navigate('/login');
           props.refreshInfo();
           props.handleClose();
         })
         .catch(err => {
           setSubmitting(false);
-          console.log(err);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
         });
     }
   });

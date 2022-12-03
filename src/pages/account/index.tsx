@@ -19,6 +19,8 @@ import ContactForm from 'src/pages/account/contact-form';
 import HomeAddressForm from 'src/pages/account/home-address-form';
 import DeliveryAddressForm from 'src/pages/account/delivery-address-form';
 
+import { useSnackbar } from 'notistack';
+
 const Account = () => {
   const { currentToken, currentUserType } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState<UserInfoType>();
@@ -26,6 +28,8 @@ const Account = () => {
   const [openContactModal, handleOpenContactModal, handleCloseContactModal] = useModal();
   const [openHomeAddressModal, handleOpenHomeAddressModal, handleCloseHomeAddressModal] = useModal();
   const [openDeliveryAddressModal, handleOpenDeliveryAddressModal, handleCloseDeliveryAddressModal] = useModal();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const getUserInfo = () => {
     if (!currentToken) return;
@@ -36,7 +40,7 @@ const Account = () => {
         }
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 

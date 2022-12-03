@@ -24,6 +24,8 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import OrderApi from 'src/common/api/order';
 import { toCurrency } from 'src/utils/util';
 
+import { useSnackbar } from 'notistack';
+
 interface PropType {
   order: OrderType;
   expanded: boolean;
@@ -38,60 +40,60 @@ const OrderAccordion: React.FC<PropType> = props => {
   const [openDeleteConfirmation, handleOpenDeleteConfirmation, handleCloseDeleteConfirmation] = useModal(false);
   const [openCompleteConfirmation, handleOpenCompleteConfirmation, handleCloseCompleteConfirmation] = useModal(false);
   const [loadingStatus, setLoadingStatus] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const subTotal = order?.items?.reduce((value, item) => value + item.quantity * item.price, 0) || 0;
 
   const cancelOrderHandler = () => {
     if (!currentToken) {
-      console.log('no token');
+      enqueueSnackbar('Invalid token', { variant: 'error' });
       return;
     }
     setLoadingStatus(true);
     OrderApi.cancelOrder(currentToken, order.id)
       .then(response => {
-        console.log(response);
         props.refreshOrders();
         setLoadingStatus(false);
+        enqueueSnackbar(response.data.message || 'Order canceled', { variant: 'success' });
       })
       .catch(err => {
-        console.log(err);
         setLoadingStatus(false);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 
   const deleteOrderHandler = () => {
     if (!currentToken) {
-      console.log('no token');
+      enqueueSnackbar('Invalid token', { variant: 'error' });
       return;
     }
     setLoadingStatus(true);
     OrderApi.deleteOrder(currentToken, order.id)
       .then(response => {
-        console.log(response);
         props.refreshOrders();
         setLoadingStatus(false);
+        enqueueSnackbar(response.data.message || 'Order deleted', { variant: 'success' });
       })
       .catch(err => {
-        console.log(err);
-        props.refreshOrders();
         setLoadingStatus(false);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 
   const completeOrderHandler = () => {
     if (!currentToken) {
-      console.log('no token');
+      enqueueSnackbar('Invalid token', { variant: 'error' });
       return;
     }
     setLoadingStatus(true);
     OrderApi.completeOrder(currentToken, order.id)
       .then(response => {
-        console.log(response);
         props.refreshOrders();
         setLoadingStatus(false);
+        enqueueSnackbar(response.data.message || 'Order completed', { variant: 'success' });
       })
       .catch(err => {
-        console.log(err);
         setLoadingStatus(false);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 

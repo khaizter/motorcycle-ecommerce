@@ -29,7 +29,6 @@ const addProduct = async (token: string, name: string, description: string, pric
 };
 
 const deleteProduct = async (token: string, productId: string) => {
-  console.log('delete ', productId);
   const endpoint = `/product/${productId}`;
   const response = await axios.delete(process.env.REACT_APP_BACKEND_URI + endpoint, {
     headers: {

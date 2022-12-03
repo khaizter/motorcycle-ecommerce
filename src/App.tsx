@@ -11,18 +11,21 @@ import CartDrawer from 'src/common/cart-drawer';
 // Context Providers
 import { CartProvider } from 'src/context/cart-context';
 import { AuthProvider } from 'src/context/auth-context';
+import SnackBar from 'src/setup/snack-bar';
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <BrowserRouter>
-          <Navigation />
-          <RoutesManager />
-        </BrowserRouter>
-        <CartDrawer />
-      </CartProvider>
-    </AuthProvider>
+    <SnackBar>
+      <AuthProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <Navigation />
+            <RoutesManager />
+          </BrowserRouter>
+          <CartDrawer />
+        </CartProvider>
+      </AuthProvider>
+    </SnackBar>
   );
 };
 

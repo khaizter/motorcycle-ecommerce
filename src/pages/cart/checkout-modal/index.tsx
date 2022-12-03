@@ -6,6 +6,9 @@ import OrderApi from 'src/common/api/order';
 import { AuthContext } from 'src/context/auth-context';
 import { CartContext } from 'src/context/cart-context';
 
+import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
+
 interface propType {
   open: boolean;
   handleClose: () => void;
@@ -16,18 +19,19 @@ const CheckoutModal: React.FC<propType> = props => {
   const { currentToken } = useContext(AuthContext);
   const { cartItems, emptyCart } = useContext(CartContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const confirmHandler = async () => {
-    console.log('place holder');
     setIsSubmitting(true);
 
     if (!currentToken) {
-      console.log('not auth');
+      enqueueSnackbar('No token found', { variant: 'error' });
       return;
     }
 
     if (!props.deliveryAddress) {
-      console.log('invalid address');
+      enqueueSnackbar('Must have valid address', { variant: 'warning' });
     }
 
     const transformedItems = cartItems.map(item => {
@@ -42,14 +46,15 @@ const CheckoutModal: React.FC<propType> = props => {
 
     OrderApi.postOrder(currentToken, transformedItems, props.deliveryAddress)
       .then(response => {
-        console.log(response);
         emptyCart();
         setIsSubmitting(false);
+        enqueueSnackbar(response.data.message || 'Order created', { variant: 'success' });
+        navigate('/order');
         props.handleClose();
       })
       .catch(err => {
-        console.log(err);
         setIsSubmitting(false);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 

@@ -20,6 +20,8 @@ import { AuthContext } from 'src/context/auth-context';
 // Hooks
 import { useNavigate } from 'react-router-dom';
 
+import { useSnackbar } from 'notistack';
+
 const validationSchema = Yup.object({
   name: Yup.string()
     .required('Required')
@@ -37,6 +39,7 @@ const validationSchema = Yup.object({
 const SignUpForm = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -52,12 +55,13 @@ const SignUpForm = () => {
         .then(response => {
           const { userId, token, userName, type } = response.data;
           setSubmitting(false);
+          enqueueSnackbar(response.data.message || 'Signup success.', { variant: 'success' });
           login(userId, token, userName, type);
           navigate('/');
         })
         .catch(err => {
           setSubmitting(false);
-          console.log(err);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
         });
     }
   });

@@ -6,6 +6,8 @@ import { Item, contextType } from './model';
 import CartApi from 'src/common/api/cart';
 import { AuthContext } from 'src/context/auth-context';
 
+import { useSnackbar } from 'notistack';
+
 const defaultProvider: contextType = {
   isOpen: false,
   showCart: () => {},
@@ -30,6 +32,7 @@ const CartProvider: React.FC<propType> = props => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<Array<Item>>([]);
   const { currentToken } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   const showCartHandler = () => setIsOpen(true);
   const hideCartHandler = () => setIsOpen(false);
@@ -42,10 +45,10 @@ const CartProvider: React.FC<propType> = props => {
     }
     CartApi.updateCart(currentToken, cartItems)
       .then(response => {
-        console.log('cart synced.');
+        console.log('Cart synced.');
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   }, [cartItems]);
 
@@ -57,12 +60,14 @@ const CartProvider: React.FC<propType> = props => {
       existingItem.quantity += 1;
       return newItems;
     });
+    enqueueSnackbar('Item added to cart', { variant: 'info' });
   };
 
   const removeFromCartHandler = (id: string) => {
     setCartItems(prevItems => {
       return prevItems.filter(item => item.id !== id);
     });
+    enqueueSnackbar('Item removed from cart', { variant: 'info' });
   };
 
   const editItemQuantityHandler = (id: string, newQuantity: number) => {

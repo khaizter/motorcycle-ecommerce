@@ -17,6 +17,8 @@ import CustomFormControl from 'src/common/custom-form-control';
 import AuthApi from 'src/common/api/auth';
 import { AuthContext } from 'src/context/auth-context';
 
+import { useSnackbar } from 'notistack';
+
 interface PropType {
   open: boolean;
   handleClose: () => void;
@@ -29,7 +31,7 @@ const validationSchema = Yup.object({
 
 const HomeAddressForm: React.FC<PropType> = props => {
   const { currentToken } = useContext(AuthContext);
-
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       homeAddress: ''
@@ -37,20 +39,20 @@ const HomeAddressForm: React.FC<PropType> = props => {
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       if (!currentToken) {
-        console.log('No token');
+        enqueueSnackbar('No token found', { variant: 'error' });
         setSubmitting(false);
         return;
       }
       AuthApi.updateHomeAddress(currentToken, values.homeAddress)
         .then(response => {
           setSubmitting(false);
-          console.log(response);
+          enqueueSnackbar(response.data.message || 'Home address updated', { variant: 'success' });
           props.refreshInfo();
           props.handleClose();
         })
         .catch(err => {
           setSubmitting(false);
-          console.log(err);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
         });
     }
   });

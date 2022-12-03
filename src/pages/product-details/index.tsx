@@ -7,6 +7,8 @@ import { AuthContext } from 'src/context/auth-context';
 import { CartContext } from 'src/context/cart-context';
 import { toCurrency } from 'src/utils/util';
 
+import { useSnackbar } from 'notistack';
+
 const ProductDetail = () => {
   const { productId } = useParams();
   const { isLoggedIn, currentToken, currentUserType } = useContext(AuthContext);
@@ -14,6 +16,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<Product>();
   const [noImage, setNoImage] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (!productId) return;
@@ -22,7 +25,7 @@ const ProductDetail = () => {
         setProduct(response.data.product);
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   }, [productId]);
 
@@ -49,11 +52,11 @@ const ProductDetail = () => {
     if (!productId || !currentToken) return;
     ProductApi.deleteProduct(currentToken, productId)
       .then(response => {
-        console.log(response);
+        enqueueSnackbar(response.data.message || 'Login success', { variant: 'success' });
         navigate('/products');
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 

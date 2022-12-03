@@ -6,10 +6,12 @@ import OrderApi from 'src/common/api/order';
 import { OrderType } from 'src/pages/order/model';
 import OrderAccordion from 'src/pages/order/order-accordion';
 
+import { useSnackbar } from 'notistack';
+
 const Order = () => {
   const { currentToken, currentUserType } = useContext(AuthContext);
   const [orders, setOrders] = useState<Array<OrderType>>([]);
-
+  const { enqueueSnackbar } = useSnackbar();
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -33,7 +35,7 @@ const Order = () => {
         setOrders(transformedOrders);
       })
       .catch(err => {
-        console.log(err);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
   };
 

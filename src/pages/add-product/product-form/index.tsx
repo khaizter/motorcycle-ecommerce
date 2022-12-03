@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { AuthContext } from 'src/context/auth-context';
 
+import { useSnackbar } from 'notistack';
+
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
@@ -30,6 +32,7 @@ const validationSchema = Yup.object({
 const ProductForm = () => {
   const navigate = useNavigate();
   const { currentToken } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -39,19 +42,19 @@ const ProductForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      console.log('values', values);
       if (!currentToken) {
-        console.log('not auth');
+        enqueueSnackbar('No token found', { variant: 'error' });
         return;
       }
       ProductApi.addProduct(currentToken, values.name, values.description, +values.price, values.image)
         .then(response => {
           navigate('/products');
           setSubmitting(false);
+          enqueueSnackbar(response.data.message || 'Product added', { variant: 'success' });
         })
         .catch(err => {
-          console.log(err.response.data);
           setSubmitting(false);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
         });
     }
   });
