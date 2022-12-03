@@ -9,7 +9,7 @@ const Hero = () => {
     <Box
       id='hero'
       sx={{
-        background: "url('/assets/images/hero-bg.jpg')",
+        background: "linear-gradient(-45deg, #0000009b, transparent), url('/assets/images/hero-bg.jpg')",
         minHeight: '650px',
         backgroundSize: 'cover',
         display: 'flex',
@@ -27,10 +27,10 @@ const Hero = () => {
         }}
         spacing={2}
       >
-        <Typography variant='h2' component='h1'>
+        <Typography variant='h2' component='h1' sx={{ color: '#FFF' }}>
           GNE Motorcycle Parts Shop
         </Typography>
-        <Typography>Your Motorcycle Parts in South!</Typography>
+        <Typography sx={{ color: '#ffffffcc' }}>Your Motorcycle Parts in South!</Typography>
         <Button component={RouterLink} to='/products' variant='contained' color='primary'>
           Shop Now
         </Button>
