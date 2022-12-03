@@ -4,7 +4,16 @@ export interface OrderType {
   items: Array<ItemType>;
   purchasedDate: string;
   status: string;
-  owner: string;
+  owner: UserType;
+}
+
+export interface UserType {
+  name: string;
+  email: string;
+  contactNumber: string;
+  homeAddress: string;
+  deliveryAddress: string;
+  type: string;
 }
 
 export interface ItemType {

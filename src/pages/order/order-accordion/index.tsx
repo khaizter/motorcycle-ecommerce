@@ -98,13 +98,20 @@ const OrderAccordion: React.FC<PropType> = props => {
     <Accordion key={order.id} expanded={props.expanded} onChange={props.handleChange(order.id)}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Stack direction='row' justifyContent='space-between' sx={{ width: '100%', px: '8px' }}>
-          <Typography>ID: {order.id}</Typography>
-          {loadingStatus ? <CircularProgress /> : <Typography>Status: {order.status}</Typography>}
+          <Typography sx={{ fontWeight: '700' }}>Order ID: {order.id}</Typography>
+          {loadingStatus ? (
+            <CircularProgress />
+          ) : (
+            <Typography sx={{ fontWeight: '700' }}>Status: {order.status}</Typography>
+          )}
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
         <Stack spacing={2} sx={{ px: '8px' }}>
-          <Typography>Owner : {order.owner}</Typography>
+          <Stack direction='row' justifyContent='space-between'>
+            <Typography>Recipient : {order.owner?.name}</Typography>
+            <Typography>Contact Number : {order.owner?.contactNumber}</Typography>
+          </Stack>
           <Typography>Delivery Address : {order.deliveryAddress}</Typography>
           <Typography>Purchased Date : {order.purchasedDate}</Typography>
         </Stack>
