@@ -52,7 +52,7 @@ const ProductDetail = () => {
     if (!productId || !currentToken) return;
     ProductApi.deleteProduct(currentToken, productId)
       .then(response => {
-        enqueueSnackbar(response.data.message || 'Login success', { variant: 'success' });
+        enqueueSnackbar(response.data.message || 'Login successful', { variant: 'success' });
         navigate('/products');
       })
       .catch(err => {

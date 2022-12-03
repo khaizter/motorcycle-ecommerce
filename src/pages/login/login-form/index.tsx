@@ -42,7 +42,7 @@ const LoginForm = () => {
         .then(response => {
           const { userId, token, userName, type } = response.data;
           setSubmitting(false);
-          enqueueSnackbar(response.data.message || 'Login success', { variant: 'success' });
+          enqueueSnackbar(response.data.message || 'Login successful', { variant: 'success' });
           login(userId, token, userName, type);
           navigate('/');
         })
