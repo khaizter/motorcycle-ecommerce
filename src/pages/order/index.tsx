@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from 'src/context/auth-context';
 import OrderApi from 'src/common/api/order';
@@ -59,6 +59,13 @@ const Order = () => {
             />
           );
         })}
+        {orders.length === 0 && (
+          <Stack spacing={2} alignItems='center'>
+            <Typography variant='h5' sx={{ color: '#00000081' }}>
+              Orders is empty.
+            </Typography>
+          </Stack>
+        )}
       </Box>
     </Box>
   );
