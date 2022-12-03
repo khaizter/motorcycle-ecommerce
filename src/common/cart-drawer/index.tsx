@@ -11,12 +11,15 @@ import { toCurrency } from 'src/utils/util';
 import CartApi from 'src/common/api/cart';
 
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
 const CartDrawer: React.FC = () => {
   const { isOpen, hideCart, cartItems, setCart } = useContext(CartContext);
   const { currentToken } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
   const totalPrice = cartItems.reduce((previousValue, item) => previousValue + item.price * item.quantity, 0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!currentToken) return;
@@ -54,7 +57,15 @@ const CartDrawer: React.FC = () => {
             <Typography>Total</Typography>
             <Typography>{toCurrency(totalPrice)}</Typography>
           </Stack>
-          <Button variant='contained'>Checkout</Button>
+          <Button
+            variant='contained'
+            onClick={() => {
+              navigate('/cart');
+              hideCart();
+            }}
+          >
+            Checkout
+          </Button>
         </Stack>
       </Stack>
     </Drawer>

@@ -21,8 +21,8 @@ const App: React.FC = () => {
           <BrowserRouter>
             <Navigation />
             <RoutesManager />
+            <CartDrawer />
           </BrowserRouter>
-          <CartDrawer />
         </CartProvider>
       </AuthProvider>
     </SnackBar>
