@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Item } from 'src/common/cart-drawer/model';
 import { CartContext } from 'src/context/cart-context';
+import { toCurrency } from 'src/utils/util';
 
 interface propType {
   item: Item;
@@ -69,7 +70,7 @@ const CartItem: React.FC<propType> = props => {
               </ListItemIcon>
             </ListItemButton>
           </Stack>
-          <ListItemText sx={{ flexGrow: 0 }}>{props.item.price}</ListItemText>
+          <ListItemText sx={{ flexGrow: 0 }}>{toCurrency(props.item.price)}</ListItemText>
         </Stack>
       </Box>
     </ListItem>

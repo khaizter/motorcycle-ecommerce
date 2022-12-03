@@ -12,6 +12,7 @@ import CheckoutModal from 'src/pages/cart/checkout-modal';
 import useModal from 'src/hooks/useModal';
 import DeliveryAddressForm from 'src/pages/account/delivery-address-form';
 import AuthApi from 'src/common/api/auth';
+import { toCurrency } from 'src/utils/util';
 
 const Cart = () => {
   const { cartItems } = useContext(CartContext);
@@ -19,6 +20,8 @@ const Cart = () => {
   const [deliveryAddress, setDeliveryAddress] = useState<string>('');
   const [openAddress, handleOpenAddress, handleCloseAddress] = useModal(false);
   const [openCheckout, handleOpenCheckout, handleCloseCheckout] = useModal(false);
+
+  const subTotal = cartItems?.reduce((value, item) => value + item.quantity * item.price, 0) || 0;
 
   const getUserInfo = () => {
     if (!currentToken) return;
@@ -41,6 +44,9 @@ const Cart = () => {
     <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
       <Typography variant='h3'>Cart</Typography>
       <CartList cartItems={cartItems} />
+      <Typography variant='body1' sx={{ textAlign: 'end' }}>
+        Subtotal : {toCurrency(subTotal)}
+      </Typography>
       <Stack direction='row' alignItems='center'>
         <PlaceOutlinedIcon />
         <Typography flexGrow={1} variant='body1'>
@@ -50,6 +56,7 @@ const Cart = () => {
           Change
         </Button>
       </Stack>
+
       <Button variant='contained' onClick={handleOpenCheckout}>
         Checkout
       </Button>

@@ -17,6 +17,8 @@ import Typography from '@mui/material/Typography';
 import { AuthContext } from 'src/context/auth-context';
 import { useNavigate } from 'react-router-dom';
 
+import { toCurrency } from 'src/utils/util';
+
 interface propType {
   product: Product;
 }
@@ -71,7 +73,7 @@ const ProductItem: React.FC<propType> = props => {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Typography variant='caption'>{props.product.price}</Typography>
+          <Typography variant='caption'>{toCurrency(props.product.price)}</Typography>
           {currentUserType !== 'admin' && (
             <IconButton color='primary' onClick={addToCartHandler} sx={{ marginLeft: 'auto' }}>
               <AddIcon />

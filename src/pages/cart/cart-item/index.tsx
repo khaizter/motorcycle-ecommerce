@@ -13,6 +13,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { CartContext } from 'src/context/cart-context';
+import { toCurrency } from 'src/utils/util';
 
 interface propType {
   item: Item;
@@ -60,6 +61,7 @@ const CartItem: React.FC<propType> = props => {
         </Stack>
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Stack direction='row' alignItems='center'>
+            <ListItemText>{toCurrency(props.item.price)}</ListItemText>
             <ListItemButton sx={{ flexGrow: 0 }} onClick={incrementHandler}>
               <ListItemIcon sx={{ minWidth: 0 }}>
                 <AddIcon />
@@ -76,7 +78,7 @@ const CartItem: React.FC<propType> = props => {
               </ListItemIcon>
             </ListItemButton>
           </Stack>
-          <ListItemText sx={{ flexGrow: 0 }}>{props.item.price}</ListItemText>
+          <ListItemText sx={{ flexGrow: 0 }}>{toCurrency(props.item.quantity * props.item.price)}</ListItemText>
         </Stack>
       </Box>
     </ListItem>

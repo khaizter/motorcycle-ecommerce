@@ -2,6 +2,7 @@ import { Avatar, Button, ListItem, ListItemAvatar, ListItemText, Tooltip, Typogr
 import React, { useState } from 'react';
 
 import { ItemType } from 'src/pages/order/model';
+import { toCurrency } from 'src/utils/util';
 
 interface PropType {
   item: ItemType;
@@ -17,7 +18,7 @@ const ProductItem: React.FC<PropType> = props => {
       secondaryAction={
         <Tooltip title={`₱${item.price} x ${item.quantity}`}>
           <Button aria-label='total price' disableRipple sx={{ cursor: 'default' }} color='info'>
-            {`₱${item.price * item.quantity}`}
+            {toCurrency(item.price * item.quantity)}
           </Button>
         </Tooltip>
       }
@@ -36,7 +37,7 @@ const ProductItem: React.FC<PropType> = props => {
             <span>{item.name}</span> <span style={{ color: 'rgba(0, 0, 0, 0.6)' }}>x{item.quantity}</span>
           </>
         }
-        secondary={`₱${item.price}`}
+        secondary={toCurrency(item.price)}
       />
     </ListItem>
   );

@@ -5,6 +5,7 @@ import ProductApi from 'src/common/api/product';
 import { Product } from './models';
 import { AuthContext } from 'src/context/auth-context';
 import { CartContext } from 'src/context/cart-context';
+import { toCurrency } from 'src/utils/util';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -82,7 +83,7 @@ const ProductDetail = () => {
                 {product?.description}
               </Typography>
               <Typography variant='subtitle2' gutterBottom>
-                {product?.price}
+                {toCurrency(product?.price)}
               </Typography>
               <Stack direction='row' spacing={2}>
                 {currentUserType !== 'admin' && (

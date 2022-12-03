@@ -22,6 +22,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import OrderApi from 'src/common/api/order';
+import { toCurrency } from 'src/utils/util';
 
 interface PropType {
   order: OrderType;
@@ -120,7 +121,7 @@ const OrderAccordion: React.FC<PropType> = props => {
             return <ProductItem key={index} item={item} />;
           })}
         </List>
-        <Typography sx={{ textAlign: 'end', mt: '1rem' }}>Subtotal : ₱{subTotal}</Typography>
+        <Typography sx={{ textAlign: 'end', mt: '1rem' }}>Subtotal : {toCurrency(subTotal)}</Typography>
         {order.status === 'active' && currentUserType === 'customer' && (
           <Box sx={{ textAlign: 'end', mt: '1rem' }}>
             <Button

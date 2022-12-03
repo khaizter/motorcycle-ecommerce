@@ -6,6 +6,7 @@ import CartList from 'src/common/cart-drawer/cart-list';
 import { CartContext } from 'src/context/cart-context';
 import CloseIcon from '@mui/icons-material/Close';
 import { AuthContext } from 'src/context/auth-context';
+import { toCurrency } from 'src/utils/util';
 
 import CartApi from 'src/common/api/cart';
 
@@ -48,7 +49,7 @@ const CartDrawer: React.FC = () => {
         <Stack direction='column' spacing={2} sx={{ px: '2rem', py: '1rem' }}>
           <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
             <Typography>Total</Typography>
-            <Typography>{totalPrice}</Typography>
+            <Typography>{toCurrency(totalPrice)}</Typography>
           </Stack>
           <Button variant='contained'>Checkout</Button>
         </Stack>
