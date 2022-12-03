@@ -73,7 +73,7 @@ const SignUpForm = () => {
         <CustomFormControl formikProps={formik} name='email' label='Email' type='text' />
         <CustomFormControl formikProps={formik} name='password' label='Password' type='password' />
         <CustomFormControl formikProps={formik} name='confirmPassword' label='Confirm Password' type='password' />
-        <CustomFormControl formikProps={formik} name='homeAddress' label='Home Address' type='text' />
+        <CustomFormControl formikProps={formik} name='homeAddress' label='Home Address' type='text' multiline />
         <CustomFormControl formikProps={formik} name='contactNumber' label='Contact Number' type='number' />
         <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Sign Up
