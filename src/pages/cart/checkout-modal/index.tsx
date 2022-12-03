@@ -27,11 +27,20 @@ const CheckoutModal: React.FC<propType> = props => {
 
     if (!currentToken) {
       enqueueSnackbar('No token found', { variant: 'error' });
+      setIsSubmitting(false);
       return;
     }
 
     if (!props.deliveryAddress) {
       enqueueSnackbar('Must have valid address', { variant: 'warning' });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      enqueueSnackbar("There's no item to checkout", { variant: 'warning' });
+      setIsSubmitting(false);
+      return;
     }
 
     const transformedItems = cartItems.map(item => {
