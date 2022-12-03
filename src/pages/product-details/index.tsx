@@ -61,10 +61,10 @@ const ProductDetail = () => {
   };
 
   return (
-    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
+    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '4rem' }}>
       {product && (
         <>
-          <Grid container spacing={2} sx={{ mt: '4rem' }}>
+          <Grid container spacing={2}>
             <Grid item xs={6} sx={{ px: '1rem' }}>
               <Avatar
                 src={noImage ? 'assets/images/no-image-placeholder.png' : `${product?.imageUrl}`}
@@ -88,7 +88,7 @@ const ProductDetail = () => {
               <Typography variant='subtitle2' gutterBottom>
                 {toCurrency(product?.price)}
               </Typography>
-              <Stack direction='row' spacing={2}>
+              <Stack direction='row' spacing={2} sx={{ mt: '1rem' }}>
                 {currentUserType !== 'admin' && (
                   <Button variant='contained' onClick={addToCartHandler}>
                     Add to cart

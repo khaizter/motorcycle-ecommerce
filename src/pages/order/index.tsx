@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from 'src/context/auth-context';
 import OrderApi from 'src/common/api/order';
@@ -44,9 +44,9 @@ const Order = () => {
   }, [currentToken, currentUserType]);
 
   return (
-    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
+    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '2rem' }}>
       <Typography variant='h3'>Orders</Typography>
-
+      <Divider sx={{ my: '2rem' }} />
       <Box component='section'>
         {orders.map((order, index) => {
           return (

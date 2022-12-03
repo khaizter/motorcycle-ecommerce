@@ -39,7 +39,7 @@ const CartItem: React.FC<propType> = props => {
 
   return (
     <ListItem sx={{ width: '100%', minHeight: '160px', px: 0, py: '1rem', alignItems: 'center' }}>
-      <ListItemAvatar sx={{ width: '30%' }}>
+      <ListItemAvatar sx={{ width: '20%' }}>
         <Avatar
           alt={props.item.name}
           src={noImage ? 'assets/images/no-image-placeholder.png' : props.item.imageUrl}

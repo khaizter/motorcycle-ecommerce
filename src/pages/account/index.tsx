@@ -49,11 +49,11 @@ const Account = () => {
   }, [currentToken]);
 
   return (
-    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
+    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '2rem' }}>
       <Typography variant='h3' sx={{ textAlign: 'center' }}>
         Manage Account
       </Typography>
-      <List sx={{ maxWidth: '400px', mx: 'auto' }}>
+      <List sx={{ maxWidth: '400px', mx: 'auto', mt: '1rem' }}>
         <ListItem disablePadding>
           <ListItemIcon>
             <PersonIcon color='action' />

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 
 import ProductList from './product-list';
-import { Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 
 import { Product } from 'src/pages/products/models';
 
@@ -36,8 +36,9 @@ const Products: React.FC = () => {
   }, []);
 
   return (
-    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
+    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '2rem' }}>
       <Typography variant='h3'>Products</Typography>
+      <Divider sx={{ my: '2rem' }} />
       <ProductList products={products} />
     </Box>
   );

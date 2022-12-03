@@ -15,6 +15,7 @@ import AuthApi from 'src/common/api/auth';
 import { toCurrency } from 'src/utils/util';
 
 import { useSnackbar } from 'notistack';
+import { Divider } from '@mui/material';
 
 const Cart = () => {
   const { cartItems } = useContext(CartContext);
@@ -44,25 +45,29 @@ const Cart = () => {
   }, [currentToken]);
 
   return (
-    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto' }}>
+    <Box component='main' sx={{ maxWidth: 'var(--horizontal-wrapper)', mx: 'auto', py: '2rem' }}>
       <Typography variant='h3'>Cart</Typography>
+      <Divider sx={{ my: '1rem' }} />
       <CartList cartItems={cartItems} />
+      <Divider sx={{ my: '1rem' }} />
       <Typography variant='body1' sx={{ textAlign: 'end' }}>
         Subtotal : {toCurrency(subTotal)}
       </Typography>
-      <Stack direction='row' alignItems='center'>
+      <Stack direction='row' alignItems='center' sx={{ mt: '1rem' }}>
         <PlaceOutlinedIcon />
         <Typography flexGrow={1} variant='body1'>
           Ship to {deliveryAddress || 'No delivery address added yet.'}
         </Typography>
         <Button variant='text' onClick={handleOpenAddress}>
-          Change
+          Edit
         </Button>
       </Stack>
 
-      <Button variant='contained' onClick={handleOpenCheckout}>
-        Checkout
-      </Button>
+      <Box sx={{ textAlign: 'end', mt: '1rem' }}>
+        <Button variant='contained' onClick={handleOpenCheckout}>
+          Checkout
+        </Button>
+      </Box>
       <DeliveryAddressForm open={openAddress} handleClose={handleCloseAddress} refreshInfo={getUserInfo} />
       <CheckoutModal open={openCheckout} handleClose={handleCloseCheckout} deliveryAddress={deliveryAddress} />
     </Box>

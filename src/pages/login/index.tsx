@@ -8,7 +8,7 @@ const Login = () => {
   return (
     <Box sx={{ maxWidth: '500px', marginInline: 'auto' }}>
       <Card sx={{ padding: '1rem', marginTop: '2rem' }}>
-        <Typography variant='h3' sx={{ marginBottom: '2rem' }}>
+        <Typography variant='h3' sx={{ marginBottom: '2rem', textAlign: 'center' }}>
           Login
         </Typography>
         <LoginForm />
