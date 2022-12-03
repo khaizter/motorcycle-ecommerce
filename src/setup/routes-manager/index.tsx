@@ -10,6 +10,7 @@ import Login from 'src/pages/login';
 import SignUp from 'src/pages/signup';
 import AddProduct from 'src/pages/add-product';
 import Account from 'src/pages/account';
+import NotFound from 'src/pages/not-found';
 
 // Context
 import { AuthContext } from 'src/context/auth-context';
@@ -32,7 +33,8 @@ const RoutesManager = () => {
       )}
       {isLoggedIn && (
         <>
-          <Route path='/cart' element={<Cart />} />
+          {currentUserType !== 'admin' && <Route path='/cart' element={<Cart />} />}
+
           <Route path='/order' element={<Order />} />
           <Route path='/account' element={<Account />} />
         </>
@@ -42,6 +44,7 @@ const RoutesManager = () => {
           <Route path='/add-product' element={<AddProduct />} />
         </>
       )}
+      <Route path='*' element={<NotFound />} />
     </Routes>
   );
 };
