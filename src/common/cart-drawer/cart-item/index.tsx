@@ -1,12 +1,23 @@
-import { Avatar, Box, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+  TextField
+} from '@mui/material';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Item } from 'src/common/cart-drawer/model';
 import { CartContext } from 'src/context/cart-context';
 import { toCurrency } from 'src/utils/util';
+import { useSnackbar } from 'notistack';
 
 interface propType {
   item: Item;
@@ -16,18 +27,31 @@ const CartItem: React.FC<propType> = props => {
   const cartCtx = useContext(CartContext);
   const [noImage, setNoImage] = useState<boolean>(false);
 
+  const [quantity, setQuantity] = useState<string>(props.item.quantity?.toString());
+  const { enqueueSnackbar } = useSnackbar();
   const removeItemHandler = () => {
     cartCtx.removeFromCart(props.item.id);
   };
 
-  const incrementHandler = () => {
-    cartCtx.editItemQuantity(props.item.id, props.item.quantity + 1);
+  // const incrementHandler = () => {
+  //   cartCtx.editItemQuantity(props.item.id, props.item.quantity + 1);
+  // };
+
+  // const decrementHandler = () => {
+  //   cartCtx.editItemQuantity(props.item.id, props.item.quantity - 1);
+  // };
+
+  const quantityInputHandler = (e: any) => {
+    setQuantity(e.target.value);
   };
 
-  const decrementHandler = () => {
-    cartCtx.editItemQuantity(props.item.id, props.item.quantity - 1);
-  };
-
+  useEffect(() => {
+    if (+quantity <= 0) {
+      enqueueSnackbar('Invalid quantity', { variant: 'warning' });
+      return;
+    }
+    cartCtx.editItemQuantity(props.item.id, +quantity);
+  }, [quantity]);
   const errorImageHandler = () => setNoImage(true);
 
   return (
@@ -52,13 +76,21 @@ const CartItem: React.FC<propType> = props => {
         </Stack>
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Stack direction='row' alignItems='center'>
-            <ListItemButton sx={{ flexGrow: 0 }} onClick={incrementHandler}>
+            {/* <ListItemButton sx={{ flexGrow: 0 }} onClick={incrementHandler}>
               <ListItemIcon sx={{ minWidth: 0 }}>
                 <AddIcon />
               </ListItemIcon>
-            </ListItemButton>
-            <ListItemText primary={props.item.quantity} sx={{ flexGrow: 0 }} />
-            <ListItemButton
+            </ListItemButton> */}
+            {/* <ListItemText primary={props.item.quantity} sx={{ flexGrow: 0 }} /> */}
+            <TextField
+              value={quantity}
+              margin='none'
+              type='number'
+              onChange={quantityInputHandler}
+              size='small'
+              sx={{ maxWidth: '100px' }}
+            />
+            {/* <ListItemButton
               sx={{ flexGrow: 0 }}
               onClick={decrementHandler}
               disabled={props.item.quantity === 1 ? true : false}
@@ -66,7 +98,7 @@ const CartItem: React.FC<propType> = props => {
               <ListItemIcon sx={{ minWidth: 0 }}>
                 <RemoveIcon />
               </ListItemIcon>
-            </ListItemButton>
+            </ListItemButton> */}
           </Stack>
           <ListItemText sx={{ flexGrow: 0 }}>{toCurrency(props.item.price)}</ListItemText>
         </Stack>
