@@ -4,7 +4,7 @@ import React from 'react';
 const CONTENT = [
   {
     icon: 'assets/icons/engineering.png',
-    title: 'Oil and Battery Recycling',
+    title: 'Battery Recycling',
     description: 'Services We Supply'
   },
   {
@@ -14,7 +14,7 @@ const CONTENT = [
   },
   {
     icon: 'assets/icons/petrol.png',
-    title: 'Oil and Battery Recycling',
+    title: 'Oil Recycling',
     description: 'Services We Supply'
   }
 ];
