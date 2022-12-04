@@ -55,11 +55,13 @@ const CheckoutModal: React.FC<propType> = props => {
 
     OrderApi.postOrder(currentToken, transformedItems, props.deliveryAddress)
       .then(response => {
-        emptyCart();
-        setIsSubmitting(false);
-        enqueueSnackbar(response.data.message || 'Order created', { variant: 'success' });
-        navigate('/order');
-        props.handleClose();
+        setTimeout(() => {
+          emptyCart();
+          enqueueSnackbar(response.data.message || 'Order created', { variant: 'success' });
+          setIsSubmitting(false);
+          props.handleClose();
+          navigate('/order');
+        }, 5000);
       })
       .catch(err => {
         setIsSubmitting(false);

@@ -26,7 +26,9 @@ interface PropType {
 }
 
 const validationSchema = Yup.object({
-  contactNumber: Yup.string().required('Required').min(10, 'Invalid contact number')
+  contactNumber: Yup.string()
+    .required('Required')
+    .matches(/^(\+639)\d{9}$/, 'Must be a valid phone number ex. +639123456789')
 });
 
 const ContactForm: React.FC<PropType> = props => {
@@ -63,7 +65,7 @@ const ContactForm: React.FC<PropType> = props => {
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
           <Stack spacing={2} sx={{ minWidth: { xs: '0', sm: '260px' } }}>
-            <CustomFormControl formikProps={formik} name='contactNumber' label='Contact Number' type='number' />
+            <CustomFormControl formikProps={formik} name='contactNumber' label='Contact Number' type='text' />
           </Stack>
         </DialogContent>
         <DialogActions>
