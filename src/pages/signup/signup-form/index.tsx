@@ -28,7 +28,12 @@ const validationSchema = Yup.object({
     .matches(/^[a-zA-Z0-9\s]*$/, 'No special characters')
     .max(15, 'Must be 15 characters or less'),
   email: Yup.string().required('Required').email('Invalid email address'),
-  password: Yup.string().required('Required').min(4, 'Must be (4-15) characters').max(15, 'Must be (4-15) characters'),
+  password: Yup.string()
+    .required('Required')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+    ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Required'),
@@ -54,6 +59,7 @@ const SignUpForm = () => {
       AuthApi.signup(values.email, values.password, values.name, values.homeAddress, values.contactNumber)
         .then(response => {
           const { userId, token, userName, type } = response.data;
+          console.log(response);
           setSubmitting(false);
           enqueueSnackbar(response.data.message || 'Signup successful', { variant: 'success' });
           login(userId, token, userName, type);

@@ -27,14 +27,13 @@ interface PropType {
 }
 
 const validationSchema = Yup.object({
-  oldPassword: Yup.string()
-    .required('Required')
-    .min(4, 'Must be (4-15) characters')
-    .max(15, 'Must be (4-15) characters'),
+  oldPassword: Yup.string().required('Required'),
   newPassword: Yup.string()
     .required('Required')
-    .min(4, 'Must be (4-15) characters')
-    .max(15, 'Must be (4-15) characters'),
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+    ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
     .required('Required')
