@@ -78,10 +78,15 @@ const SignUpForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values);
-      setSubmitting(false);
-      return;
-      AuthApi.signup(values.email, values.password, values.name, values.homeAddress, `+639${values.contactNumber}`)
+      AuthApi.signup(
+        values.email,
+        values.password,
+        values.name,
+        values.homeAddress,
+        `+639${values.contactNumber}`,
+        values.recoveryQuestion,
+        values.recoveryAnswer
+      )
         .then(response => {
           const { userId, token, userName, type } = response.data;
           setSubmitting(false);

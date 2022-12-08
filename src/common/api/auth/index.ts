@@ -10,14 +10,24 @@ const login = async (email: string, password: string) => {
   return response;
 };
 
-const signup = async (email: string, password: string, name: string, homeAddress: string, contactNumber: string) => {
+const signup = async (
+  email: string,
+  password: string,
+  name: string,
+  homeAddress: string,
+  contactNumber: string,
+  recoveryQuestion: string,
+  recoveryAnswer: string
+) => {
   const endpoint = '/auth/signup';
   const response = await axios.post(process.env.REACT_APP_BACKEND_URI + endpoint, {
     email,
     password,
     name,
     homeAddress,
-    contactNumber
+    contactNumber,
+    recoveryQuestion,
+    recoveryAnswer
   });
 
   return response;
