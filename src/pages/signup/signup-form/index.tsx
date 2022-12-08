@@ -21,6 +21,22 @@ import { AuthContext } from 'src/context/auth-context';
 import { useNavigate } from 'react-router-dom';
 
 import { useSnackbar } from 'notistack';
+import CustomFormControlSelect from 'src/common/custom-form-control-select';
+
+const recoveryQuestions = [
+  {
+    value: 'pet',
+    label: 'What is the name of your pet?'
+  },
+  {
+    value: 'school',
+    label: 'What elementary school did you attend?'
+  },
+  {
+    value: 'hero',
+    label: 'Who was your childhood hero?'
+  }
+];
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -40,7 +56,9 @@ const validationSchema = Yup.object({
   homeAddress: Yup.string().required('Required').min(4, 'Minimum of 4 characters'),
   contactNumber: Yup.string()
     .required('Required')
-    .matches(/^\d{9}$/, 'Must be a valid phone number ex. +639123456789')
+    .matches(/^\d{9}$/, 'Must be a valid phone number ex. +639123456789'),
+  recoveryQuestion: Yup.string().required('Required'),
+  recoveryAnswer: Yup.string().required('Required')
 });
 
 const SignUpForm = () => {
@@ -54,10 +72,15 @@ const SignUpForm = () => {
       password: '',
       confirmPassword: '',
       homeAddress: '',
-      contactNumber: ''
+      contactNumber: '',
+      recoveryQuestion: '',
+      recoveryAnswer: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
+      console.log(values);
+      setSubmitting(false);
+      return;
       AuthApi.signup(values.email, values.password, values.name, values.homeAddress, `+639${values.contactNumber}`)
         .then(response => {
           const { userId, token, userName, type } = response.data;
@@ -94,6 +117,20 @@ const SignUpForm = () => {
           type='text'
           startAdornment='+639'
         />
+        {/* <CustomFormControl
+          formikProps={formik}
+          name='recoveryQuestion'
+          label='Select'
+          type='select'
+          options={recoveryQuestions}
+        /> */}
+        <CustomFormControlSelect
+          formikProps={formik}
+          name='recoveryQuestion'
+          label='Select recovery question'
+          options={recoveryQuestions}
+        />
+        <CustomFormControl formikProps={formik} name='recoveryAnswer' label='Answer' type='text' />
         <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Sign Up
         </LoadingButton>

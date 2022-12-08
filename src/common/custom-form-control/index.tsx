@@ -6,6 +6,11 @@ import { FormikProps } from 'formik';
 import { fieldsInterface, fields } from './model';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 
+type Option = {
+  value: string;
+  label: string;
+};
+
 interface propType {
   formikProps: any;
   name: string;
