@@ -1,4 +1,5 @@
 import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+
 import React, { useState } from 'react';
 
 import { FormikProps } from 'formik';
@@ -12,6 +13,7 @@ interface propType {
   type: string;
   multiline?: boolean;
   hideRevealPassword?: boolean;
+  startAdornment?: string;
 }
 
 const CustomFormControl: React.FC<propType> = props => {
@@ -34,6 +36,9 @@ const CustomFormControl: React.FC<propType> = props => {
         onBlur={props.formikProps.handleBlur}
         error={props.formikProps.touched[props.name] && Boolean(props.formikProps.errors[props.name])}
         multiline={props.multiline}
+        startAdornment={
+          props.startAdornment && <InputAdornment position='start'>{props.startAdornment}</InputAdornment>
+        }
         endAdornment={
           props.type === 'password' && !props.hideRevealPassword ? (
             <InputAdornment position='end'>

@@ -28,7 +28,7 @@ interface PropType {
 const validationSchema = Yup.object({
   contactNumber: Yup.string()
     .required('Required')
-    .matches(/^(\+639)\d{9}$/, 'Must be a valid phone number ex. +639123456789')
+    .matches(/^\d{9}$/, 'Must be a valid phone number ex. +639123456789')
 });
 
 const ContactForm: React.FC<PropType> = props => {
@@ -46,7 +46,7 @@ const ContactForm: React.FC<PropType> = props => {
         setSubmitting(false);
         return;
       }
-      AuthApi.updateContactNumber(currentToken, values.contactNumber)
+      AuthApi.updateContactNumber(currentToken, `+639${values.contactNumber}`)
         .then(response => {
           setSubmitting(false);
           enqueueSnackbar(response.data.message || 'Contact number updated', { variant: 'success' });
@@ -65,7 +65,13 @@ const ContactForm: React.FC<PropType> = props => {
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
           <Stack spacing={2} sx={{ minWidth: { xs: '0', sm: '260px' } }}>
-            <CustomFormControl formikProps={formik} name='contactNumber' label='Contact Number' type='text' />
+            <CustomFormControl
+              formikProps={formik}
+              name='contactNumber'
+              label='Contact Number'
+              type='text'
+              startAdornment='+639'
+            />
           </Stack>
         </DialogContent>
         <DialogActions>

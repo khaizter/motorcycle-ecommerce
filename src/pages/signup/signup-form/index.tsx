@@ -40,7 +40,7 @@ const validationSchema = Yup.object({
   homeAddress: Yup.string().required('Required').min(4, 'Minimum of 4 characters'),
   contactNumber: Yup.string()
     .required('Required')
-    .matches(/^(\+639)\d{9}$/, 'Must be a valid phone number ex. +639123456789')
+    .matches(/^\d{9}$/, 'Must be a valid phone number ex. +639123456789')
 });
 
 const SignUpForm = () => {
@@ -58,7 +58,7 @@ const SignUpForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      AuthApi.signup(values.email, values.password, values.name, values.homeAddress, values.contactNumber)
+      AuthApi.signup(values.email, values.password, values.name, values.homeAddress, `+639${values.contactNumber}`)
         .then(response => {
           const { userId, token, userName, type } = response.data;
           setSubmitting(false);
@@ -87,7 +87,13 @@ const SignUpForm = () => {
           hideRevealPassword
         />
         <CustomFormControl formikProps={formik} name='homeAddress' label='Home Address' type='text' multiline />
-        <CustomFormControl formikProps={formik} name='contactNumber' label='Contact Number' type='text' />
+        <CustomFormControl
+          formikProps={formik}
+          name='contactNumber'
+          label='Contact Number'
+          type='text'
+          startAdornment='+639'
+        />
         <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Sign Up
         </LoadingButton>
