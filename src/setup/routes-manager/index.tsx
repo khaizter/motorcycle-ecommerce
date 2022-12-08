@@ -11,6 +11,7 @@ import SignUp from 'src/pages/signup';
 import AddProduct from 'src/pages/add-product';
 import Account from 'src/pages/account';
 import NotFound from 'src/pages/not-found';
+import ResetPassword from 'src/pages/reset-password';
 
 // Context
 import { AuthContext } from 'src/context/auth-context';
@@ -29,6 +30,7 @@ const RoutesManager = () => {
         <>
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/reset-password' element={<ResetPassword />} />
         </>
       )}
       {isLoggedIn && (
