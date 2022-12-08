@@ -64,7 +64,7 @@ const SignUpForm = () => {
           setSubmitting(false);
           enqueueSnackbar(response.data.message || 'Signup successful', { variant: 'success' });
           login(userId, token, userName, type);
-          navigate('/');
+          navigate(-1);
         })
         .catch(err => {
           setSubmitting(false);
