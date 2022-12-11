@@ -10,8 +10,19 @@ import * as Yup from 'yup';
 import CustomFormControl from 'src/common/custom-form-control';
 import CustomFormControlSelect from 'src/common/custom-form-control-select';
 
+// Api calls
+import AuthApi from 'src/common/api/auth';
+
+import { useSnackbar } from 'notistack';
+
+interface ResetData {
+  userId: string | null;
+  token: string | null;
+}
+
 interface PropType {
-  onNext: () => void;
+  onNext: (data?: any) => void;
+  resetData: ResetData;
 }
 
 const recoveryQuestions = [
@@ -35,6 +46,7 @@ const validationSchema = Yup.object({
 });
 
 const Level1: React.FC<PropType> = props => {
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       recoveryQuestion: '',
@@ -42,9 +54,20 @@ const Level1: React.FC<PropType> = props => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values);
-      setSubmitting(false);
-      props.onNext();
+      if (!props?.resetData?.userId) {
+        enqueueSnackbar('Incomplete reset data', { variant: 'error' });
+        return;
+      }
+      AuthApi.checkRecovery(props.resetData.userId, values.recoveryQuestion, values.recoveryAnswer)
+        .then(response => {
+          setSubmitting(false);
+          enqueueSnackbar(response?.data?.message, { variant: 'success' });
+          props.onNext({ token: response?.data?.token });
+        })
+        .catch(err => {
+          setSubmitting(false);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+        });
     }
   });
 

@@ -9,8 +9,19 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomFormControl from 'src/common/custom-form-control';
 
+// Api calls
+import AuthApi from 'src/common/api/auth';
+
+import { useSnackbar } from 'notistack';
+
+interface ResetData {
+  userId: string | null;
+  token: string | null;
+}
+
 interface PropType {
-  onNext: () => void;
+  onNext: (data?: any) => void;
+  resetData: ResetData;
 }
 
 const validationSchema = Yup.object({
@@ -18,15 +29,23 @@ const validationSchema = Yup.object({
 });
 
 const Level0: React.FC<PropType> = props => {
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       email: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values);
-      setSubmitting(false);
-      props.onNext();
+      AuthApi.checkEmail(values.email)
+        .then(response => {
+          setSubmitting(false);
+          enqueueSnackbar(response?.data?.message, { variant: 'success' });
+          props.onNext({ userId: response?.data?.userId });
+        })
+        .catch(err => {
+          setSubmitting(false);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+        });
     }
   });
 

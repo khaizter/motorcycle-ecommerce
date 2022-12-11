@@ -118,6 +118,33 @@ const updateDeliveryAddress = async (token: string, newDeliveryAddress: string) 
   return response;
 };
 
+const checkEmail = async (email: string) => {
+  const endpoint = '/auth/user/email';
+  const response = await axios.post(process.env.REACT_APP_BACKEND_URI + endpoint, {
+    email
+  });
+  return response;
+};
+
+const checkRecovery = async (userId: string, recoveryQuestion: string, recoveryAnswer: string) => {
+  const endpoint = '/auth/user/recovery';
+  const response = await axios.post(process.env.REACT_APP_BACKEND_URI + endpoint, {
+    userId,
+    recoveryQuestion,
+    recoveryAnswer
+  });
+  return response;
+};
+
+const resetPassword = async (token: string, newPassword: string) => {
+  const endpoint = '/auth/user/reset-password';
+  const response = await axios.put(process.env.REACT_APP_BACKEND_URI + endpoint, {
+    token,
+    newPassword
+  });
+  return response;
+};
+
 const module = {
   login,
   signup,
@@ -126,7 +153,10 @@ const module = {
   updatePassword,
   updateContactNumber,
   updateHomeAddress,
-  updateDeliveryAddress
+  updateDeliveryAddress,
+  checkEmail,
+  checkRecovery,
+  resetPassword
 };
 
 export default module;

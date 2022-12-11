@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 // Routing
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
 import Home from 'src/pages/home';
@@ -39,6 +39,9 @@ const RoutesManager = () => {
 
           <Route path='/order' element={<Order />} />
           <Route path='/account' element={<Account />} />
+          <Route path='/login' element={<Navigate to='/' />} />
+          <Route path='/signup' element={<Navigate to='/' />} />
+          <Route path='/reset-password' element={<Navigate to='/' />} />
         </>
       )}
       {currentUserType === 'admin' && (

@@ -9,8 +9,19 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CustomFormControl from 'src/common/custom-form-control';
 
+// Api calls
+import AuthApi from 'src/common/api/auth';
+
+import { useSnackbar } from 'notistack';
+
+interface ResetData {
+  userId: string | null;
+  token: string | null;
+}
+
 interface PropType {
-  onNext: () => void;
+  onNext: (data?: any) => void;
+  resetData: ResetData;
 }
 
 const validationSchema = Yup.object({
@@ -26,6 +37,7 @@ const validationSchema = Yup.object({
 });
 
 const Level2: React.FC<PropType> = props => {
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       newPassword: '',
@@ -36,6 +48,21 @@ const Level2: React.FC<PropType> = props => {
       console.log(values);
       setSubmitting(false);
       props.onNext();
+      if (!props?.resetData?.token) {
+        enqueueSnackbar('Incomplete reset data', { variant: 'error' });
+        return;
+      }
+      AuthApi.resetPassword(props.resetData.token, values.newPassword)
+        .then(response => {
+          console.log(response);
+          setSubmitting(false);
+          enqueueSnackbar(response?.data?.message, { variant: 'success' });
+          props.onNext();
+        })
+        .catch(err => {
+          setSubmitting(false);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+        });
     }
   });
   return (
