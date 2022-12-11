@@ -37,7 +37,7 @@ const LoginForm = () => {
       password: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: (values, { setErrors, setSubmitting }) => {
       AuthApi.login(values.email, values.password)
         .then(response => {
           const { userId, token, userName, type } = response.data;
@@ -49,6 +49,7 @@ const LoginForm = () => {
         .catch(err => {
           setSubmitting(false);
           enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+          // setErrors({ email: err?.response?.data?.message || err.message });
         });
     }
   });
