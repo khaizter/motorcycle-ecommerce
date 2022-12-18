@@ -26,6 +26,7 @@ const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
   price: Yup.string().required('Required'),
+  availableStocks: Yup.string().required('Required'),
   image: Yup.string().required('Required')
 });
 
@@ -38,24 +39,27 @@ const ProductForm = () => {
       name: '',
       description: '',
       price: '',
+      availableStocks: 0,
       image: new File([''], '')
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      if (!currentToken) {
-        enqueueSnackbar('No token found', { variant: 'error' });
-        return;
-      }
-      ProductApi.addProduct(currentToken, values.name, values.description, +values.price, values.image)
-        .then(response => {
-          navigate('/products');
-          setSubmitting(false);
-          enqueueSnackbar(response.data.message || 'Product added', { variant: 'success' });
-        })
-        .catch(err => {
-          setSubmitting(false);
-          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
-        });
+      console.log(values);
+      setSubmitting(false);
+      // if (!currentToken) {
+      //   enqueueSnackbar('No token found', { variant: 'error' });
+      //   return;
+      // }
+      // ProductApi.addProduct(currentToken, values.name, values.description, +values.price, values.image)
+      //   .then(response => {
+      //     navigate('/products');
+      //     setSubmitting(false);
+      //     enqueueSnackbar(response.data.message || 'Product added', { variant: 'success' });
+      //   })
+      //   .catch(err => {
+      //     setSubmitting(false);
+      //     enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+      //   });
     }
   });
 
@@ -65,6 +69,7 @@ const ProductForm = () => {
         <CustomFormControl formikProps={formik} name='name' label='Name' type='text' />
         <CustomFormControl formikProps={formik} name='description' label='Description' type='text' />
         <CustomFormControl formikProps={formik} name='price' label='Price' type='number' />
+        <CustomFormControl formikProps={formik} name='availableStocks' label='Available Stocks' type='number' />
         <Stack direction='row' spacing={2} alignItems='center'>
           <Button variant='contained' component='label'>
             Upload File
