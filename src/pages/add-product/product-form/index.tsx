@@ -38,28 +38,33 @@ const ProductForm = () => {
     initialValues: {
       name: '',
       description: '',
-      price: '',
+      price: 0,
       availableStocks: 0,
       image: new File([''], '')
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values);
-      setSubmitting(false);
-      // if (!currentToken) {
-      //   enqueueSnackbar('No token found', { variant: 'error' });
-      //   return;
-      // }
-      // ProductApi.addProduct(currentToken, values.name, values.description, +values.price, values.image)
-      //   .then(response => {
-      //     navigate('/products');
-      //     setSubmitting(false);
-      //     enqueueSnackbar(response.data.message || 'Product added', { variant: 'success' });
-      //   })
-      //   .catch(err => {
-      //     setSubmitting(false);
-      //     enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
-      //   });
+      if (!currentToken) {
+        enqueueSnackbar('No token found', { variant: 'error' });
+        return;
+      }
+      ProductApi.addProduct(
+        currentToken,
+        values.name,
+        values.description,
+        values.price,
+        values.availableStocks,
+        values.image
+      )
+        .then(response => {
+          navigate('/products');
+          setSubmitting(false);
+          enqueueSnackbar(response.data.message || 'Product added', { variant: 'success' });
+        })
+        .catch(err => {
+          setSubmitting(false);
+          enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+        });
     }
   });
 

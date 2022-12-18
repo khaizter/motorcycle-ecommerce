@@ -12,11 +12,19 @@ const getProduct = async (productId: string) => {
   return response;
 };
 
-const addProduct = async (token: string, name: string, description: string, price: number, image: File) => {
+const addProduct = async (
+  token: string,
+  name: string,
+  description: string,
+  price: number,
+  availableStocks: number,
+  image: File
+) => {
   const formData = new FormData();
   formData.append('name', name);
   formData.append('description', description);
   formData.append('price', price.toString());
+  formData.append('availableStocks', availableStocks.toString());
   formData.append('image', image);
 
   const endpoint = '/product';
