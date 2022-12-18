@@ -25,7 +25,8 @@ const Products: React.FC = () => {
             imageUrl: product.imageUrl,
             name: product.name,
             description: product.description,
-            price: product.price
+            price: product.price,
+            availableStocks: product.availableStocks
           };
         });
         setProducts(transformedProducts);

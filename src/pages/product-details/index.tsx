@@ -82,6 +82,9 @@ const ProductDetail = () => {
               >
                 {product?.name}
               </Typography>
+              <Typography variant='subtitle1' sx={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>
+                {`${product?.availableStocks} pieces available`}
+              </Typography>
               <Typography variant='subtitle1' gutterBottom>
                 {product?.description}
               </Typography>

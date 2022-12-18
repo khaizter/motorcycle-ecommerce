@@ -70,6 +70,18 @@ const ProductItem: React.FC<propType> = props => {
             <Typography variant='subtitle1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {props.product.name}
             </Typography>
+            <Typography
+              variant='subtitle2'
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                fontSize: '12px',
+                color: 'rgba(0, 0, 0, 0.6)'
+              }}
+            >
+              {`${props.product.availableStocks} pieces available`}
+            </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
