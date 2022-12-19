@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 
-import { Button, Drawer, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, Drawer, IconButton, Stack, Typography } from '@mui/material';
 
 import CartList from 'src/common/cart-drawer/cart-list';
 import { CartContext } from 'src/context/cart-context';
 import CloseIcon from '@mui/icons-material/Close';
 import { AuthContext } from 'src/context/auth-context';
 import { toCurrency } from 'src/utils/util';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import CartApi from 'src/common/api/cart';
 
@@ -21,27 +22,6 @@ const CartDrawer: React.FC = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!currentToken) return;
-    CartApi.getCart(currentToken)
-      .then(response => {
-        const transformedItems = response.data.cart.items.map((item: any) => {
-          return {
-            id: item.productId,
-            imageKey: item.imageKey,
-            imageUrl: item.imageUrl,
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price
-          };
-        });
-        setCart(transformedItems);
-      })
-      .catch(err => {
-        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
-      });
-  }, [currentToken, isOpen]);
-
   return (
     <Drawer anchor='right' open={isOpen} onClose={hideCart}>
       <Stack sx={{ width: { xs: '100vw', md: '450px' }, height: '100%' }} direction='column'>
@@ -51,7 +31,13 @@ const CartDrawer: React.FC = () => {
             <CloseIcon />
           </IconButton>
         </Stack>
-        <CartList cartItems={cartItems} />
+        {false ? (
+          <Stack sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <CircularProgress />
+          </Stack>
+        ) : (
+          <CartList cartItems={cartItems} />
+        )}
         <Stack direction='column' spacing={2} sx={{ px: '2rem', py: '1rem' }}>
           <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
             <Typography>Total</Typography>

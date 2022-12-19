@@ -39,6 +39,27 @@ const CartProvider: React.FC<propType> = props => {
 
   useEffect(() => {
     if (!currentToken) return;
+    CartApi.getCart(currentToken)
+      .then(response => {
+        const transformedItems = response.data.cart.items.map((item: any) => {
+          return {
+            id: item.productId,
+            imageKey: item.imageKey,
+            imageUrl: item.imageUrl,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+          };
+        });
+        setCartItems(transformedItems);
+      })
+      .catch(err => {
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+      });
+  }, [currentToken, isOpen]);
+
+  useEffect(() => {
+    if (!currentToken) return;
     if (initialRender) {
       initialRender = false;
       return;
@@ -48,9 +69,10 @@ const CartProvider: React.FC<propType> = props => {
         console.log('Cart synced.');
       })
       .catch(err => {
+        console.log(err);
         enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
-  }, [cartItems]);
+  }, [cartItems, currentToken, enqueueSnackbar]);
 
   const addToCartHandler = (item: Item) => {
     setCartItems(prevItems => {
