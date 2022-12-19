@@ -15,9 +15,7 @@ import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 
 const CartDrawer: React.FC = () => {
-  const { isOpen, hideCart, cartItems, setCart } = useContext(CartContext);
-  const { currentToken } = useContext(AuthContext);
-  const { enqueueSnackbar } = useSnackbar();
+  const { isOpen, hideCart, cartItems } = useContext(CartContext);
   const totalPrice = cartItems.reduce((previousValue, item) => previousValue + item.price * item.quantity, 0);
 
   const navigate = useNavigate();
