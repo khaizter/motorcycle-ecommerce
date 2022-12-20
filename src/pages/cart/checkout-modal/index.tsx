@@ -77,7 +77,7 @@ const CheckoutModal: React.FC<propType> = props => {
           Cancel
         </Button>
         <LoadingButton variant='contained' type='submit' loading={isSubmitting} onClick={confirmHandler}>
-          Update
+          Confirm
         </LoadingButton>
       </DialogActions>
     </Dialog>

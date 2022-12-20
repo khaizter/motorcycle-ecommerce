@@ -83,7 +83,7 @@ const ProductDetail = () => {
                 {product?.name}
               </Typography>
               <Typography variant='subtitle1' sx={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>
-                {`${product?.availableStocks} pieces available`}
+                {product?.availableStocks ? `${product.availableStocks} pieces available` : 'Sold out'}
               </Typography>
               <Typography variant='subtitle1' gutterBottom>
                 {product?.description}
@@ -93,7 +93,7 @@ const ProductDetail = () => {
               </Typography>
               <Stack direction='row' spacing={2} sx={{ mt: '1rem' }}>
                 {currentUserType !== 'admin' && (
-                  <Button variant='contained' onClick={addToCartHandler}>
+                  <Button variant='contained' onClick={addToCartHandler} disabled={!product.availableStocks}>
                     Add to cart
                   </Button>
                 )}

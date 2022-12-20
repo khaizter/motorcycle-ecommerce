@@ -55,6 +55,10 @@ const CartItem: React.FC<propType> = props => {
       setQuantity('1');
       return;
     }
+    if (props.item.availableStocks === 0) {
+      setQuantity('1');
+      return;
+    }
     if (props.item.availableStocks && +e.target.value > props.item.availableStocks) {
       setQuantity(props.item.availableStocks.toString());
       return;

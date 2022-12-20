@@ -53,7 +53,16 @@ const ProductItem: React.FC<propType> = props => {
 
   return (
     <Grid item xs={12} sm={3}>
-      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', maxWidth: '270px', mx: 'auto' }}>
+      <Card
+        sx={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          maxWidth: '270px',
+          mx: 'auto',
+          position: 'relative'
+        }}
+      >
         <CardActionArea
           sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
           onClick={viewProductHandler}
@@ -66,6 +75,16 @@ const ProductItem: React.FC<propType> = props => {
             alt={props.product.name}
             sx={{ flexGrow: '1', objectFit: 'contain', aspectRatio: '107/70' }}
           />
+          {!props.product.availableStocks && (
+            <CardMedia
+              component='img'
+              width='100%'
+              src={'assets/images/sold-out.jpg'}
+              alt={'sold out overlay'}
+              sx={{ position: 'absolute', top: '0', left: '0', objectFit: 'contain', aspectRatio: '107/70' }}
+            />
+          )}
+
           <CardContent>
             <Typography variant='subtitle1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {props.product.name}
@@ -80,14 +99,19 @@ const ProductItem: React.FC<propType> = props => {
                 color: 'rgba(0, 0, 0, 0.6)'
               }}
             >
-              {`${props.product.availableStocks} pieces available`}
+              {props.product.availableStocks ? `${props.product.availableStocks} pieces available` : 'Sold out'}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Typography variant='caption'>{toCurrency(props.product.price)}</Typography>
           {currentUserType !== 'admin' && (
-            <IconButton color='primary' onClick={addToCartHandler} sx={{ marginLeft: 'auto' }}>
+            <IconButton
+              color='primary'
+              onClick={addToCartHandler}
+              sx={{ marginLeft: 'auto' }}
+              disabled={!props.product.availableStocks}
+            >
               <AddIcon />
             </IconButton>
           )}
