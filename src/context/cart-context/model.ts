@@ -5,6 +5,7 @@ export interface Item {
   name: string;
   quantity: number;
   price: number;
+  availableStocks?: number;
 }
 
 export interface contextType {

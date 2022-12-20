@@ -48,7 +48,8 @@ const CartProvider: React.FC<propType> = props => {
             imageUrl: item.imageUrl,
             name: item.name,
             quantity: item.quantity,
-            price: item.price
+            price: item.price,
+            availableStocks: item.availableStocks
           };
         });
         setCartItems(transformedItems);

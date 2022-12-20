@@ -7,7 +7,8 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
-  TextField
+  TextField,
+  Tooltip
 } from '@mui/material';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import React, { useContext, useEffect, useState } from 'react';
@@ -28,7 +29,7 @@ const CartItem: React.FC<propType> = props => {
   const [noImage, setNoImage] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<string>(props.item.quantity?.toString());
   const { enqueueSnackbar } = useSnackbar();
-  const [availableStocks, setAvailableStocks] = useState<number>();
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const removeItemHandler = () => {
     cartCtx.removeFromCart(props.item.id);
@@ -42,9 +43,20 @@ const CartItem: React.FC<propType> = props => {
   //   cartCtx.editItemQuantity(props.item.id, props.item.quantity - 1);
   // };
 
+  const blurInputHandler = (e: any) => {
+    setShowTooltip(false);
+    if (e.target.value === '') {
+      setQuantity('1');
+    }
+  };
+
   const quantityInputHandler = (e: any) => {
     if (e.target.value === '0') {
       setQuantity('1');
+      return;
+    }
+    if (props.item.availableStocks && +e.target.value > props.item.availableStocks) {
+      setQuantity(props.item.availableStocks.toString());
       return;
     }
     setQuantity(e.target.value);
@@ -53,6 +65,9 @@ const CartItem: React.FC<propType> = props => {
   useEffect(() => {
     if (+quantity <= 0) {
       // enqueueSnackbar('Invalid quantity', { variant: 'warning' });
+      return;
+    }
+    if (props.item.availableStocks && +quantity > props.item.availableStocks) {
       return;
     }
     cartCtx.editItemQuantity(props.item.id, +quantity);
@@ -87,14 +102,31 @@ const CartItem: React.FC<propType> = props => {
               </ListItemIcon>
             </ListItemButton> */}
             {/* <ListItemText primary={props.item.quantity} sx={{ flexGrow: 0 }} /> */}
-            <TextField
-              value={quantity}
-              margin='none'
-              type='number'
-              onChange={quantityInputHandler}
-              size='small'
-              sx={{ maxWidth: '100px' }}
-            />
+
+            <Tooltip
+              title={`Stocks: ${props.item.availableStocks}`}
+              onClose={() => setShowTooltip(false)}
+              open={showTooltip}
+              disableFocusListener
+              disableHoverListener
+              disableTouchListener
+            >
+              <TextField
+                value={quantity}
+                margin='none'
+                type='number'
+                onChange={quantityInputHandler}
+                size='small'
+                sx={{ maxWidth: '100px' }}
+                onFocus={() => setShowTooltip(true)}
+                onBlur={blurInputHandler}
+                onKeyDown={(e: any) => {
+                  if (e?.key === '-' || e?.key === '+') {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </Tooltip>
             {/* <ListItemButton
               sx={{ flexGrow: 0 }}
               onClick={decrementHandler}
