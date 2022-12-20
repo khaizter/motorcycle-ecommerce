@@ -26,9 +26,10 @@ interface propType {
 const CartItem: React.FC<propType> = props => {
   const cartCtx = useContext(CartContext);
   const [noImage, setNoImage] = useState<boolean>(false);
-
   const [quantity, setQuantity] = useState<string>(props.item.quantity?.toString());
   const { enqueueSnackbar } = useSnackbar();
+  const [availableStocks, setAvailableStocks] = useState<number>();
+
   const removeItemHandler = () => {
     cartCtx.removeFromCart(props.item.id);
   };
@@ -42,12 +43,16 @@ const CartItem: React.FC<propType> = props => {
   // };
 
   const quantityInputHandler = (e: any) => {
+    if (e.target.value === '0') {
+      setQuantity('1');
+      return;
+    }
     setQuantity(e.target.value);
   };
 
   useEffect(() => {
     if (+quantity <= 0) {
-      enqueueSnackbar('Invalid quantity', { variant: 'warning' });
+      // enqueueSnackbar('Invalid quantity', { variant: 'warning' });
       return;
     }
     cartCtx.editItemQuantity(props.item.id, +quantity);
