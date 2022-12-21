@@ -22,12 +22,16 @@ import { AuthContext } from 'src/context/auth-context';
 
 import { useSnackbar } from 'notistack';
 
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
+
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
   price: Yup.string().required('Required'),
   availableStocks: Yup.string().required('Required'),
-  image: Yup.string().required('Required')
+  image: Yup.mixed()
+    .required('A file is required')
+    .test('fileFormat', 'Unsupported Format', value => value && SUPPORTED_FORMATS.includes(value.type))
 });
 
 const ProductForm = () => {
@@ -68,6 +72,8 @@ const ProductForm = () => {
     }
   });
 
+  console.log(formik.errors.image);
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Stack spacing={2}>
@@ -90,6 +96,11 @@ const ProductForm = () => {
           </Button>
           <Typography component='span'>{formik.values.image.name || 'No image'}</Typography>
         </Stack>
+        {formik?.errors?.image && (
+          <Typography variant='body1' color='error' sx={{ ml: '14px !important', fontSize: '12px' }}>
+            {formik.errors.image.toString()}
+          </Typography>
+        )}
 
         <LoadingButton type='submit' variant='contained' size='large' loading={formik.isSubmitting}>
           Submit Product
