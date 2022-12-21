@@ -11,6 +11,9 @@ import { useSnackbar } from 'notistack';
 import useModal from 'src/hooks/useModal';
 import StocksForm from 'src/pages/product-details/stocks-form';
 
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+
 const ProductDetail = () => {
   const { productId } = useParams();
   const { isLoggedIn, currentToken, currentUserType } = useContext(AuthContext);
@@ -107,7 +110,7 @@ const ProductDetail = () => {
 
                 {currentUserType === 'admin' && (
                   <>
-                    <Button variant='contained' onClick={handleOpenStocksModal}>
+                    <Button variant='contained' startIcon={<EditOutlinedIcon />} onClick={handleOpenStocksModal}>
                       Update Stocks
                     </Button>
                     <StocksForm
@@ -116,7 +119,12 @@ const ProductDetail = () => {
                       refreshInfo={getProductInfo}
                       productId={productId}
                     />
-                    <Button variant='contained' onClick={deleteProductHandler}>
+                    <Button
+                      variant='contained'
+                      startIcon={<DeleteForeverOutlinedIcon />}
+                      onClick={deleteProductHandler}
+                      color='error'
+                    >
                       Delete Product
                     </Button>
                   </>
