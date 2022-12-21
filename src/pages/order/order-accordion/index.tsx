@@ -37,7 +37,7 @@ const OrderAccordion: React.FC<PropType> = props => {
   const { currentUserType, currentToken } = useContext(AuthContext);
   const { order } = props;
   const [openCancelConfirmation, handleOpenCancelConfirmation, handleCloseCancelConfirmation] = useModal(false);
-  const [openDeleteConfirmation, handleOpenDeleteConfirmation, handleCloseDeleteConfirmation] = useModal(false);
+  const [openExpireConfirmation, handleOpenExpireConfirmation, handleCloseExpireConfirmation] = useModal(false);
   const [openCompleteConfirmation, handleOpenCompleteConfirmation, handleCloseCompleteConfirmation] = useModal(false);
   const [loadingStatus, setLoadingStatus] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -176,15 +176,15 @@ const OrderAccordion: React.FC<PropType> = props => {
             <Button
               variant='outlined'
               color='error'
-              onClick={handleOpenDeleteConfirmation}
+              onClick={handleOpenExpireConfirmation}
               startIcon={<DeleteOutlineOutlinedIcon />}
               disabled={loadingStatus}
             >
               Expire
             </Button>
             <ConfirmationModal
-              open={openDeleteConfirmation}
-              handleClose={handleCloseDeleteConfirmation}
+              open={openExpireConfirmation}
+              handleClose={handleCloseExpireConfirmation}
               message='Are you sure you want to expire this order?'
               confirmFunction={expireOrderHandler}
             />

@@ -13,6 +13,7 @@ import StocksForm from 'src/pages/product-details/stocks-form';
 
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import ConfirmationModal from 'src/common/confirmation-modal';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -23,6 +24,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [openStocksModal, handleOpenStocksModal, handleCloseStocksModal] = useModal();
+  const [openDeleteConfirmation, handleOpenDeleteConfirmation, handleCloseDeleteConfirmation] = useModal(false);
 
   const getProductInfo = () => {
     if (!productId) return;
@@ -122,11 +124,17 @@ const ProductDetail = () => {
                     <Button
                       variant='contained'
                       startIcon={<DeleteForeverOutlinedIcon />}
-                      onClick={deleteProductHandler}
+                      onClick={handleOpenDeleteConfirmation}
                       color='error'
                     >
                       Delete Product
                     </Button>
+                    <ConfirmationModal
+                      open={openDeleteConfirmation}
+                      handleClose={handleCloseDeleteConfirmation}
+                      message='Are you sure you want to delete this product?'
+                      confirmFunction={deleteProductHandler}
+                    />
                   </>
                 )}
               </Stack>
