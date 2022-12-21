@@ -8,6 +8,8 @@ import { CartContext } from 'src/context/cart-context';
 import { toCurrency } from 'src/utils/util';
 
 import { useSnackbar } from 'notistack';
+import useModal from 'src/hooks/useModal';
+import StocksForm from 'src/pages/product-details/stocks-form';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -17,8 +19,9 @@ const ProductDetail = () => {
   const [noImage, setNoImage] = useState<boolean>(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const [openStocksModal, handleOpenStocksModal, handleCloseStocksModal] = useModal();
 
-  useEffect(() => {
+  const getProductInfo = () => {
     if (!productId) return;
     ProductApi.getProduct(productId)
       .then(response => {
@@ -27,6 +30,10 @@ const ProductDetail = () => {
       .catch(err => {
         enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
       });
+  };
+
+  useEffect(() => {
+    getProductInfo();
   }, [productId]);
 
   const errorImageHandler = () => setNoImage(true);
@@ -99,9 +106,20 @@ const ProductDetail = () => {
                 )}
 
                 {currentUserType === 'admin' && (
-                  <Button variant='contained' onClick={deleteProductHandler}>
-                    Delete Product
-                  </Button>
+                  <>
+                    <Button variant='contained' onClick={handleOpenStocksModal}>
+                      Update Stocks
+                    </Button>
+                    <StocksForm
+                      open={openStocksModal}
+                      handleClose={handleCloseStocksModal}
+                      refreshInfo={getProductInfo}
+                      productId={productId}
+                    />
+                    <Button variant='contained' onClick={deleteProductHandler}>
+                      Delete Product
+                    </Button>
+                  </>
                 )}
               </Stack>
             </Grid>

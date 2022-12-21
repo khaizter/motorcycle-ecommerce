@@ -46,6 +46,22 @@ const deleteProduct = async (token: string, productId: string) => {
   return response;
 };
 
-const module = { getProducts, getProduct, addProduct, deleteProduct };
+const updateProductStocks = async (token: string, productId: string, availableStocks: number) => {
+  const endpoint = `/product/${productId}`;
+  const response = await axios.put(
+    process.env.REACT_APP_BACKEND_URI + endpoint,
+    {
+      updatedStocks: availableStocks
+    },
+    {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    }
+  );
+  return response;
+};
+
+const module = { getProducts, getProduct, addProduct, deleteProduct, updateProductStocks };
 
 export default module;
