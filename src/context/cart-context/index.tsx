@@ -80,10 +80,14 @@ const CartProvider: React.FC<propType> = props => {
       const newItems = [...prevItems];
       const existingItem = newItems.find(i => i.id === item.id);
       if (!existingItem) return [...newItems, item];
+      // if quantity is within the availableStocks limit
+      if (existingItem.availableStocks && existingItem.quantity >= existingItem.availableStocks) {
+        return prevItems;
+      }
       existingItem.quantity += 1;
+      enqueueSnackbar('Item added to cart', { variant: 'info' });
       return newItems;
     });
-    enqueueSnackbar('Item added to cart', { variant: 'info' });
   };
 
   const removeFromCartHandler = (id: string) => {
