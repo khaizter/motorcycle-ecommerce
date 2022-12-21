@@ -79,6 +79,24 @@ const OrderAccordion: React.FC<PropType> = props => {
       });
   };
 
+  const expireOrderHandler = () => {
+    if (!currentToken) {
+      enqueueSnackbar('Invalid token', { variant: 'error' });
+      return;
+    }
+    setLoadingStatus(true);
+    OrderApi.expireOrder(currentToken, order.id)
+      .then(response => {
+        props.refreshOrders();
+        setLoadingStatus(false);
+        enqueueSnackbar(response.data.message || 'Order expired', { variant: 'success' });
+      })
+      .catch(err => {
+        setLoadingStatus(false);
+        enqueueSnackbar(err?.response?.data?.message || err.message, { variant: 'error' });
+      });
+  };
+
   const completeOrderHandler = () => {
     if (!currentToken) {
       enqueueSnackbar('Invalid token', { variant: 'error' });
@@ -153,7 +171,7 @@ const OrderAccordion: React.FC<PropType> = props => {
             />
           </Box>
         )}
-        {currentUserType === 'admin' && (
+        {currentUserType === 'admin' && order.status === 'active' && (
           <Box sx={{ textAlign: 'end', mt: '1rem' }}>
             <Button
               variant='outlined'
@@ -162,34 +180,30 @@ const OrderAccordion: React.FC<PropType> = props => {
               startIcon={<DeleteOutlineOutlinedIcon />}
               disabled={loadingStatus}
             >
-              Delete
+              Expire
             </Button>
             <ConfirmationModal
               open={openDeleteConfirmation}
               handleClose={handleCloseDeleteConfirmation}
-              message='Are you sure you want to delete this order?'
-              confirmFunction={deleteOrderHandler}
+              message='Are you sure you want to expire this order?'
+              confirmFunction={expireOrderHandler}
             />
-            {order.status === 'active' && (
-              <>
-                <Button
-                  variant='outlined'
-                  color='success'
-                  onClick={handleOpenCompleteConfirmation}
-                  startIcon={<CheckCircleOutlineOutlinedIcon />}
-                  disabled={loadingStatus}
-                  sx={{ ml: '0.5rem' }}
-                >
-                  Complete
-                </Button>
-                <ConfirmationModal
-                  open={openCompleteConfirmation}
-                  handleClose={handleCloseCompleteConfirmation}
-                  message='Are you sure you want to complete this order?'
-                  confirmFunction={completeOrderHandler}
-                />
-              </>
-            )}
+            <Button
+              variant='outlined'
+              color='success'
+              onClick={handleOpenCompleteConfirmation}
+              startIcon={<CheckCircleOutlineOutlinedIcon />}
+              disabled={loadingStatus}
+              sx={{ ml: '0.5rem' }}
+            >
+              Complete
+            </Button>
+            <ConfirmationModal
+              open={openCompleteConfirmation}
+              handleClose={handleCloseCompleteConfirmation}
+              message='Are you sure you want to complete this order?'
+              confirmFunction={completeOrderHandler}
+            />
           </Box>
         )}
       </AccordionDetails>

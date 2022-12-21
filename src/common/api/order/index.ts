@@ -72,6 +72,20 @@ const deleteOrder = async (token: string, orderId: string) => {
   return response;
 };
 
-const module = { postOrder, getOrders, cancelOrder, completeOrder, deleteOrder };
+const expireOrder = async (token: string, orderId: string) => {
+  const endpoint = '/order/expire-order';
+  const response = await axios.put(
+    process.env.REACT_APP_BACKEND_URI + endpoint,
+    { orderId },
+    {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    }
+  );
+  return response;
+};
+
+const module = { postOrder, getOrders, cancelOrder, completeOrder, deleteOrder, expireOrder };
 
 export default module;
