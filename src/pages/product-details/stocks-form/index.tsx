@@ -17,7 +17,7 @@ interface PropType {
 }
 
 const validationSchema = Yup.object({
-  availableStocks: Yup.string().required('Required')
+  availableStocks: Yup.number().required('Required').min(1, "Stocks can't be negative")
 });
 
 const StocksForm: React.FC<PropType> = props => {

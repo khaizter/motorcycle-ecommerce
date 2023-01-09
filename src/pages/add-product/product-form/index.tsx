@@ -27,8 +27,8 @@ const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
-  price: Yup.string().required('Required'),
-  availableStocks: Yup.string().required('Required'),
+  price: Yup.number().required('Required').min(1, 'Minimum value of 1'),
+  availableStocks: Yup.number().required('Required').min(1, "Stocks can't be negative"),
   image: Yup.mixed()
     .required('A file is required')
     .test('fileFormat', 'Unsupported Format', value => value && SUPPORTED_FORMATS.includes(value.type))
@@ -71,8 +71,6 @@ const ProductForm = () => {
         });
     }
   });
-
-  console.log(formik.errors.image);
 
   return (
     <form onSubmit={formik.handleSubmit}>
