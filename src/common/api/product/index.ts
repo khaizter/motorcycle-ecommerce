@@ -47,7 +47,7 @@ const deleteProduct = async (token: string, productId: string) => {
 };
 
 const updateProductStocks = async (token: string, productId: string, availableStocks: number) => {
-  const endpoint = `/product/${productId}`;
+  const endpoint = `/product/stocks/${productId}`;
   const response = await axios.put(
     process.env.REACT_APP_BACKEND_URI + endpoint,
     {
@@ -62,6 +62,30 @@ const updateProductStocks = async (token: string, productId: string, availableSt
   return response;
 };
 
-const module = { getProducts, getProduct, addProduct, deleteProduct, updateProductStocks };
+const updateProduct = async (
+  token: string,
+  productId: string,
+  name: string,
+  description: string,
+  price: number,
+  availableStocks: number,
+  image: File
+) => {
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('description', description);
+  formData.append('price', price.toString());
+  formData.append('availableStocks', availableStocks.toString());
+  formData.append('image', image);
+  const endpoint = `/product/${productId}`;
+  const response = await axios.put(process.env.REACT_APP_BACKEND_URI + endpoint, formData, {
+    headers: {
+      Authorization: `token ${token}`
+    }
+  });
+  return response;
+};
+
+const module = { getProducts, getProduct, addProduct, deleteProduct, updateProductStocks, updateProduct };
 
 export default module;

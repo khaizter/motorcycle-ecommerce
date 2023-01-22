@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Avatar, Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, IconButton, Stack, Typography, Tooltip } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProductApi from 'src/common/api/product';
 import { Product } from './models';
@@ -10,7 +10,9 @@ import { toCurrency } from 'src/utils/util';
 import { useSnackbar } from 'notistack';
 import useModal from 'src/hooks/useModal';
 import StocksForm from 'src/pages/product-details/stocks-form';
+import ProductForm from 'src/pages/product-details/product-form';
 
+import EditIcon from '@mui/icons-material/Edit';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ConfirmationModal from 'src/common/confirmation-modal';
@@ -24,6 +26,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [openStocksModal, handleOpenStocksModal, handleCloseStocksModal] = useModal();
+  const [openProductModal, handleOpenProductModal, handleCloseProductModal] = useModal();
   const [openDeleteConfirmation, handleOpenDeleteConfirmation, handleCloseDeleteConfirmation] = useModal(false);
 
   const getProductInfo = () => {
@@ -87,13 +90,43 @@ const ProductDetail = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography
-                variant='h2'
-                sx={{ fontWeight: '400', mt: '1rem', color: 'var(--primary-color)' }}
-                gutterBottom
-              >
-                {product?.name}
-              </Typography>
+              <Stack direction='row' alignItems='center' justifyContent='space-between'>
+                <Typography
+                  variant='h2'
+                  sx={{ fontWeight: '400', mt: '1rem', color: 'var(--primary-color)' }}
+                  gutterBottom
+                >
+                  {product?.name}
+                </Typography>
+                {currentUserType === 'admin' && (
+                  <>
+                    <Tooltip title='Edit product'>
+                      <IconButton
+                        color='primary'
+                        aria-label='edit product'
+                        size='medium'
+                        onClick={handleOpenProductModal}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+
+                    <ProductForm
+                      open={openProductModal}
+                      handleClose={handleCloseProductModal}
+                      refreshInfo={getProductInfo}
+                      productId={productId}
+                      initialValues={{
+                        name: product.name,
+                        description: product.description,
+                        price: product.price,
+                        availableStocks: product.availableStocks
+                      }}
+                    />
+                  </>
+                )}
+              </Stack>
+
               <Typography variant='subtitle1' sx={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>
                 {product?.availableStocks ? `${product.availableStocks} pieces available` : 'Sold out'}
               </Typography>
@@ -120,6 +153,7 @@ const ProductDetail = () => {
                       handleClose={handleCloseStocksModal}
                       refreshInfo={getProductInfo}
                       productId={productId}
+                      initialValues={{ availableStocks: product.availableStocks }}
                     />
                     <Button
                       variant='contained'

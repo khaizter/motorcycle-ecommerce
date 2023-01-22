@@ -14,10 +14,11 @@ interface PropType {
   handleClose: () => void;
   refreshInfo?: () => void;
   productId: string | undefined;
+  initialValues: { availableStocks: number };
 }
 
 const validationSchema = Yup.object({
-  availableStocks: Yup.number().required('Required').min(1, "Stocks can't be negative")
+  availableStocks: Yup.number().required('Required').min(0, "Stocks can't be negative")
 });
 
 const StocksForm: React.FC<PropType> = props => {
@@ -26,7 +27,7 @@ const StocksForm: React.FC<PropType> = props => {
 
   const formik = useFormik({
     initialValues: {
-      availableStocks: 0
+      availableStocks: props.initialValues.availableStocks
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
