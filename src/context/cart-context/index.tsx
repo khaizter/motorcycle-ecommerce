@@ -82,6 +82,7 @@ const CartProvider: React.FC<propType> = props => {
       if (!existingItem) return [...newItems, item];
       // if quantity is within the availableStocks limit
       if (existingItem.availableStocks && existingItem.quantity >= existingItem.availableStocks) {
+        enqueueSnackbar('You already added maximum stocks in your cart', { variant: 'warning' });
         return prevItems;
       }
       existingItem.quantity += 1;
