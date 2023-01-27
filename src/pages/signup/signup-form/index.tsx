@@ -56,7 +56,7 @@ const validationSchema = Yup.object({
   homeAddress: Yup.string().required('Required').min(4, 'Minimum of 4 characters'),
   contactNumber: Yup.string()
     .required('Required')
-    .matches(/^\d{9}$/, 'Must be a valid phone number ex. +639123456789'),
+    .matches(/^\d{10}$/, 'Must be a valid phone number ex. +639123456789'),
   recoveryQuestion: Yup.string().required('Required'),
   recoveryAnswer: Yup.string().required('Required')
 });
@@ -83,7 +83,7 @@ const SignUpForm = () => {
         values.password,
         values.name,
         values.homeAddress,
-        `+639${values.contactNumber}`,
+        `+63${values.contactNumber}`,
         values.recoveryQuestion,
         values.recoveryAnswer
       )
@@ -120,7 +120,7 @@ const SignUpForm = () => {
           name='contactNumber'
           label='Contact Number'
           type='text'
-          startAdornment='+639'
+          startAdornment='+63'
         />
         {/* <CustomFormControl
           formikProps={formik}
