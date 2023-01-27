@@ -27,7 +27,7 @@ const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
   price: Yup.number().required('Required').min(1, 'Minimum value of 1'),
-  availableStocks: Yup.number().required('Required').min(0, "Stocks can't be negative"),
+  availableStocks: Yup.number().required('Required').min(0, 'Invalid value of stocks'),
   image: Yup.mixed()
     .required('A file is required')
     .test('fileFormat', 'Unsupported Format', value => value && SUPPORTED_FORMATS.includes(value.type))
