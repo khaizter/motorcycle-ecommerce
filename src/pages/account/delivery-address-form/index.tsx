@@ -30,7 +30,10 @@ const validationSchema = Yup.object({
   barangay: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
   region: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
   province: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
-  city: Yup.string().required('Required').min(3, 'Minimum of 3 characters')
+  city: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  postal: Yup.string()
+    .required('Required')
+    .matches(/^\d{4}$/, 'Must be a valid postal code')
 });
 
 const DeliveryAddressForm: React.FC<PropType> = props => {
@@ -43,7 +46,8 @@ const DeliveryAddressForm: React.FC<PropType> = props => {
       barangay: '',
       region: '',
       province: '',
-      city: ''
+      city: '',
+      postal: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
@@ -52,7 +56,7 @@ const DeliveryAddressForm: React.FC<PropType> = props => {
         setSubmitting(false);
         return;
       }
-      const deliveryAddress = `${values.street}, ${values.barangay}, ${values.region}, ${values.province}, ${values.city}`;
+      const deliveryAddress = `${values.street}, ${values.barangay}, ${values.region}, ${values.province}, ${values.city}, ${values.postal}`;
       AuthApi.updateDeliveryAddress(currentToken, deliveryAddress)
         .then(response => {
           setSubmitting(false);
@@ -83,6 +87,7 @@ const DeliveryAddressForm: React.FC<PropType> = props => {
             <CustomFormControl formikProps={formik} name='region' label='Region' type='text' />
             <CustomFormControl formikProps={formik} name='province' label='Province' type='text' />
             <CustomFormControl formikProps={formik} name='city' label='City' type='text' />
+            <CustomFormControl formikProps={formik} name='postal' label='Postal Code' type='text' />
           </Stack>
         </DialogContent>
         <DialogActions>

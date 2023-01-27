@@ -58,6 +58,9 @@ const validationSchema = Yup.object({
   region: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
   province: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
   city: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  postal: Yup.string()
+    .required('Required')
+    .matches(/^\d{4}$/, 'Must be a valid postal code'),
   contactNumber: Yup.string()
     .required('Required')
     .matches(/^\d{10}$/, 'Must be a valid phone number ex. +639123456789'),
@@ -80,13 +83,14 @@ const SignUpForm = () => {
       region: '',
       province: '',
       city: '',
+      postal: '',
       contactNumber: '',
       recoveryQuestion: '',
       recoveryAnswer: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
-      const homeAddress = `${values.street}, ${values.barangay}, ${values.region}, ${values.province}, ${values.city}`;
+      const homeAddress = `${values.street}, ${values.barangay}, ${values.region}, ${values.province}, ${values.city}, ${values.postal}`;
       AuthApi.signup(
         values.email,
         values.password,
@@ -128,6 +132,7 @@ const SignUpForm = () => {
         <CustomFormControl formikProps={formik} name='region' label='Region' type='text' />
         <CustomFormControl formikProps={formik} name='province' label='Province' type='text' />
         <CustomFormControl formikProps={formik} name='city' label='City' type='text' />
+        <CustomFormControl formikProps={formik} name='postal' label='Postal Code' type='text' />
         <CustomFormControl
           formikProps={formik}
           name='contactNumber'
