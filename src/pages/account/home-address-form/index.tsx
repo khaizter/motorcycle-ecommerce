@@ -26,7 +26,11 @@ interface PropType {
 }
 
 const validationSchema = Yup.object({
-  homeAddress: Yup.string().required('Required').min(4, 'Minimum of 4 characters')
+  street: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  barangay: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  region: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  province: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  city: Yup.string().required('Required').min(3, 'Minimum of 3 characters')
 });
 
 const HomeAddressForm: React.FC<PropType> = props => {
@@ -34,7 +38,11 @@ const HomeAddressForm: React.FC<PropType> = props => {
   const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
-      homeAddress: ''
+      street: '',
+      barangay: '',
+      region: '',
+      province: '',
+      city: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
@@ -43,7 +51,8 @@ const HomeAddressForm: React.FC<PropType> = props => {
         setSubmitting(false);
         return;
       }
-      AuthApi.updateHomeAddress(currentToken, values.homeAddress)
+      const homeAddress = `${values.street}, ${values.barangay}, ${values.region}, ${values.province}, ${values.city}`;
+      AuthApi.updateHomeAddress(currentToken, homeAddress)
         .then(response => {
           setSubmitting(false);
           enqueueSnackbar(response.data.message || 'Home address updated', { variant: 'success' });
@@ -62,7 +71,16 @@ const HomeAddressForm: React.FC<PropType> = props => {
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
           <Stack spacing={2} sx={{ minWidth: { xs: '0', sm: '260px' } }}>
-            <CustomFormControl formikProps={formik} name='homeAddress' label='Home Address' type='text' multiline />
+            <CustomFormControl
+              formikProps={formik}
+              name='street'
+              label='House No., Building, Street Name'
+              type='text'
+            />
+            <CustomFormControl formikProps={formik} name='barangay' label='Barangay' type='text' />
+            <CustomFormControl formikProps={formik} name='region' label='Region' type='text' />
+            <CustomFormControl formikProps={formik} name='province' label='Province' type='text' />
+            <CustomFormControl formikProps={formik} name='city' label='City' type='text' />
           </Stack>
         </DialogContent>
         <DialogActions>

@@ -53,7 +53,11 @@ const validationSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Required'),
-  homeAddress: Yup.string().required('Required').min(4, 'Minimum of 4 characters'),
+  street: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  barangay: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  region: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  province: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
+  city: Yup.string().required('Required').min(3, 'Minimum of 3 characters'),
   contactNumber: Yup.string()
     .required('Required')
     .matches(/^\d{10}$/, 'Must be a valid phone number ex. +639123456789'),
@@ -71,18 +75,23 @@ const SignUpForm = () => {
       email: '',
       password: '',
       confirmPassword: '',
-      homeAddress: '',
+      street: '',
+      barangay: '',
+      region: '',
+      province: '',
+      city: '',
       contactNumber: '',
       recoveryQuestion: '',
       recoveryAnswer: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
+      const homeAddress = `${values.street}, ${values.barangay}, ${values.region}, ${values.province}, ${values.city}`;
       AuthApi.signup(
         values.email,
         values.password,
         values.name,
-        values.homeAddress,
+        homeAddress,
         `+63${values.contactNumber}`,
         values.recoveryQuestion,
         values.recoveryAnswer
@@ -114,7 +123,11 @@ const SignUpForm = () => {
           type='password'
           hideRevealPassword
         />
-        <CustomFormControl formikProps={formik} name='homeAddress' label='Home Address' type='text' multiline />
+        <CustomFormControl formikProps={formik} name='street' label='House No., Building, Street Name' type='text' />
+        <CustomFormControl formikProps={formik} name='barangay' label='Barangay' type='text' />
+        <CustomFormControl formikProps={formik} name='region' label='Region' type='text' />
+        <CustomFormControl formikProps={formik} name='province' label='Province' type='text' />
+        <CustomFormControl formikProps={formik} name='city' label='City' type='text' />
         <CustomFormControl
           formikProps={formik}
           name='contactNumber'
