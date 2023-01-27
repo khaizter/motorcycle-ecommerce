@@ -30,3 +30,7 @@ body {
   color: #1976d2 !important;
   box-shadow: none !important;
 }
+
+.container-root {
+  bottom: 40% !important;
+}

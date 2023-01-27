@@ -6,7 +6,15 @@ interface PropType {
 }
 
 const SnackBar: React.FC<PropType> = props => {
-  return <SnackbarProvider maxSnack={3}>{props.children}</SnackbarProvider>;
+  return (
+    <SnackbarProvider
+      classes={{ anchorOriginBottomCenter: 'container-root', containerRoot: 'container-root' }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      maxSnack={3}
+    >
+      {props.children}
+    </SnackbarProvider>
+  );
 };
 
 export default SnackBar;
